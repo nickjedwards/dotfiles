@@ -22,17 +22,11 @@ return {
     }
 
     dashboard.section.buttons.val = {
-      dashboard.button("e", "  New file", "<cmd>ene <CR>"),
+      dashboard.button("n", "  New file", "<cmd>ene <CR>"),
       dashboard.button("f", "󰈞  Find file", "<cmd>Telescope find_files<CR>"),
-      dashboard.button("r", "  Recently opened files", "<cmd>Telescope oldfiles<CR>"),
-      dashboard.button("q", "󰅚  Quit", "<cmd>qa"),
+      dashboard.button("r", "  Recent files", "<cmd>Telescope oldfiles<CR>"),
+      dashboard.button("q", "  Quit", "<cmd>qa<CR>"),
    }
-
-    dashboard.section.footer.val = ""
-
-    dashboard.section.footer.opts.hl = "Type"
-    dashboard.section.header.opts.hl = "Include"
-    dashboard.section.buttons.opts.hl = "Keyword"
 
     dashboard.opts.opts.noautocmd = true
 
