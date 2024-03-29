@@ -40,11 +40,16 @@ $ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/t
 sudo apt install tmux
 ```
 
-### Neovim && NvChad
+### ripgrep
+
+```sh
+$ sudo apt install ripgrep
+```
+
+### Neovim
 
 ```sh
 $ sudo snap install nvim --classic
-$ git clone https://github.com/NvChad/NvChad ~/.config/nvim --depth 1
 ```
 
 ## Installation
