@@ -10,8 +10,6 @@ map("n", "<C-l>", "<C-w>l", { desc = "Switch Window right" })
 map("n", "<leader>n", "<cmd>set nu!<CR>", { desc = "Toggle Line numbers" })
 map("n", "<leader>rn", "<cmd>set rnu!<CR>", { desc = "Toggle Relative number" })
 
--- Todo: Next buffer, prev. buffer and close buffer
-
 -- Shift + Up/Down to move line up/down
 map("n", "<S-Up>", "yyddkP", { desc = "Move line up" })
 map("n", "<S-Down>", "yyddp", { desc = "Move line down" })
