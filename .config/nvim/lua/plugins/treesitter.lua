@@ -2,6 +2,7 @@ return {
   "nvim-treesitter/nvim-treesitter",
   build = ":TSUpdate",
   opts = {
+    auto_install = false,
     ensure_installed = {
       "dockerfile",
       "ini",
@@ -11,14 +12,17 @@ return {
       "markdown",
       "php",
       "phpdoc",
+      "terraform",
       "tsx",
-      "yaml"
+      "typescript",
+      "yaml",
     },
     highlight = { enable = true },
     indent = {
       enable = true,
-      disable = { "yaml" }
+      disable = { "yaml" },
     },
+    sync_install = false,
   },
   config = function(_, opts)
     require("nvim-treesitter.configs").setup(opts)
@@ -30,12 +34,12 @@ return {
         files = { "src/parser.c" },
         branch = "main",
       },
-      filetype = "blade"
+      filetype = "blade",
     }
     vim.filetype.add({
       pattern = {
-        ['.*%.blade%.php'] = 'blade',
+        [".*%.blade%.php"] = "blade",
       },
     })
-  end
+  end,
 }
