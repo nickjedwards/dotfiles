@@ -27,7 +27,7 @@ return {
       { "<leader>ca", vim.lsp.buf.code_action, mode = { "n", "v" } }
     },
     config = function()
-      local capabilities = require("cmp_nvim_lsp").default_capabilities()
+      local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
       local lspconfig = require("lspconfig")
       lspconfig.lua_ls.setup({ capabilities = capabilities })
@@ -38,7 +38,14 @@ return {
           cmd = { "phpactor", "language-server" },
           filetypes = { "php" },
           root_dir = [[root_pattern("composer.json", ".git")]]
-       },
+        },
+        init_options = {
+          ["language_server_phpstan.enabled"] = false,
+          ["language_server_psalm.enabled"] = false,
+        },
+        handlers = {
+          ['textDocument/publishDiagnostics'] = function() end
+        }
       })
     end
   }
