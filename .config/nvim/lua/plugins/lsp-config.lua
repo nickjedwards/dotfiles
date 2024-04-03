@@ -14,6 +14,7 @@ return {
       ensure_installed = {
         "lua_ls",
         "tsserver",
+        --"phpactor"
       }
     }
   },
@@ -31,6 +32,14 @@ return {
       local lspconfig = require("lspconfig")
       lspconfig.lua_ls.setup({ capabilities = capabilities })
       lspconfig.tsserver.setup({ capabilities = capabilities })
+      lspconfig.phpactor.setup({
+        capabilities = capabilities,
+        default_config = {
+          cmd = { "phpactor", "language-server" },
+          filetypes = { "php" },
+          root_dir = [[root_pattern("composer.json", ".git")]]
+       },
+      })
     end
   }
 }
