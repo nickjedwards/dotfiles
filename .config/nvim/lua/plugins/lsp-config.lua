@@ -23,8 +23,9 @@ return {
     lazy = false,
     keys = {
       { "K", vim.lsp.buf.hover },
-      { "gd", vim.lsp.buf.definition },
-      { "<leader>ca", vim.lsp.buf.code_action, mode = { "n", "v" } }
+      { "<leader>gd", vim.lsp.buf.definition },
+      { "<leader>gr", vim.lsp.buf.references },
+      { "<leader>ca", vim.lsp.buf.code_action }
     },
     config = function()
       local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
