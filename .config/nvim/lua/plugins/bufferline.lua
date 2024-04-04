@@ -3,9 +3,9 @@ return {
   dependencies = { "nvim-tree/nvim-web-devicons" },
   event = "VeryLazy",
   keys = {
-    { "<S-Tab>", "<cmd>BufferLineCyclePrev<CR>", desc = "Prev Buffer" },
-    { "<Tab>", "<cmd>BufferLineCycleNext<CR>", desc = "Next Buffer" },
-    { "<leader>x", "<cmd>bd<CR>", desc = "Close buffer" }
+    { "<S-Tab>",   "<cmd>BufferLineCyclePrev<CR>", desc = "Prev Buffer" },
+    { "<Tab>",     "<cmd>BufferLineCycleNext<CR>", desc = "Next Buffer" },
+    { "<leader>x", "<cmd>bd<CR>",                  desc = "Close buffer" }
   },
   opts = {
     options = {
@@ -15,7 +15,7 @@ return {
         local s = " "
         for e, n in pairs(diagnostics_dict) do
           local icon = e == "error" and " "
-            or (e == "warning" and " " or "ℹ ")
+              or (e == "warning" and " " or "ℹ ")
           s = s .. icon .. n .. " "
         end
         return s

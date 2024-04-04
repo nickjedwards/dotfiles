@@ -17,10 +17,7 @@ return {
       "typescript",
       "yaml",
     },
-    highlight = {
-      enable = true,
-      additional_vim_regex_highlighting = { "php" },
-    },
+    highlight = { enable = true },
     indent = {
       enable = true,
       disable = { "yaml" },

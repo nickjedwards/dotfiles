@@ -22,18 +22,29 @@ return {
     "neovim/nvim-lspconfig",
     lazy = false,
     keys = {
-      { "K", vim.lsp.buf.hover },
+      { "K",          vim.lsp.buf.hover },
       { "<leader>gd", vim.lsp.buf.definition },
       { "<leader>gr", vim.lsp.buf.references },
       { "<leader>ca", vim.lsp.buf.code_action }
     },
     config = function()
+      local handlers = {
+        ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" }),
+        ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" }),
+      }
       local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
       local lspconfig = require("lspconfig")
-      lspconfig.lua_ls.setup({ capabilities = capabilities })
-      lspconfig.tsserver.setup({ capabilities = capabilities })
+      lspconfig.lua_ls.setup({
+        handlers = handlers,
+        capabilities = capabilities,
+      })
+      lspconfig.tsserver.setup({
+        handlers = handlers,
+        capabilities = capabilities,
+      })
       lspconfig.phpactor.setup({
+        handlers = handlers,
         capabilities = capabilities,
         default_config = {
           cmd = { "phpactor", "language-server" },
