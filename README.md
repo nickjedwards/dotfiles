@@ -20,12 +20,6 @@ $ sed -i "s|Icon=kitty|Icon=/home/$USER/.local/kitty.app/share/icons/hicolor/256
 $ sed -i "s|Exec=kitty|Exec=/home/$USER/.local/kitty.app/bin/kitty|g" ~/.local/share/applications/kitty.desktop
 ```
 
-### Alacritty
-
-```sh
-sudo apt install alacritty
-```
-
 ### Zsh && Oh My ZSH!
 
 ```sh
