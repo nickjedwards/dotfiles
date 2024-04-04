@@ -66,3 +66,7 @@ Create symlinks
 ```sh
 stow .
 ```
+
+# Resources
+
+- [NeoVim Lua configuration for PHP and JavaScript](https://marioyepes.com/blog/neovim-ide-with-lua-for-web-development/)
