@@ -43,13 +43,13 @@ sudo apt install tmux
 ### ripgrep
 
 ```sh
-$ sudo apt install ripgrep
+sudo apt install ripgrep
 ```
 
 ### Neovim
 
 ```sh
-$ sudo snap install nvim --classic
+sudo snap install nvim --classic
 ```
 
 ## Installation
