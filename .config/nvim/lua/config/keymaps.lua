@@ -6,14 +6,14 @@ map("n", "<Space>", "<Nop>", opts)
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
--- Move to window using <ctrl> hjkl keys
-map("n", "<C-h>", "<C-w>h", { desc = "Switch Window left" })
-map("n", "<C-j>", "<C-w>j", { desc = "Switch Window down" })
-map("n", "<C-k>", "<C-w>k", { desc = "Switch Window up" })
-map("n", "<C-l>", "<C-w>l", { desc = "Switch Window right" })
+-- Move to window using CTRL+<hjkl> keys
+map("n", "<C-h>", "<C-w><C-h>", { desc = "Switch Window left" })
+map("n", "<C-j>", "<C-w><C-j>", { desc = "Switch Window down" })
+map("n", "<C-k>", "<C-w><C-k>", { desc = "Switch Window up" })
+map("n", "<C-l>", "<C-w><C-l>", { desc = "Switch Window right" })
 
 -- Clear matches
-map("n", "<C-l>", "<cmd>noh<CR>", opts)
+map("n", "<Esc>", "<cmd>noh<CR>", opts)
 
 -- Reselect visual block after indent/outdent
 map("v", "<", "<gv", opts)
