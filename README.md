@@ -49,6 +49,10 @@ $ ~/.fzf/install
 
 ### fzf-git
 
+### fd
+
+### bat
+
 ```sh
 git clone https://github.com/junegunn/fzf-git.sh.git
 ```
