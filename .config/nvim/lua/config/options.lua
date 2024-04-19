@@ -28,6 +28,6 @@ vim.opt.updatetime     = 750
 
 vim.opt.encoding       = "utf-8"
 
-vim.opt.cmdheight      = 2
+vim.opt.cmdheight      = 1
 
 vim.opt.termguicolors  = true
