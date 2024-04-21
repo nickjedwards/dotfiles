@@ -49,12 +49,27 @@ $ ~/.fzf/install
 
 ### fzf-git
 
+```sh
+git clone https://github.com/junegunn/fzf-git.sh.git
+```
+
 ### fd
+
+```sh
+$ sudo apt install fd-find
+$ ln -s $(which fdfind) ~/.local/bin/fd
+```
 
 ### bat
 
 ```sh
-git clone https://github.com/junegunn/fzf-git.sh.git
+$ sudo apt install bat
+$ ln -s $(which batcat) ~/.local/bin/bat
+
+# Theme
+$ mkdir -p "$(bat --config-dir)/themes"
+$ wget -P "$(bat --config-dir)/themes" https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Mocha.tmTheme
+$ bat cache --build
 ```
 
 ### git-delta
