@@ -7,13 +7,19 @@ return {
       "nvim-telescope/telescope-ui-select.nvim",
       { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
     },
-    config = function(_, opts)
+    config = function()
       local telescope = require("telescope")
       telescope.setup({
         defaults = {
           path_display = { "smart" },
         },
         extensions = {
+          fzf = {
+            fuzzy = true,
+            override_generic_sorter = true,
+            override_file_sorter = true,
+            case_mode = "smart_case",
+          },
           ["ui-select"] = {
             require("telescope.themes").get_dropdown({})
           },
@@ -39,8 +45,8 @@ return {
       vim.keymap.set("n", "<leader>fg", builtin.live_grep, {})
       vim.keymap.set("n", "<leader>fs", builtin.lsp_document_symbols, {})
 
-      telescope.load_extension("ui-select")
       telescope.load_extension("fzf")
+      telescope.load_extension("ui-select")
     end
   }
 }
