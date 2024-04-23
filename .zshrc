@@ -80,10 +80,10 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 plugins=(
   docker
   docker-compose
-	git
-	tmux
-	zsh-autosuggestions
-	zsh-syntax-highlighting
+  git
+  tmux
+  zsh-autosuggestions
+  zsh-syntax-highlighting
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -118,9 +118,6 @@ alias vim="nvim"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-# To customize prompt, run `p10k configure` or edit ~/dotfiles/.p10k.zsh.
-[[ ! -f ~/dotfiles/.p10k.zsh ]] || source ~/dotfiles/.p10k.zsh
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -171,12 +168,13 @@ _fzf_comprun() {
   shift
 
   case "$command" in
-    cd)           fzf --preview 'eza --tree --color=always {} | head -200' "$@" ;;
-    export|unset) fzf --preview "eval 'echo $'{}"         "$@" ;;
-    ssh)          fzf --preview 'dig {}'                   "$@" ;;
-    *)            fzf --preview "bat -n --color=always --line-range :500 {}" "$@" ;;
+    cd)           fzf --preview 'eza --tree --color=always {} | head -200' "$@";;
+    export|unset) fzf --preview "eval 'echo $'{}" "$@";;
+    ssh)          fzf --preview 'dig {}' "$@";;
+    *)            fzf --preview "bat -n --color=always --line-range :500 {}" "$@";;
   esac
 }
 
 # eza
 alias ls="eza --color=always --long --git --icons=always --no-time --no-user"
+
