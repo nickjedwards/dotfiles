@@ -28,14 +28,14 @@ return {
       offsets = {
         {
           filetype = "neo-tree",
-          text = "",
+          text = function ()
+            return vim.fn.getcwd()
+          end,
           highlight = "Directory",
           text_align = "left",
+          separator = false,
         }
       }
     }
   },
-  config = function(_, opts)
-    require("bufferline").setup(opts)
-  end
 }
