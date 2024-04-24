@@ -2,7 +2,7 @@ return {
   "nvim-treesitter/nvim-treesitter",
   build = ":TSUpdate",
   opts = {
-    auto_install = false,
+    auto_install = true,
     ensure_installed = {
       "dockerfile",
       "ini",
@@ -22,7 +22,6 @@ return {
       enable = true,
       disable = { "yaml" },
     },
-    sync_install = false,
   },
   config = function(_, opts)
     require("nvim-treesitter.configs").setup(opts)
