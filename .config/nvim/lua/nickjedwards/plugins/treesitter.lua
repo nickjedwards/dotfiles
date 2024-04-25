@@ -12,6 +12,7 @@ return {
       "markdown",
       "php",
       "phpdoc",
+      "rust",
       "terraform",
       "tsx",
       "typescript",
