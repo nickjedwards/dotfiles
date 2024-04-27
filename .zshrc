@@ -1,3 +1,8 @@
+_FIG_LOCAL_BIN=~/.local/bin
+[[ ":$PATH:" != *":$_FIG_LOCAL_BIN:"* ]] && PATH="${PATH:+"$PATH:"}$_FIG_LOCAL_BIN" 
+unset _FIG_LOCAL_BIN
+eval "$(fig init zsh pre --rcfile zshrc)"
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -72,6 +77,9 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
+# Set the Tmux configuration path for the tmux plugin.
+ZSH_TMUX_CONFIG="$HOME/.config/tmux/tmux.conf"
+
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
@@ -131,7 +139,6 @@ fi
 eval "$(fzf --zsh)"
 
 # Use fd
-
 export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git"
@@ -176,5 +183,9 @@ _fzf_comprun() {
 }
 
 # eza
-alias ls="eza --color=always --long --git --icons=always --no-time --no-user"
+alias ls="eza --color=always --long --git --icons=always --no-time"
 
+_FIG_LOCAL_BIN=~/.local/bin 
+[[ ":$PATH:" != *":$_FIG_LOCAL_BIN:"* ]] && PATH="${PATH:+"$PATH:"}$_FIG_LOCAL_BIN" 
+unset _FIG_LOCAL_BIN
+eval "$(fig init zsh post --rcfile zshrc)"
