@@ -1,8 +1,3 @@
-_FIG_LOCAL_BIN=~/.local/bin
-[[ ":$PATH:" != *":$_FIG_LOCAL_BIN:"* ]] && PATH="${PATH:+"$PATH:"}$_FIG_LOCAL_BIN" 
-unset _FIG_LOCAL_BIN
-eval "$(fig init zsh pre --rcfile zshrc)"
-
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -185,7 +180,3 @@ _fzf_comprun() {
 # eza
 alias ls="eza --color=always --long --git --icons=always --no-time"
 
-_FIG_LOCAL_BIN=~/.local/bin 
-[[ ":$PATH:" != *":$_FIG_LOCAL_BIN:"* ]] && PATH="${PATH:+"$PATH:"}$_FIG_LOCAL_BIN" 
-unset _FIG_LOCAL_BIN
-eval "$(fig init zsh post --rcfile zshrc)"
