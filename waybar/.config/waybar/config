@@ -1,0 +1,55 @@
+{
+    "layer": "top",
+    "position": "top",
+    "mod": "dock",
+    "exclusive": true,
+    "passthrough": false,
+    "gtk-layer-shell": true,
+    "reload_style_on_change": true,
+
+    "include": [
+        "~/.config/waybar/modules.jsonc"
+    ],
+
+    "modules-left": [
+        "custom/l_end",
+        "custom/rofi",
+        "custom/padd",
+        "custom/explorer",
+        "custom/r_end",
+        "custom/l_end",
+        "wlr/taskbar",
+        "custom/padd",
+        "hyprland/window",
+        "custom/r_end"
+    ],
+	
+    "modules-center": [
+        "custom/l_end",
+        "hyprland/workspaces",
+        "custom/padd",
+        "idle_inhibitor",
+        "clock",
+        "custom/padd",
+        "mpris",
+        "custom/r_end"
+    ],
+	
+    "modules-right": [
+        "custom/l_end",
+        "tray",
+        "custom/r_end",
+        "custom/l_end",
+        "network",
+        "pulseaudio",
+        "bluetooth",
+        "backlight",
+        "battery",
+        "custom/r_end",
+        "custom/l_end",
+        "group/resources",
+        "custom/padd",
+        "custom/power",
+        "custom/r_end"
+    ]
+}

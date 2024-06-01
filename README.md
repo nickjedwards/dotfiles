@@ -1,111 +1,113 @@
-# .Dotfiles
+# Dotfiles.
 
-My dotfile configuration.
+Hypr dotfile configuration.
 
 ## Prerequisites
 
-### Stow
+### Install Pacman packages
 
-```sh
-sudo apt install stow
+```bash
+sudo pacman -S bat \
+    eza \
+    fd \
+    fzf \
+    git-delta \
+    jq \
+    hyprland \
+    hyprpaper \
+    neovim \
+    pavucontrol \
+    ripgrep \
+    starship \
+    stow \
+    tmux \
+    wireplumber \
+    zsh
 ```
 
-### Kitty
+### Paru
 
-```sh
-$ curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
-$ ln -sf ~/.local/kitty.app/bin/kitty ~/.local/kitty.app/bin/kitten ~/.local/bin/
-$ cp ~/.local/kitty.app/share/applications/kitty.desktop ~/.local/share/applications/
-$ sed -i "s|Icon=kitty|Icon=/home/$USER/.local/kitty.app/share/icons/hicolor/256x256/apps/kitty.png|g" ~/.local/share/applications/kitty.desktop
-$ sed -i "s|Exec=kitty|Exec=/home/$USER/.local/kitty.app/bin/kitty|g" ~/.local/share/applications/kitty.desktop
+#### Install Paru
+
+```bash
+$ sudo pacman -S --needed base-devel
+$ git clone https://aur.archlinux.org/paru.git
+$ cd paru
+$ makepkg -si
+```
+
+#### Install AUR packages
+
+```bash
+paru -S waybar rofi-wayland wlogout
 ```
 
 ### Zsh && Oh My ZSH!
 
-```sh
-$ sudo apt install zsh
+```bash
 $ chsh -s $(which zsh)
 $ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ```
 
-### Tmux
+#### Zsh plugins
 
-```sh
-sudo apt install tmux
+**zsh-autosuggestions**
+
+```bash
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 ```
 
-### ripgrep
+**zsh-syntax-highlighting**
 
-```sh
-sudo apt install ripgrep
+```bash
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 ```
 
-### fzf
+**zsh-completions**
 
-```sh
-$ git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-$ ~/.fzf/install
+```bash
+git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions
 ```
 
-### fzf-git
+### Bat theme
 
-```sh
-git clone https://github.com/junegunn/fzf-git.sh.git
-```
-
-### fd
-
-```sh
-$ sudo apt install fd-find
-$ ln -s $(which fdfind) ~/.local/bin/fd
-```
-
-### bat
-
-```sh
-$ sudo apt install bat
-$ ln -s $(which batcat) ~/.local/bin/bat
-
-# Theme
+```bash
 $ mkdir -p "$(bat --config-dir)/themes"
 $ wget -P "$(bat --config-dir)/themes" https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Mocha.tmTheme
 $ bat cache --build
 ```
 
-### git-delta
+### fzf-git
 
-Install .deb from [releases](https://github.com/dandavison/delta/releases)
-
-### eza
-
-```sh
-$ sudo mkdir -p /etc/apt/keyrings
-$ wget -qO- https://raw.githubusercontent.com/eza-community/eza/main/deb.asc | sudo gpg --dearmor -o /etc/apt/keyrings/gierens.gpg
-$ echo "deb [signed-by=/etc/apt/keyrings/gierens.gpg] http://deb.gierens.de stable main" | sudo tee /etc/apt/sources.list.d/gierens.list
-$ sudo chmod 644 /etc/apt/keyrings/gierens.gpg /etc/apt/sources.list.d/gierens.list
-$ sudo apt update
-$ sudo apt install -y eza
-```
-
-### Neovim
-
-```sh
-sudo snap install nvim --classic
+```bash
+git clone https://github.com/junegunn/fzf-git.sh.git
 ```
 
 ## Installation
 
-Clone dotfiles into your `$HOME` directory
+Clone dotfiles into your `$HOME` directory.
 
-```sh
+```bash
 $ git clone git@github.com/nickjedwards/dotfiles.git
 $ cd dotfiles
 ```
 
-Create symlinks
+Do not modify the file system and instead show what would happen.
 
-```sh
-stow .
+```bash
+stow --simulate --verbose [package] # E.g.: `stow -nv nvim`
+```
+
+Install (stow) the package name(s).
+
+```bash
+stow [package] # E.g.: `stow nvim`
+```
+
+Delete (unstow) the package name(s).
+
+```bash
+stow --delete [package] # E.g.: `stow --delete nvim`
 ```
 
 # Resources

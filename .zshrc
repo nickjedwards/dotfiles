@@ -1,12 +1,8 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
 # If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+# export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
+
+# zsh-completions
+fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -15,7 +11,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="powerlevel10k/powerlevel10k"
+ZSH_THEME="robbyrussell"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -81,102 +77,95 @@ ZSH_TMUX_CONFIG="$HOME/.config/tmux/tmux.conf"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-  docker
-  docker-compose
-  git
-  tmux
-  zsh-autosuggestions
-  zsh-syntax-highlighting
+	archlinux
+	aws
+	docker
+	docker-compose
+	fzf-tab
+	git
+	sudo
+	tmux
+	zsh-autosuggestions
+	zsh-syntax-highlighting
 )
 
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
-# export MANPATH="/usr/local/man:$MANPATH"
+# History
+HISTSIZE=5000
+HISTFILE=~/.zsh_history
+SAVEHIST=$HISTSIZE
+HISTDUP=erase
+setopt appendhistory
+setopt sharehistory
+setopt hist_ignore_space
+setopt hist_ignore_all_dups
+setopt hist_save_no_dups
+setopt hist_ignore_dups
+setopt hist_find_no_dups
 
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
-alias vim="nvim"
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# Set up fzf key bindings and fuzzy completion
-if [[ ! "$PATH" == */home/nick/.fzf/bin* ]]; then
-  PATH="${PATH:+${PATH}:}/home/nick/.fzf/bin"
-fi
-
-eval "$(fzf --zsh)"
+# Completion styling
+# Match case insensitive
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+# Disable sort when completing `git checkout`
+zstyle ':completion:*:git-checkout:*' sort false
+# Set list-colors to enable filename colorizing
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# Force zsh not to show completion menu, which allows fzf-tab to capture the unambiguous prefix
+zstyle ':completion:*' menu no
+# Preview directory's content with eza when completing cd
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
 
 # Use fd
 export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_CTRL_T_OPTS="--preview 'bat -n --color=always --icons=always --line-range :500 {}'"
 export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git"
-export FZF_DEFAULT_OPTS=" \
---color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
---color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
---color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8"
+export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always --icons=always {} | head -200'"
+export FZF_DEFAULT_OPTS="\
+  --color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
+  --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
+  --color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8"
 
 # Use fd (https://github.com/sharkdp/fd) for listing path candidates.
-# - The first argument to the function ($1) is the base path to start traversal
-# - See the source code (completion.{bash,zsh}) for the details.
 _fzf_compgen_path() {
-  fd --hidden --exclude .git . "$1"
+  fd --hidden --follow --exclude ".git" . "$1"
 }
 
 # Use fd to generate the list for directory completion
 _fzf_compgen_dir() {
-  fd --type=d --hidden --exclude .git . "$1"
+  fd --type d --hidden --follow --exclude ".git" . "$1"
 }
 
-source ~/fzf-git.sh/fzf-git.sh
-
-# Bat
-export BAT_THEME="Catppuccin Mocha"
-
-export FZF_CTRL_T_OPTS="--preview 'bat -n --color=always --line-range :500 {}'"
-export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
-
 # Advanced customization of fzf options via _fzf_comprun function
-# - The first argument to the function is the name of the command.
-# - You should make sure to pass the rest of the arguments to fzf.
 _fzf_comprun() {
   local command=$1
   shift
 
   case "$command" in
-    cd)           fzf --preview 'eza --tree --color=always {} | head -200' "$@";;
-    export|unset) fzf --preview "eval 'echo $'{}" "$@";;
-    ssh)          fzf --preview 'dig {}' "$@";;
-    *)            fzf --preview "bat -n --color=always --line-range :500 {}" "$@";;
+    cd)           fzf --preview 'eza --tree --color=always --icons=always {} | head -200'   "$@" ;;
+    export|unset) fzf --preview "eval 'echo \$'{}"                                          "$@" ;;
+    ssh)          fzf --preview 'dig {}'                                                    "$@" ;;
+    *)            fzf --preview 'bat -n --color=always --line-range :500 {}'                "$@" ;;
   esac
 }
 
-# eza
-alias ls="eza --color=always --long --git --icons=always --no-time"
+# Bat
+export BAT_THEME="Catppuccin Mocha"
+# NVM
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
+# Aliases
+alias cat=bat
+alias ls="eza --color=always --icons=always --long --all --group --header --numeric --octal-permissions --git --no-time"
+alias mkdir="mkdir -p"
+alias vim=nvim
+
+# Shell integrations
+source <(fzf --zsh)
+[ -d ~/fzf-git.sh ] && source ~/fzf-git.sh/fzf-git.sh
+eval "$(starship init zsh)"
