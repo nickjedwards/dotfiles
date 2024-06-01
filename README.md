@@ -69,16 +69,16 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:
 git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions
 ```
 
-### Apply Bat theme
-
-```bash
-bat cache --build
-```
-
 ### fzf-git
 
 ```bash
 git clone https://github.com/junegunn/fzf-git.sh.git
+```
+
+### Apply Bat theme
+
+```bash
+bat cache --build
 ```
 
 ## Installation
