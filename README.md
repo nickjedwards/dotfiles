@@ -69,12 +69,10 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:
 git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions
 ```
 
-### Bat theme
+### Apply Bat theme
 
 ```bash
-$ mkdir -p "$(bat --config-dir)/themes"
-$ wget -P "$(bat --config-dir)/themes" https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Mocha.tmTheme
-$ bat cache --build
+bat cache --build
 ```
 
 ### fzf-git
