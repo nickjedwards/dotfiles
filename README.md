@@ -39,7 +39,7 @@ $ makepkg -si
 #### Install AUR packages
 
 ```bash
-paru -S waybar rofi-wayland wlogout
+paru -S rofi-wayland swaylock-effects waybar wlogout
 ```
 
 ### Zsh && Oh My ZSH!
