@@ -110,4 +110,6 @@ stow --delete [package] # E.g.: `stow --delete nvim`
 
 # Resources
 
+- [Hyprland NVidia](https://wiki.hyprland.org/Nvidia/)
+- [Single GPU Passthrough (Nvidia)](https://github.com/Marrca35/Single-GPU-Passthrough-for-Arch-Linux)
 - [NeoVim Lua configuration for PHP and JavaScript](https://marioyepes.com/blog/neovim-ide-with-lua-for-web-development/)
