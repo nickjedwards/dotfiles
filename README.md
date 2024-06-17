@@ -51,6 +51,12 @@ $ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/t
 
 #### Zsh plugins
 
+**fzf-tab**
+
+```bash
+git clone https://github.com/Aloxaf/fzf-tab ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf-tab
+```
+
 **zsh-autosuggestions**
 
 ```bash
