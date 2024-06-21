@@ -6,15 +6,17 @@ yes '' | sudo pacman -S bat \
     fd \
     fzf \
     git-delta \
-    jq \
     hyprland \
     hyprpaper \
+    jq \
+    kitty \
     neovim \
     pavucontrol \
     ripgrep \
     starship \
     stow \
     tmux \
+    ttf-jetbrains-mono-nerd \
     wireplumber \
     zsh
 
@@ -35,4 +37,3 @@ git clone https://github.com/junegunn/fzf-git.sh.git ${HOME}/fzf-git.sh
 
 # Apply Bat theme
 bat cache --build
-
