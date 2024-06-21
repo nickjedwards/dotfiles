@@ -18,6 +18,7 @@ yes '' | sudo pacman -S bat \
     tmux \
     ttf-jetbrains-mono-nerd \
     wireplumber \
+    xdg-desktop-portal-hyprland \
     zsh
 
 # Install AUR packages
