@@ -6,6 +6,8 @@
     min-height: 0;
     font-family: "JetBrainsMono NF", Helvetica, Arial, sans-serif;
     font-size: 14px;
+    padding: 0px;
+    margin: 0px;
 }
 
 window#waybar {
@@ -91,7 +93,7 @@ tooltip {
 }
 
 #tray menu separator {
-    min-height: 10px
+    min-height: 8px
 }
 
 #backlight,
@@ -110,34 +112,33 @@ tooltip {
 #tray,
 #window,
 #workspaces,
-#custom-system,
-#custom-power,
-#custom-spotify,
-#custom-theme,
-#custom-updates,
-#custom-wallchange,
-#custom-wbar,
-#custom-rofi,
 #custom-explorer,
-#custom-padd,
+#custom-power,
+#custom-rofi,
+#custom-system,
 #custom-l_end,
-#custom-r_end,
-#custom-sl_end,
-#custom-sr_end,
-#custom-rl_end,
-#custom-rr_end {
+#custom-r_end {
     color: @main-fg;
     background: @main-bg;
-    opacity: 1;
-    margin: 4px 0px 4px 0px;
-    padding-left: 4px;
-    padding-right: 4px;
+    margin: 4px 0px;
+    padding: 0px 4px;
 }
 
-
+#custom-rofi,
+#taskbar,
 #workspaces,
-#taskbar {
-    padding: 0px;
+#network,
+#pulseaudio,
+#backlight,
+#custom-system,
+#cpu,
+#memory,
+#disk {
+    padding: 0px 10px 0px 0px;
+}
+
+#mpris {
+    padding: 0px 0px 0px 10px;
 }
 
 #idle_inhibitor,
@@ -153,30 +154,6 @@ tooltip {
 
 #custom-l_end {
     border-radius: 21px 0px 0px 21px;
-    margin-left: 9px;
-    padding-left: 3px;
-}
-
-#custom-sr_end {
-    border-radius: 0px;
-    margin-right: 9px;
-    padding-right: 3px;
-}
-
-#custom-sl_end {
-    border-radius: 0px;
-    margin-left: 9px;
-    padding-left: 3px;
-}
-
-#custom-rr_end {
-    border-radius: 0px 7px 7px 0px;
-    margin-right: 9px;
-    padding-right: 3px;
-}
-
-#custom-rl_end {
-    border-radius: 7px 0px 0px 7px;
     margin-left: 9px;
     padding-left: 3px;
 }

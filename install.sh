@@ -12,6 +12,8 @@ yes '' | sudo pacman -S bat \
     kitty \
     neovim \
     pavucontrol \
+    qt5-wayland \
+    qt6-wayland \
     ripgrep \
     starship \
     stow \

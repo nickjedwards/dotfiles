@@ -15,7 +15,6 @@ export y_mgn=$(( y_mon * 25 / hypr_scale ))
 export x_hvr=$(( x_mon * 32 / hypr_scale ))
 export y_hvr=$(( y_mon * 20 / hypr_scale ))
 export fntSize=$(( y_mon * 2 / 100 ))
-export BtnCol="white"
 export active_rad=$(( hypr_border * 5 ))
 export button_rad=$(( hypr_border * 8 ))
 

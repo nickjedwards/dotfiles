@@ -10,7 +10,7 @@ window {
 }
 
 button {
-    color: ${BtnCol};
+    color: #ffffff;
     background-color: @main-bg;
     outline-style: none;
     border: none;
@@ -39,44 +39,44 @@ button:hover {
 
 button:hover#lock {
     border-radius: ${active_rad}px ${active_rad}px 0px ${active_rad}px;
-    margin : ${y_hvr}px 0px 0px ${x_hvr}px;
+    margin: ${y_hvr}px 0px 0px ${x_hvr}px;
 }
 
 button:hover#logout {
     border-radius: ${active_rad}px 0px ${active_rad}px ${active_rad}px;
-    margin : 0px 0px ${y_hvr}px ${x_hvr}px;
+    margin: 0px 0px ${y_hvr}px ${x_hvr}px;
 }
 
 button:hover#shutdown {
     border-radius: ${active_rad}px ${active_rad}px ${active_rad}px 0px;
-    margin : ${y_hvr}px ${x_hvr}px 0px 0px;
+    margin: ${y_hvr}px ${x_hvr}px 0px 0px;
 }
 
 button:hover#reboot {
     border-radius: 0px ${active_rad}px ${active_rad}px ${active_rad}px;
-    margin : 0px ${x_hvr}px ${y_hvr}px 0px;
+    margin: 0px ${x_hvr}px ${y_hvr}px 0px;
 }
 
 #lock {
-    background-image: image(url("/usr/share/wlogout/icons/lock.png"), url("/usr/local/share/wlogout/icons/lock.png"));
+    background-image: image(url("/usr/share/wlogout/assets/lock.svg"));
     border-radius: ${button_rad}px 0px 0px 0px;
-    margin : ${y_mgn}px 0px 0px ${x_mgn}px;
+    margin: ${y_mgn}px 0px 0px ${x_mgn}px;
 }
 
 #logout {
-    background-image: image(url("/usr/share/wlogout/icons/logout.png"), url("/usr/local/share/wlogout/icons/logout.png"));
+    background-image: image(url("/usr/share/wlogout/assets/logout.svg"));
     border-radius: 0px 0px 0px ${button_rad}px;
-    margin : 0px 0px ${y_mgn}px ${x_mgn}px;
+    margin: 0px 0px ${y_mgn}px ${x_mgn}px;
 }
 
 #shutdown {
-    background-image: image(url("/usr/share/wlogout/icons/shutdown.png"), url("/usr/local/share/wlogout/icons/shutdown.png"));
+    background-image: image(url("/usr/share/wlogout/assets/shutdown.svg"));
     border-radius: 0px ${button_rad}px 0px 0px;
-    margin : ${y_mgn}px ${x_mgn}px 0px 0px;
+    margin: ${y_mgn}px ${x_mgn}px 0px 0px;
 }
 
 #reboot {
-    background-image: image(url("/usr/share/wlogout/icons/reboot.png"), url("/usr/local/share/wlogout/icons/reboot.png"));
+    background-image: image(url("/usr/share/wlogout/assets/reboot.svg"));
     border-radius: 0px 0px ${button_rad}px 0px;
-    margin : 0px ${x_mgn}px ${y_mgn}px 0px;
+    margin: 0px ${x_mgn}px ${y_mgn}px 0px;
 }

@@ -14,12 +14,12 @@
     "modules-left": [
         "custom/l_end",
         "custom/rofi",
-        "custom/padd",
+        // "custom/padd",
         "custom/explorer",
         "custom/r_end",
         "custom/l_end",
         "wlr/taskbar",
-        "custom/padd",
+        // "custom/padd",
         "hyprland/window",
         "custom/r_end"
     ],
@@ -27,10 +27,9 @@
     "modules-center": [
         "custom/l_end",
         "hyprland/workspaces",
-        "custom/padd",
+        // "custom/padd",
         "idle_inhibitor",
         "clock",
-        "custom/padd",
         "mpris",
         "custom/r_end"
     ],
@@ -42,13 +41,12 @@
         "custom/l_end",
         "network",
         "pulseaudio",
-        "bluetooth",
         "backlight",
         "battery",
         "custom/r_end",
         "custom/l_end",
         "group/resources",
-        "custom/padd",
+        // "custom/padd",
         "custom/power",
         "custom/r_end"
     ]
