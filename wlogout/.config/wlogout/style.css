@@ -58,25 +58,25 @@ button:hover#reboot {
 }
 
 #lock {
-    background-image: image(url("/usr/share/wlogout/assets/lock.svg"));
+    background-image: image(url("$HOME/.config/wlogout/icons/lock.png"), url("/usr/share/wlogout/assets/lock.svg"));
     border-radius: ${button_rad}px 0px 0px 0px;
     margin: ${y_mgn}px 0px 0px ${x_mgn}px;
 }
 
 #logout {
-    background-image: image(url("/usr/share/wlogout/assets/logout.svg"));
+    background-image: image(url("$HOME/.config/wlogout/icons/logout.png"), url("/usr/share/wlogout/assets/logout.svg"));
     border-radius: 0px 0px 0px ${button_rad}px;
     margin: 0px 0px ${y_mgn}px ${x_mgn}px;
 }
 
 #shutdown {
-    background-image: image(url("/usr/share/wlogout/assets/shutdown.svg"));
+    background-image: image(url("$HOME/.config/wlogout/icons/shutdown.png"), url("/usr/share/wlogout/assets/shutdown.svg"));
     border-radius: 0px ${button_rad}px 0px 0px;
     margin: ${y_mgn}px ${x_mgn}px 0px 0px;
 }
 
 #reboot {
-    background-image: image(url("/usr/share/wlogout/assets/reboot.svg"));
+    background-image: image(url("$HOME/.config/wlogout/icons/reboot.png"), url("/usr/share/wlogout/assets/reboot.svg"));
     border-radius: 0px 0px ${button_rad}px 0px;
     margin: 0px ${x_mgn}px ${y_mgn}px 0px;
 }
