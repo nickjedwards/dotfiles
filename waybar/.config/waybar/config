@@ -14,12 +14,10 @@
     "modules-left": [
         "custom/l_end",
         "custom/rofi",
-        // "custom/padd",
         "custom/explorer",
         "custom/r_end",
         "custom/l_end",
         "wlr/taskbar",
-        // "custom/padd",
         "hyprland/window",
         "custom/r_end"
     ],
@@ -27,7 +25,6 @@
     "modules-center": [
         "custom/l_end",
         "hyprland/workspaces",
-        // "custom/padd",
         "idle_inhibitor",
         "clock",
         "mpris",
@@ -46,7 +43,6 @@
         "custom/r_end",
         "custom/l_end",
         "group/resources",
-        // "custom/padd",
         "custom/power",
         "custom/r_end"
     ]

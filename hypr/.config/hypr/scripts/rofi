@@ -5,7 +5,5 @@ hypr_width="$(hyprctl -j getoption general:border_size | jq '.int')"
 wind_border=$(( hypr_border * 3 ))
 [ "${hypr_border}" -eq 0 ] && elem_border="10" || elem_border=$(( hypr_border * 2 ))
 r_override="window {border: ${hypr_width}px; border-radius: ${wind_border}px;} element {border-radius: ${elem_border}px;}"
-i_override="$(gsettings get org.gnome.desktop.interface icon-theme | sed "s/'//g")"
-i_override="configuration {icon-theme: \"${i_override}\";}"
 
-rofi -show drun -theme-str "${r_override}" -theme-str "${i_override}" -config ~/.config/rofi/config.rasi
+rofi -show drun -theme-str "${r_override}" -config ~/.config/rofi/config.rasi

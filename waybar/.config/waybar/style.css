@@ -119,7 +119,7 @@ tooltip {
 #custom-l_end,
 #custom-r_end {
     color: @main-fg;
-    background: @main-bg;
+    background-color: rgba(17, 17, 27, 0.5);
     margin: 4px 0px;
     padding: 0px 4px;
 }

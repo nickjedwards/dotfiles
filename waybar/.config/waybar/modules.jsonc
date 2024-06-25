@@ -13,6 +13,7 @@
 
     "wlr/taskbar": {
         "format": "{icon}",
+        "icon-theme": "Papirus",
         "icon-size": 18,
         "tooltip-format": "{title}",
         "on-click": "activate",
@@ -22,7 +23,7 @@
 
     "hyprland/window": {
         "format": "{initialTitle}",
-        "icon": true,
+        "icon": false,
         "icon-size": 18
     },
 

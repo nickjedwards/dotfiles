@@ -12,6 +12,7 @@ yes '' | sudo pacman -S bat \
     kitty \
     neovim \
     pavucontrol \
+    papirus-icon-theme \
     qt5-wayland \
     qt6-wayland \
     ripgrep \
