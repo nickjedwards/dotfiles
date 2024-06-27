@@ -23,27 +23,27 @@ tooltip {
 }
 
 #workspaces button {
+    color: @main-fg;
     box-shadow: none;
 	text-shadow: none;
-    padding: 0px;
     border-radius: 9px;
-    margin-top: 3px;
-    margin-bottom: 3px;
-    margin-left: 0px;
-    padding-left: 3px;
-    padding-right: 3px;
-    margin-right: 0px;
-    color: @main-fg;
+    padding: 0px 7px 0px 0px;
+    margin: 3px 0px;
     animation: ws_normal 20s ease-in-out 1;
 }
 
 #workspaces button.active {
-    background: @wb-act-bg;
+    background-color: @wb-act-bg;
     color: @wb-act-fg;
-    margin-left: 3px;
-    padding-left: 12px;
-    padding-right: 12px;
-    margin-right: 3px;
+    padding: 0px 13px 0px 6px;
+    margin: 3px;
+    animation: ws_active 20s ease-in-out 1;
+    transition: all 0.4s cubic-bezier(.55,-0.68,.48,1.682);
+}
+
+#workspaces button.urgent {
+    background-color: transparent;
+    color: @wb-hvr-bg;
     animation: ws_active 20s ease-in-out 1;
     transition: all 0.4s cubic-bezier(.55,-0.68,.48,1.682);
 }
@@ -56,27 +56,20 @@ tooltip {
 }
 
 #taskbar button {
+    color: @wb-color;
     box-shadow: none;
 	text-shadow: none;
-    padding: 0px;
     border-radius: 9px;
-    margin-top: 3px;
-    margin-bottom: 3px;
-    margin-left: 0px;
-    padding-left: 3px;
-    padding-right: 3px;
-    margin-right: 0px;
-    color: @wb-color;
+    padding: 0px 3px;
+    margin: 3px 0px;
     animation: tb_normal 20s ease-in-out 1;
 }
 
 #taskbar button.active {
     background: @wb-act-bg;
     color: @wb-act-color;
-    margin-left: 3px;
-    padding-left: 12px;
-    padding-right: 12px;
-    margin-right: 3px;
+    padding: 0px 12px;
+    margin: 3px;
     animation: tb_active 20s ease-in-out 1;
     transition: all 0.4s cubic-bezier(.55,-0.68,.48,1.682);
 }
