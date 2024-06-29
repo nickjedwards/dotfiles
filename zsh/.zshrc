@@ -157,6 +157,7 @@ _fzf_comprun() {
 
 # Bat
 export BAT_THEME="Catppuccin Mocha"
+
 # NVM
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -164,7 +165,7 @@ export NVM_DIR="$HOME/.nvm"
 
 # Aliases
 alias cat=bat
-alias ls="eza --color=always --icons=always --long --all --group --header --numeric --octal-permissions --git --no-time"
+alias ls="exa --color=always --icons=always --long --all --group --header --numeric --octal-permissions --git --no-time"
 alias mkdir="mkdir -p"
 alias vim=nvim
 
