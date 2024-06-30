@@ -165,7 +165,7 @@ export NVM_DIR="$HOME/.nvm"
 
 # Aliases
 alias cat=bat
-alias ls="exa --color=always --icons=always --long --all --group --header --numeric --octal-permissions --git --no-time"
+alias ls="eza --color=always --icons=always --long --all --group --header --numeric --octal-permissions --git --no-time"
 alias mkdir="mkdir -p"
 alias vim=nvim
 
