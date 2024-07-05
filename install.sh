@@ -25,7 +25,7 @@ yes '' | sudo pacman -S bat \
     zsh
 
 # Install AUR packages
-yes '' | paru -S rofi-wayland swaylock-effects waybar wlogout
+yes '' | paru -S nerdfetch rofi-wayland swaylock-effects waybar wlogout
 
 # Zsh && Oh My ZSH!
 chsh -s $(which zsh)

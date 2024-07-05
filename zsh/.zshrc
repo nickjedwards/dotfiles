@@ -96,6 +96,9 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
+# Neckbeard
+nerdfetch
+
 # History
 HISTSIZE=5000
 HISTFILE=~/.zsh_history
