@@ -2,6 +2,7 @@
 
 # Install Pacman packages
 yes '' | sudo pacman -S bat \
+    dunst \
     eza \
     fd \
     fzf \
@@ -39,5 +40,10 @@ git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:-${ZSH:-~/.o
 # fzf-git
 git clone https://github.com/junegunn/fzf-git.sh.git ${HOME}/fzf-git.sh
 
+stow bat wallpapers
+
 # Apply Bat theme
 bat cache --build
+
+# Setup wallpaper
+ln -sf ~/.config/wallpapers/astronaut.png ~/.config/wallpaper

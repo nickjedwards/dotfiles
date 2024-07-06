@@ -40,6 +40,14 @@ Delete (unstow) the package name(s).
 stow --delete [package] # E.g.: `stow --delete nvim`
 ```
 
+### Wallpaper
+
+**Note:** A wallpaper is required for Hyprpaper and Rofi to appear correctly.
+
+```bash
+ln -sf ~/.config/wallpapers/astronaut.png ~/.config/wallpaper
+```
+
 # Resources
 
 - [Hyprland NVidia](https://wiki.hyprland.org/Nvidia/)
