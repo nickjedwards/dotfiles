@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+hyprctl hyprpaper unload all
+hyprctl hyprpaper preload "~/.config/wallpaper"
+hyprctl hyprpaper wallpaper ",~/.config/wallpaper"
