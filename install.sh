@@ -2,6 +2,7 @@
 
 # Install Pacman packages
 yes '' | sudo pacman -S bat \
+    brightnessctl \
     dunst \
     eza \
     fd \
