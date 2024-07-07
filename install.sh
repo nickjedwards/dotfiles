@@ -8,6 +8,7 @@ yes '' | sudo pacman -S bat \
     fd \
     fzf \
     git-delta \
+    grim \
     hyprland \
     hyprpaper \
     jq \
@@ -27,7 +28,7 @@ yes '' | sudo pacman -S bat \
     zsh
 
 # Install AUR packages
-yes '' | paru -S nerdfetch rofi-wayland swaylock-effects waybar wlogout
+yes '' | paru -S flameshot-git nerdfetch rofi-wayland swaylock-effects waybar wlogout
 
 # Zsh && Oh My ZSH!
 chsh -s $(which zsh)
