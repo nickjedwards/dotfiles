@@ -28,7 +28,7 @@ yes '' | sudo pacman -S bat \
     zsh
 
 # Install AUR packages
-yes '' | paru -S flameshot-git nerdfetch rofi-wayland swaylock-effects waybar wlogout
+yes '' | paru -S bibata-cursor-theme-bin flameshot-git nerdfetch rofi-wayland swaylock-effects waybar wlogout
 
 # Zsh && Oh My ZSH!
 chsh -s $(which zsh)
