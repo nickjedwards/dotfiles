@@ -9,6 +9,7 @@ yes '' | sudo pacman -S bat \
     fzf \
     git-delta \
     grim \
+    hyprcursor \
     hyprland \
     hyprpaper \
     jq \
