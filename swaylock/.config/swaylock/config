@@ -13,7 +13,7 @@ image=~/.config/wallpaper
 
 clock
 timestr=%l:%M %p
-datestr=%A, %e of %B
+datestr=%a, %e of %B
 
 bs-hl-color=f5e0dc
 caps-lock-bs-hl-color=f5e0dc
@@ -26,11 +26,11 @@ indicator-caps-lock
 indicator-radius=200
 indicator-thickness=20
 
-inside-color=1e1e2e
-inside-clear-color=1e1e2e
-inside-caps-lock-color=1e1e2e
-inside-ver-color=1e1e2e
-inside-wrong-color=1e1e2e
+inside-color=1e1e2ed9
+inside-clear-color=1e1e2ed9
+inside-caps-lock-color=1e1e2ed9
+inside-ver-color=1e1e2ed9
+inside-wrong-color=1e1e2ed9
 
 key-hl-color=a6e3a1
 
