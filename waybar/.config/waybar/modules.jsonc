@@ -23,6 +23,9 @@
 
     "hyprland/window": {
         "format": "{}",
+        "rewrite": {
+            "(.*) — Mozilla Firefox": "$1"
+        },
         "icon": false,
         "separate-outputs": true
     },
