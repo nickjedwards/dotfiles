@@ -102,9 +102,10 @@
     },
 
     "custom/updates": {
-        "exec": "paru -Qua | wc -l",
-        "interval": 7200,
-        "format": "󰇚 {}"
+        "exec": "paru -Quq | wc -l",
+        "interval": 600,
+        "format": "󰇚 {}",
+        "on-click": "kitty -e paru"
     },
 
     "network": {
