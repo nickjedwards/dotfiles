@@ -109,6 +109,7 @@ tooltip {
 #custom-power,
 #custom-rofi,
 #custom-system,
+#custom-updates,
 #custom-l_end,
 #custom-r_end {
     color: @main-fg;
@@ -120,6 +121,7 @@ tooltip {
 #custom-rofi,
 #taskbar,
 #workspaces,
+#custom-updates,
 #network,
 #pulseaudio,
 #backlight,
@@ -127,7 +129,7 @@ tooltip {
 #cpu,
 #memory,
 #disk {
-    padding: 0px 10px 0px 0px;
+    padding: 0px 15px 0px 0px;
 }
 
 #mpris {

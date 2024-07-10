@@ -101,6 +101,12 @@
         "spacing": 5
     },
 
+    "custom/updates": {
+        "exec": "paru -Qua | wc -l",
+        "interval": 7200,
+        "format": "󰇚 {}"
+    },
+
     "network": {
         "tooltip": true,
         "format-wifi": " ",

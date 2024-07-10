@@ -36,6 +36,7 @@
         "tray",
         "custom/r_end",
         "custom/l_end",
+        "custom/updates",
         "network",
         "pulseaudio",
         "backlight",
