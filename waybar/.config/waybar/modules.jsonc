@@ -91,7 +91,6 @@
         "status-icons": {
             "paused": ""
         },
-        // "ignored-players": ["firefox"],
         "dynamic-len": 50,
         "interval": 1
     },
@@ -102,7 +101,7 @@
     },
 
     "custom/updates": {
-        "exec": "paru -Quq | wc -l",
+        "exec": "paru -Qua | wc -l",
         "interval": 600,
         "format": "󰮯 {}",
         "on-click": "kitty -e paru"
