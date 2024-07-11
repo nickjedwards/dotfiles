@@ -116,7 +116,6 @@ tooltip {
 }
 
 #custom-rofi,
-#taskbar,
 #workspaces,
 #custom-updates,
 #network,
@@ -134,13 +133,11 @@ tooltip {
     padding: 0;
 }
 
+#window,
+#mpris,
 #backlight,
 #battery  {
     padding: 0 0 0 15px;
-}
-
-#mpris {
-    padding: 0 0 0 10px;
 }
 
 #idle_inhibitor,
