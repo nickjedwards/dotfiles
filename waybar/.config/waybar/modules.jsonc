@@ -100,9 +100,9 @@
     },
 
     "custom/updates": {
+        "format": "󰮯 {}",
         "exec": "(pacman -Qu ; paru -Qua) | wc -l",
         "interval": 600,
-        "format": "󰮯 {}",
         "on-click": "kitty -e paru"
     },
 
@@ -216,7 +216,7 @@
 
     "custom/power": {
         "format": "{}",
-        "exec": "echo ; echo   logout",
+        "exec": "echo ; echo '  Logout'",
         "on-click": "~/.config/hypr/scripts/wlogout",
         "interval" : 86400, // Once every day
         "tooltip": true
