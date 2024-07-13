@@ -16,6 +16,7 @@ yes '' | sudo pacman -S bat \
     jq \
     kitty \
     neovim \
+    pacman-contrib \
     pavucontrol \
     papirus-icon-theme \
     qt5-wayland \

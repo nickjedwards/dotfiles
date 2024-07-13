@@ -101,7 +101,7 @@
 
     "custom/updates": {
         "format": "󰮯 {}",
-        "exec": "(pacman -Qu ; paru -Qua) | wc -l",
+        "exec": "(checkupdates ; paru -Qua) | wc -l",
         "interval": 600,
         "on-click": "kitty -e paru"
     },
