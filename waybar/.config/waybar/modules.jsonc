@@ -58,6 +58,10 @@
     },
 
     "clock": {
+        "timezones": [
+          "Australia/Melbourne",
+          "America/Los_Angeles"
+        ],
         "format": "{0:%I:%M %p} 󰸘 {0:%d·%m·%y}",
         "tooltip-format": "<tt>{calendar}</tt>",
         "calendar": {

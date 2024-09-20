@@ -13,6 +13,9 @@
     "window.menuBarVisibility": "toggle",
     "workbench.colorTheme": "Catppuccin Mocha",
     "workbench.iconTheme": "catppuccin-mocha",
-    "workbench.statusBar.visible": false
+    "workbench.statusBar.visible": false,
+    "explorer.autoReveal": false,
+    "breadcrumbs.enabled": false,
+    "editor.stickyScroll.enabled": false
   }
   

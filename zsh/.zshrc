@@ -122,7 +122,7 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 # Force zsh not to show completion menu, which allows fzf-tab to capture the unambiguous prefix
 zstyle ':completion:*' menu no
 # Preview directory's content with eza when completing cd
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza --tree --level=1 --color=always --icons=always $realpath'
 
 # Use fd
 export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
@@ -143,19 +143,6 @@ _fzf_compgen_path() {
 # Use fd to generate the list for directory completion
 _fzf_compgen_dir() {
   fd --type d --hidden --follow --exclude ".git" . "$1"
-}
-
-# Advanced customization of fzf options via _fzf_comprun function
-_fzf_comprun() {
-  local command=$1
-  shift
-
-  case "$command" in
-    cd)           fzf --preview 'eza --tree --color=always --icons=always {} | head -200'   "$@" ;;
-    export|unset) fzf --preview "eval 'echo \$'{}"                                          "$@" ;;
-    ssh)          fzf --preview 'dig {}'                                                    "$@" ;;
-    *)            fzf --preview 'bat -n --color=always --line-range :500 {}'                "$@" ;;
-  esac
 }
 
 # Bat
