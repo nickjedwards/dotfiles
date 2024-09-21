@@ -40,7 +40,7 @@ return {
         handlers,
         capabilities,
       })
-      
+
       lspconfig.phpactor.setup({
         handlers,
         capabilities,
