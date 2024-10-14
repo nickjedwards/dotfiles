@@ -2,6 +2,7 @@
     "editor.fontFamily": "JetBrainsMono NF",
     "editor.fontLigatures": true,
     "editor.fontSize": 13,
+    "editor.minimap.enabled": false,
     "editor.rulers": [120],
     "editor.scrollbar.vertical": "hidden",
     "editor.scrollbar.verticalScrollbarSize": 0,
