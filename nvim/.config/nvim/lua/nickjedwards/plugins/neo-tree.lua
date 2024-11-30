@@ -26,7 +26,7 @@ return {
       mappings = {
         ["<Tab>"] = {
           "toggle_preview",
-          config = { use_float = false, use_image_nvim = false }
+          config = { use_float = true, use_image_nvim = false }
         },
       }
     },
