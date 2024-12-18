@@ -31,9 +31,7 @@ return {
               "--files",
               "--hidden",
               "--glob",
-              "!**/.git/*",
-              "--ignore-file",
-              ".gitignore"
+              "!**/.git/*"
             },
           },
         },
