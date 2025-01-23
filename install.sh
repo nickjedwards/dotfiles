@@ -9,10 +9,10 @@ yes '' | sudo pacman -S bat \
     fzf \
     git-delta \
     grim \
-    hyprcursor \
-    hypridle \
-    hyprland \
-    hyprpaper \
+    hyprcursor-git \
+    hypridle-git \
+    hyprland-git \
+    hyprpaper-git \
     jq \
     kitty \
     neovim \
