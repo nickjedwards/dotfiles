@@ -47,6 +47,7 @@ theme = catppuccin-mocha
 window-theme = ghostty
 window-decoration = true
 adw-toolbar-style = flat
+confirm-close-surface = false
 
 #background-opacity = 0.85
 #background-blur-radius = 20
