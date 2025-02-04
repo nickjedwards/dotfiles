@@ -9,10 +9,10 @@ yes '' | sudo pacman -S bat \
     fzf \
     git-delta \
     grim \
-    hyprcursor-git \
-    hypridle-git \
-    hyprland-git \
-    hyprpaper-git \
+    hyprcursor \
+    hypridle \
+    hyprland \
+    hyprpaper \
     jq \
     kitty \
     neovim \
@@ -33,6 +33,8 @@ yes '' | sudo pacman -S bat \
 # Install AUR packages
 yes '' | paru -S bibata-cursor-theme-bin \
     flameshot-git \
+    ghostty \
+    lazydocker-bin \
     nerdfetch \
     polkit-gnome \
     rofi-wayland \

@@ -158,6 +158,7 @@ alias cat=bat
 alias ls="eza --color=always --icons=always --long --all --group --header --numeric --octal-permissions --git --no-time"
 alias mkdir="mkdir -p"
 alias vim=nvim
+alias lzd=lazydocker
 
 # Shell integrations
 source <(fzf --zsh)
