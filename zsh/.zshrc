@@ -159,6 +159,7 @@ alias ls="eza --color=always --icons=always --long --all --group --header --nume
 alias mkdir="mkdir -p"
 alias vim=nvim
 alias lzd=lazydocker
+alias lzg=lazygit
 
 # Shell integrations
 source <(fzf --zsh)

@@ -35,6 +35,7 @@ yes '' | paru -S bibata-cursor-theme-bin \
     flameshot-git \
     ghostty \
     lazydocker-bin \
+    lazygit \
     nerdfetch \
     polkit-gnome \
     rofi-wayland \
