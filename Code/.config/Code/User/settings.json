@@ -18,6 +18,7 @@
     "explorer.autoReveal": false,
     "breadcrumbs.enabled": false,
     "editor.stickyScroll.enabled": false,
-    "workbench.editor.empty.hint": "hidden"
+    "workbench.editor.empty.hint": "hidden",
+    "window.titleBarStyle": "native"
   }
   
