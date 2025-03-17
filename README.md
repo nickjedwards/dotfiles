@@ -50,6 +50,7 @@ ln -sf ~/.config/wallpapers/astronaut.png ~/.config/wallpaper
 
 # Resources
 
+- [Wallpapers](https://github.com/orangci/walls-catppuccin-mocha)
 - [Hyprland NVidia](https://wiki.hyprland.org/Nvidia/)
 - [Single GPU Passthrough (Nvidia)](https://github.com/Marrca35/Single-GPU-Passthrough-for-Arch-Linux)
 - [NeoVim Lua configuration for PHP and JavaScript](https://marioyepes.com/blog/neovim-ide-with-lua-for-web-development/)

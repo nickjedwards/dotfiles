@@ -7,6 +7,7 @@ yes '' | sudo pacman -S bat \
     eza \
     fd \
     fzf \
+    ghostty \
     git-delta \
     grim \
     hyprcursor \
@@ -14,7 +15,6 @@ yes '' | sudo pacman -S bat \
     hyprland \
     hyprpaper \
     jq \
-    kitty \
     neovim \
     pacman-contrib \
     pavucontrol \
