@@ -1,6 +1,6 @@
 {
     "custom/rofi": {
-        "format": " ",
+        "format": "",
         "on-click": "~/.config/hypr/scripts/rofi",
         "tooltip": false
     },
@@ -107,7 +107,7 @@
         "format": "󰮯 {}",
         "exec": "(checkupdates ; paru -Qua) | wc -l",
         "interval": 600,
-        "on-click": "kitty -e paru"
+        "on-click": "ghostty -e paru"
     },
 
     "network": {
