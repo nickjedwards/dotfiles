@@ -1,4 +1,5 @@
 {
+    "breadcrumbs.enabled": false,
     "editor.fontFamily": "JetBrainsMono NF",
     "editor.fontLigatures": true,
     "editor.fontSize": 13,
@@ -6,19 +7,19 @@
     "editor.rulers": [120],
     "editor.scrollbar.vertical": "hidden",
     "editor.scrollbar.verticalScrollbarSize": 0,
+    "editor.stickyScroll.enabled": false,
+    "explorer.autoReveal": true,
     "security.workspace.trust.enabled": false,
     "security.workspace.trust.startupPrompt": "never",
     "security.workspace.trust.untrustedFiles": "newWindow",
     "telemetry.telemetryLevel": "off",
-    "terminal.external.linuxExec": "kitty",
+    "terminal.external.linuxExec": "ghostty",
+    "window.commandCenter": false,
     "window.menuBarVisibility": "toggle",
+    "window.titleBarStyle": "native",
     "workbench.colorTheme": "Catppuccin Mocha",
-    "workbench.iconTheme": "catppuccin-mocha",
-    "workbench.statusBar.visible": false,
-    "explorer.autoReveal": false,
-    "breadcrumbs.enabled": false,
-    "editor.stickyScroll.enabled": false,
     "workbench.editor.empty.hint": "hidden",
-    "window.titleBarStyle": "native"
+    "workbench.iconTheme": "catppuccin-mocha",
+    "workbench.navigationControl.enabled": false,
+    "workbench.statusBar.visible": false
   }
-  
