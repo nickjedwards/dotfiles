@@ -26,6 +26,7 @@ yes '' | sudo pacman -S bat \
     stow \
     tmux \
     ttf-jetbrains-mono-nerd \
+    ttf-nerd-fonts-symbols \
     wireplumber \
     xdg-desktop-portal-hyprland \
     zsh
