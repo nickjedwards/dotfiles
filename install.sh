@@ -32,6 +32,7 @@ yes '' | sudo pacman -S bat \
 
 # Install AUR packages
 yes '' | paru -S bibata-cursor-theme-bin \
+    btop \
     flameshot-git \
     ghostty \
     lazydocker-bin \
