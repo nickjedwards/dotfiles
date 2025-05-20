@@ -1,0 +1,23 @@
+# build: 👷
+# chore: 🧹
+# ci: 📦
+# docs: 📜
+# feat: ✨
+# fix: 🐛
+# perf: 🏃
+# refactor: 🔨
+# revert: ⏪
+# style: 💅
+# test: 🚦
+
+# build: changes that affect the build system or external dependencies
+# chore: changes which don't change source code or tests
+# ci: changes to CI configuration files and scripts
+# docs: documentation only changes
+# feat: a new feature
+# fix: a bug fix
+# perf: a code change that improves performance
+# refactor: a code change that neither fixes a bug nor adds a feature
+# revert: revert a change previously introduced
+# style: changes that do not affect the meaning of the code
+# test: adding missing tests or correcting existing tests

@@ -1,14 +1,18 @@
-[core]
-    pager = delta
-    editor = vim
+[alias]
+    lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 
-[interactive]
-    diffFilter = delta --color-only
+[commit]
+    template = ~/.config/git/template
+
+[core]
+    editor = nvim
+    pager = delta
 
 [delta]
+    diff-so-fancy = true
     features = side-by-side line-numbers decorations
-    syntax-theme = Catppuccin Mocha
     navigate = true # use n and N to move between diff sections
+    syntax-theme = Catppuccin Mocha
 
 [delta "decorations"]
     commit-decoration-style = bold yellow box ul
@@ -22,11 +26,33 @@
     line-numbers-minus-style = 124
     line-numbers-plus-style = 28
 
+[diff]
+    colorMoved = default
+    interHunkContext = 10
+    renames = copies
+
+[interactive]
+    diffFilter = delta --color-only
+
+[log]
+    abbrevCommit = true
+    graphColors = blue,yellow,cyan,magenta,green,red
+
 [merge]
     conflictstyle = diff3
 
-[diff]
-    colorMoved = default
+[push]
+    autoSetupRemote = true
+    default = current
 
-[alias]
-    lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+[pull]
+    rebase = true
+
+[status]
+    branch = true
+    short = true
+    showStash = true
+    showUntrackedFiles = all
+
+[url "git@github.com:"]
+    insteadOf = "gh:"

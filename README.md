@@ -21,6 +21,7 @@ $ git clone git@github.com/nickjedwards/dotfiles.git
 $ cd dotfiles
 $ ./install.sh
 ```
+## Usage
 
 Do not modify the file system and instead show what would happen.
 
