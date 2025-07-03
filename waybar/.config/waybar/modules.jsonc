@@ -119,14 +119,16 @@
         "format-disconnected": "󰖪 ",
         "tooltip-format-disconnected": "Disconnected",
         "format-alt": "<span foreground='#99ffdd'> {bandwidthDownBytes}</span> <span foreground='#ffcc66'> {bandwidthUpBytes}</span>",
-        "interval": 2
+        "interval": 3,
+        "nospacing": 1
     },
 
     "pulseaudio": {
         "format": "{icon} {volume}%",
         "format-muted": "",
         "on-click": "pavucontrol -t 3",
-        "tooltip-format": "{icon} {desc} {volume}%",
+        "on-click-right": "wpctl set-mute @DEFAULT_SINK@ toggle",
+        "tooltip-format": "{icon} {desc}",
         "scroll-step": 5,
         "format-icons": {
             "headphone": "",
@@ -136,7 +138,8 @@
             "portable": "",
             "car": "",
             "default": ["", "", ""]
-        }
+        },
+        "ignored-sinks": ["Easy Effects Sink"]
     },
 
     "bluetooth": {
@@ -177,7 +180,7 @@
         "format": "󰍛 {usage}%",
         "format-alt": "{icon0}{icon1}{icon2}{icon3}",
         "format-icons": ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"],
-        "on-click": "kitty -e htop"
+        "on-click": "ghostty -e btop"
     },
 
     "memory": {
@@ -195,7 +198,7 @@
         "max-length": 10,
         "tooltip": true,
         "tooltip-format": "󰾆 {percentage}%\n {used:0.1f}GB/{total:0.1f}GB",
-        "on-click": "kitty -e htop"
+        "on-click": "ghostty -e btop"
     },
 
     "disk": {
