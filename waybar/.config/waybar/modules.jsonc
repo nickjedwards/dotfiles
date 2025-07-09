@@ -98,23 +98,24 @@
 
     "tray": {
         "icon-size": 18,
-        "spacing": 5
+        "spacing": 10
     },
 
-    "custom/updates": {
+    "custom/pacman": {
         "format": "󰮯 {}",
         "exec": "(checkupdates ; paru -Qua) | wc -l",
-        "interval": 600,
+        "interval": 30,
+        "signal": 8,
         "on-click": "ghostty -e paru"
     },
 
     "network": {
         "tooltip": true,
-        "format-wifi": " ",
-        "format-ethernet": "󰈀 ",
+        "format-wifi": "",
+        "format-ethernet": "󰈀",
         "tooltip-format": "Network: <big><b>{essid}</b></big>\nSignal strength: <b>{signaldBm}dBm ({signalStrength}%)</b>\nFrequency: <b>{frequency}MHz</b>\nInterface: <b>{ifname}</b>\nIP: <b>{ipaddr}/{cidr}</b>\nGateway: <b>{gwaddr}</b>\nNetmask: <b>{netmask}</b>",
         "format-linked": "󰈀 {ifname} (No IP)",
-        "format-disconnected": "󰖪 ",
+        "format-disconnected": "󰖪",
         "tooltip-format-disconnected": "Disconnected",
         "format-alt": "<span foreground='#99ffdd'> {bandwidthDownBytes}</span> <span foreground='#ffcc66'> {bandwidthUpBytes}</span>",
         "interval": 3,
@@ -224,7 +225,7 @@
         "on-click": "~/.config/hypr/scripts/wlogout",
         "interval" : "once",
         "tooltip": true,
-        "tooltip-format": "  Logout"
+        "tooltip-format": " Logout"
     },
 
     "custom/l_end": {

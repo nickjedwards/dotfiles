@@ -33,7 +33,7 @@
         "tray",
         "custom/r_end",
         "custom/l_end",
-        "custom/updates",
+        "custom/pacman",
         "network",
         "pulseaudio",
         "backlight",
