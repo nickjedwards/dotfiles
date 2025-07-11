@@ -1,10 +1,10 @@
 configuration {
     modi:                        "drun";
     show-icons:                  true;
-    icon-theme:                  "Papirus";
+    icon-theme:                  "Tela-circle-dracula-dark";
     drun-display-format:         "{name}";
     window-format:               "{w}{t}";
-    font:                        "JetBrainsMono NF 13";
+    font:                        "JetBrainsMono NFP 13";
 }
 
 @theme "theme"
@@ -18,10 +18,10 @@ window {
     cursor:                      "default";
     spacing:                     0em;
     padding:                     0em;
-    border:                      0em;
+    border:                      2px;
     border-radius:               30px;
-    border-color:                @border-col;
-    background-color:            @bg-col;
+    border-color:                @mauve;
+    background-color:            @mantle;
 }
 
 mainbox {
@@ -74,13 +74,13 @@ element {
     padding:                     1em;
     cursor:                      pointer;
     background-color:            transparent;
-    text-color:                  @fg-col;
+    text-color:                  @text;
     border-radius:               20px;
 }
 
 element selected.normal {
     background-color:            @blue;
-    text-color:                  @selected-col;
+    text-color:                  @crust;
 }
 
 element-icon {

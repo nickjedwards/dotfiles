@@ -1,14 +1,14 @@
 configuration {
     modi:                        "drun,filebrowser,window,run";
     show-icons:                  true;
-    icon-theme:                  "Papirus";
+    icon-theme:                  "Tela-circle-dracula-dark";
     display-drun:                " ";
     display-run:                 " ";
     display-filebrowser:         " ";
     display-window:              " ";
     drun-display-format:         "{name}";
     window-format:               "{w}{t}";
-    font:                        "JetBrainsMono NF 13";
+    font:                        "JetBrainsMono NFP 13";
 }
 
 @theme "theme"

@@ -24,6 +24,7 @@ yes '' | sudo pacman -S bat \
     ripgrep \
     starship \
     stow \
+    tela-circle-icon-theme-dracula \
     tmux \
     ttf-jetbrains-mono-nerd \
     ttf-nerd-fonts-symbols \
@@ -43,7 +44,8 @@ yes '' | paru -S bibata-cursor-theme-bin \
     rofi-wayland \
     swaylock-effects \
     waybar \
-    wlogout
+    wlogout \
+    zen-browser-bin
 
 # Zsh && Oh My ZSH!
 chsh -s $(which zsh)

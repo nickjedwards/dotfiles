@@ -1,6 +1,8 @@
 @import "theme.css";
 
 * {
+    box-shadow: none;
+    text-shadow: none;
     border: none;
     border-radius: 0;
     font-family: "JetBrainsMono NFP", Helvetica, Arial, sans-serif;
@@ -9,77 +11,85 @@
 }
 
 window#waybar {
-    all: unset;
+    background: transparent;
+    color: @text;
+    margin: 5px 5px;
 }
 
 tooltip {
-    background: @main-bg;
-    border-radius: 5px;
-    border: 1px solid alpha(@main-fg, .1);
+    background: @mantle;
+    border-radius: 3px;
+    border: 1px solid @surface1;
 }
 
 tooltip label {
-  color: @main-fg;
+  color: @text;
   padding: 0 5px;
 }
 
 #taskbar button {
-    color: @wb-act-fg;
+    color: @crust;
     border-radius: 10px;
     padding: 0 5px;
     margin: 3px;
-    animation: tb_normal 20s ease-in-out 1;
 }
 
 #taskbar button.active {
-    background: @wb-act-bg;
-    color: @wb-act-fg;
+    background: @text;
+    color: @crust;
     padding: 0 8px;
     margin: 3px 0;
-    animation: tb_active 20s ease-in-out 1;
     transition: all 0.4s cubic-bezier(.55,-0.68,.48,1.682);
 }
 
 #taskbar button:hover {
-    background: @wb-hvr-bg;
-    color: @wb-hvr-fg;
-    animation: tb_hover 20s ease-in-out 1;
+    background: @blue;
+    color: @crust;
     transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682);
 }
 
 #workspaces button {
-    color: @main-fg;
+    color: @text;
     border-radius: 10px;
     padding: 0 5px;
     margin: 3px;
-    animation: ws_normal 20s ease-in-out 1;
 }
 
 #workspaces button.active {
-    background: @wb-act-bg;
-    color: @wb-act-fg;
+    background: @text;
+    color: @crust;
     padding: 0 8px;
     margin: 3px 0;
-    animation: ws_active 20s ease-in-out 1;
     transition: all 0.4s cubic-bezier(.55,-0.68,.48,1.682);
 }
 
 #workspaces button.urgent {
     background: transparent;
-    color: @wb-hvr-bg;
-    animation: ws_active 20s ease-in-out 1;
+    color: @maroon;
     transition: all 0.4s cubic-bezier(.55,-0.68,.48,1.682);
 }
 
 #workspaces button:hover {
-    background: @wb-hvr-bg;
-    color: @wb-hvr-fg;
-    animation: ws_hover 20s ease-in-out 1;
+    background: @blue;
+    color: @crust;
     transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682);
 }
 
+#tray menu {
+    background-color: alpha(@mantle, .9);
+    color: @text;
+    border-radius: 5px;
+    border: 1px solid @surface1;
+}
+
+#tray menu menuitem:hover {
+  background-color: @blue;
+  color: @crust;
+}
+
 #tray menu separator {
-    min-height: 3px;
+    background-color: @surface0;
+    min-height: 1px;
 }
 
 #custom-rofi,
@@ -100,12 +110,13 @@ tooltip label {
 #cpu,
 #memory,
 #disk,
+#user,
 #custom-power,
 #custom-l_end,
 #custom-r_end {
-    background: alpha(@main-bg, .8);
-    color: @main-fg;
-    margin: 5px 0 0;
+    background: alpha(@crust, .5);
+    color: @text;
+    margin: 5px 0;
     padding: 0 5px;
 }
 

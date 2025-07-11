@@ -4,21 +4,18 @@
     "text": "Lock",
     "keybind": "l"
 }
-
 {
     "label": "logout",
     "action": "loginctl terminate-user $USER",
     "text": "Logout",
     "keybind": "e"
 }
-
 {
     "label": "shutdown",
     "action": "systemctl poweroff",
     "text": "Shutdown",
     "keybind": "s"
 }
-
 {
     "label": "reboot",
     "action": "systemctl reboot",

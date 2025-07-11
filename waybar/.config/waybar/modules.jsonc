@@ -13,7 +13,7 @@
 
     "wlr/taskbar": {
         "format": "{icon}",
-        "icon-theme": "Papirus",
+        "icon-theme": "Tela-circle-dracula-dark",
         "icon-size": 18,
         "tooltip-format": "{title}",
         "on-click": "activate",
@@ -36,7 +36,7 @@
         "format-icons": {
             "1": "",
             "2": "",
-            "3": "",
+            "3": "󰈹",
             "4": "",
             "5": "",
             "urgent": "",
@@ -60,17 +60,19 @@
           "Australia/Melbourne",
           "America/Los_Angeles"
         ],
+        "interval": 60,
         "format": "{0:%I:%M %p} 󰸘 {0:%d·%m·%y}",
         "tooltip-format": "<tt>{calendar}</tt>",
         "calendar": {
-            "mode": "month",
+            "mode": "year",
             "mode-mon-col": 3,
             "on-scroll": 1,
             "on-click-right": "mode",
             "format": {
-                "months": "<span color='#ffead3'><b>{}</b></span>",
-                "weekdays": "<span color='#ffcc66'><b>{}</b></span>",
-                "today": "<span color='#ff6699'><b>{}</b></span>"
+                "months": "<span color='#f9e2af'><b>{}</b></span>",
+                "weekdays": "<span color='#fab387'><b>{}</b></span>",
+                "days": "<span color='#a6adc8'><b>{}</b></span>",
+                "today": "<span color='#f38ba8'><b>{}</b></span>"
             }
         },
         "actions": {
@@ -103,6 +105,7 @@
 
     "custom/pacman": {
         "format": "󰮯 {}",
+        "tooltip-format": "󰮯 Updates: <b>{}</b>",
         "exec": "(checkupdates ; paru -Qua) | wc -l",
         "interval": 30,
         "signal": 8,
@@ -111,15 +114,15 @@
 
     "network": {
         "tooltip": true,
-        "format-wifi": "",
+        "format": "{ifname}",
+        "format-wifi": " {essid}",
         "format-ethernet": "󰈀",
-        "tooltip-format": "Network: <big><b>{essid}</b></big>\nSignal strength: <b>{signaldBm}dBm ({signalStrength}%)</b>\nFrequency: <b>{frequency}MHz</b>\nInterface: <b>{ifname}</b>\nIP: <b>{ipaddr}/{cidr}</b>\nGateway: <b>{gwaddr}</b>\nNetmask: <b>{netmask}</b>",
+        "tooltip-format": "Network: <b>{essid}</b>\nSignal strength: <b>{signaldBm}dBm ({signalStrength}%)</b>\nFrequency: <b>{frequency}MHz</b>\nInterface: <b>{ifname}</b>\nIP: <b>{ipaddr}/{cidr}</b>\nGateway: <b>{gwaddr}</b>\nNetmask: <b>{netmask}</b>",
         "format-linked": "󰈀 {ifname} (No IP)",
         "format-disconnected": "󰖪",
         "tooltip-format-disconnected": "Disconnected",
-        "format-alt": "<span foreground='#99ffdd'> {bandwidthDownBytes}</span> <span foreground='#ffcc66'> {bandwidthUpBytes}</span>",
-        "interval": 3,
-        "nospacing": 1
+        "format-alt": "<span foreground='#94e2d5'> {bandwidthDownBytes}</span> <span foreground='#f9e2af'> {bandwidthUpBytes}</span>",
+        "interval": 3
     },
 
     "pulseaudio": {
@@ -169,9 +172,18 @@
         "rotate": 0
     },
 
+    "user": {
+        "format": " {user}",
+        "avatar": "/home/nick/Pictures/me.png",
+        "icon": true,
+        "open-on-click": true,
+        "open-path": "/home/nick"
+    },
+
     "custom/system": {
         "format": "",
-        "tooltip": false
+        "tooltip": false,
+        "on-click": "ghostty -e btop"
     },
 
     "cpu": {
@@ -179,7 +191,6 @@
         "format": "󰍛 {usage}%",
         "format-alt": "{icon0}{icon1}{icon2}{icon3}",
         "format-icons": ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"],
-        "on-click": "ghostty -e btop"
     },
 
     "memory": {
@@ -197,7 +208,6 @@
         "max-length": 10,
         "tooltip": true,
         "tooltip-format": "󰾆 {percentage}%\n {used:0.1f}GB/{total:0.1f}GB",
-        "on-click": "ghostty -e btop"
     },
 
     "disk": {
@@ -225,7 +235,7 @@
         "on-click": "~/.config/hypr/scripts/wlogout",
         "interval" : "once",
         "tooltip": true,
-        "tooltip-format": " Logout"
+        "tooltip-format": " Power Menu"
     },
 
     "custom/l_end": {
