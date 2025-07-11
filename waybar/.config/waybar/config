@@ -40,9 +40,11 @@
         "battery",
         "custom/r_end",
         "custom/l_end",
-        "user",
         "group/resources",
         "custom/power",
+        "custom/r_end",
+        "custom/l_end",
+        "user",
         "custom/r_end"
     ]
 }
