@@ -1,9 +1,31 @@
+@import "catppuccin-mocha"
+
 * {
-    mantle:             #181825e6;
-    text:               #bac2deff;
-    mauve:              #cba6f7ff;
-    blue:               #89b4faff;
-    crust:              #11111bff;
+    selected-active-foreground:  @background;
+    lightfg:                     @text;
+    separatorcolor:              @foreground;
+    urgent-foreground:           @red;
+    alternate-urgent-background: @lightbg;
+    lightbg:                     @mantle;
+    background-color:            transparent;
+    border-color:                @foreground;
+    normal-background:           @background;
+    selected-urgent-background:  @red;
+    alternate-active-background: @lightbg;
+    alternate-normal-foreground: @foreground;
+    urgent-background:           @background;
+    selected-normal-foreground:  @lightbg;
+    active-foreground:           @blue;
+    background:                  #1e1e2ecc; // RGBA
+    selected-active-background:  @blue;
+    active-background:           @background;
+    selected-normal-background:  @lightfg;
+    alternate-normal-background: @lightbg;
+    foreground:                  @text;
+    selected-urgent-foreground:  @background;
+    normal-foreground:           @foreground;
+    alternate-urgent-foreground: @red;
+    alternate-active-foreground: @blue;
 }
 
 window {
@@ -11,61 +33,52 @@ window {
     width:                       63em;
     transparency:                "real";
     fullscreen:                  false;
-    enabled:                     true;
     cursor:                      "default";
-    spacing:                     0em;
-    padding:                     0em;
     border:                      2px;
     border-radius:               30px;
-    border-color:                @mauve;
-    background-color:            @mantle;
+    background-color:            @background;
 }
 
 mainbox {
-    enabled:                     true;
-    spacing:                     0em;
-    padding:                     0em;
+    spacing:                     0;
+    padding:                     0;
     orientation:                 horizontal;
-    children:                    [ "dummywall" , "listbox" ];
+    children:                    [ dummywall, listbox ];
+    border:                      0;
     background-color:            transparent;
 }
 
 dummywall {
-    spacing:                     0em;
     padding:                     0em;
     width:                       37em;
     expand:                      false;
     orientation:                 horizontal;
-    children:                    [ "mode-switcher" , "inputbar" ];
-    background-color:            transparent;
+    children:                    [ mode-switcher, inputbar ];
     background-image:            url("~/.config/wallpaper", height);
 }
 
 mode-switcher {
     orientation:                 vertical;
-    enabled:                     true;
     width:                       3.8em;
-    padding:                     9.2em 0.5em 9.2em 0.5em;
+    padding:                     9.2em 0.5em;
     spacing:                     1.2em;
-    background-color:            transparent;
-    //background-image:            url("~/.config/wallpaper", height);
+    background-color:            #1e1e2e80;
 }
 
 button {
     cursor:                      pointer;
-    border-radius:               2em;
-    background-color:            @mantle;
-    text-color:                  @text;
+    border-radius:               100%;
+    background-color:            @base;
+    text-color:                  @normal-foreground;
 }
 
 button selected {
-    background-color:            @text;
-    text-color:                  @mantle;
+    background-color:            @selected-normal-background;
+    text-color:                  @selected-normal-foreground;
 }
 
 inputbar {
-    enabled:                     true;
-    children:                    [ "entry" ];
+    children:                    [ entry ];
     background-color:            transparent;
 }
 
@@ -74,70 +87,100 @@ entry {
 }
 
 listbox {
-    spacing:                     0em;
-    padding:                     2em;
     children:                    [ "dummy" , "listview" , "dummy" ];
     background-color:            transparent;
 }
 
-listview {
-    enabled:                     true;
-    spacing:                     0em;
-    padding:                     0em;
-    columns:                     1;
-    lines:                       8;
-    cycle:                       true;
-    dynamic:                     true;
-    scrollbar:                   false;
-    layout:                      vertical;
-    reverse:                     false;
-    expand:                      false;
-    fixed-height:                true;
-    fixed-columns:               true;
-    cursor:                      "default";
+dummy {
+    expand:                      true;
     background-color:            transparent;
-    text-color:                  @text;
 }
 
-dummy {
+listview {
+    columns:                     1;
+    lines:                       8;
+    scrollbar:                   false;
+    cycle:                       true;
+    layout:                      vertical;
+    expand:                      false;
+    spacing:                     10px;
     background-color:            transparent;
 }
 
 element {
-    enabled:                     true;
-    spacing:                     0.8em;
-    padding:                     0.4em 0.4em 0.4em 1.5em;
+    spacing:                     20px;
+    padding:                     5px 20px;
     cursor:                      pointer;
+    orientation:                 horizontal;
+    children:                    [ element-icon, element-text ];
     background-color:            transparent;
-    text-color:                  @text;
-    border-radius:               20px;
+}
+
+element normal.normal {
+    background-color:            transparent;
+    text-color:                  @normal-foreground;
+}
+
+element normal.urgent {
+    background-color:            transparent;
+    text-color:                  @urgent-foreground;
+}
+
+element normal.active {
+    background-color:            transparent;
+    text-color:                  @active-foreground;
 }
 
 element selected.normal {
-    background-color:            @blue;
-         text-color:                  @crust;
+    background-color:            @selected-normal-background;
+    text-color:                  @selected-normal-foreground;
+}
+
+element selected.urgent {
+    background-color:            @selected-urgent-background;
+    text-color:                  @selected-urgent-foreground;
+}
+
+element selected.active {
+    background-color:            @selected-active-background;
+    text-color:                  @selected-active-foreground;
+}
+
+element alternate.normal {
+    background-color:            transparent;
+    text-color:                  @normal-foreground;
+}
+
+element alternate.urgent {
+    background-color:            transparent;
+    text-color:                  @urgent-foreground;
+}
+
+element alternate.active {
+    background-color:            @active-background;
+    text-color:                  @active-foreground;
 }
 
 element-icon {
-    size:                        2.8em;
+    size:                        3em;
     cursor:                      inherit;
-    background-color:            transparent;
     text-color:                  inherit;
+    background-color:            transparent;
 }
 
 element-text {
-    vertical-align:              0.5;
-    horizontal-align:            0.0;
     cursor:                      inherit;
-    background-color:            transparent;
+    highlight:                   inherit;
     text-color:                  inherit;
+    vertical-align:              0.5;
+    background-color:            transparent;
 }
 
 error-message {
     text-color:                  @text;
     background-color:            @mantle;
     text-transform:              capitalize;
-    children:                    [ "textbox" ];
+    children:                    [ textbox ];
 }
 
 textbox {

@@ -1,13 +1,12 @@
 configuration {
-    modi:                        "drun,filebrowser,window,run";
+    modes: [drun, filebrowser, ssh, run];
     show-icons:                  true;
-    icon-theme:                  "Tela-circle-dracula-dark";
+    icon-theme:                  "Numix-Circle";
     display-drun:                " ";
     display-run:                 " ";
     display-filebrowser:         " ";
-    display-window:              " ";
+    display-ssh:                 "";
     drun-display-format:         "{name}";
-    window-format:               "{w}{t}";
     font:                        "JetBrainsMono NFP 13";
 }
 

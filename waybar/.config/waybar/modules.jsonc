@@ -13,7 +13,7 @@
 
     "wlr/taskbar": {
         "format": "{icon}",
-        "icon-theme": "Tela-circle-dracula-dark",
+        "icon-theme": "Numix-Circle",
         "icon-size": 18,
         "tooltip-format": "{title}",
         "on-click": "activate",
@@ -172,14 +172,6 @@
         "rotate": 0
     },
 
-    "user": {
-        "format": " {user}",
-        "avatar": "/home/nick/Pictures/me.png",
-        "icon": true,
-        "open-on-click": true,
-        "open-path": "/home/nick"
-    },
-
     "custom/system": {
         "format": "",
         "tooltip": false,
@@ -236,6 +228,12 @@
         "interval" : "once",
         "tooltip": true,
         "tooltip-format": " Power Menu"
+    },
+
+    "user": {
+        "format": " {user}",
+        "icon": true,
+        "open-on-click": true
     },
 
     "custom/l_end": {

@@ -1,7 +1,7 @@
 configuration {
     modi:                        "drun";
     show-icons:                  true;
-    icon-theme:                  "Tela-circle-dracula-dark";
+    icon-theme:                  "Numix-Circle";
     drun-display-format:         "{name}";
     window-format:               "{w}{t}";
     font:                        "JetBrainsMono NFP 13";

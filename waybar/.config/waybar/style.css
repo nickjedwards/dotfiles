@@ -17,9 +17,9 @@ window#waybar {
 }
 
 tooltip {
-    background: @mantle;
-    border-radius: 3px;
-    border: 1px solid @surface1;
+    background: @base;
+    border-radius: 5px;
+    border: 1px solid @text;
 }
 
 tooltip label {
@@ -76,19 +76,19 @@ tooltip label {
 }
 
 #tray menu {
-    background-color: alpha(@mantle, .9);
+    background-color: alpha(@base, .9);
     color: @text;
     border-radius: 5px;
-    border: 1px solid @surface1;
+    border: 1px solid @text;
 }
 
 #tray menu menuitem:hover {
-  background-color: @blue;
-  color: @crust;
+  background-color: @text;
+  color: @mantle;
 }
 
 #tray menu separator {
-    background-color: @surface0;
+    background-color: @text;
     min-height: 1px;
 }
 
@@ -114,7 +114,7 @@ tooltip label {
 #custom-power,
 #custom-l_end,
 #custom-r_end {
-    background: alpha(@crust, .5);
+    background: alpha(@crust, .8);
     color: @text;
     margin: 5px 0;
     padding: 0 5px;

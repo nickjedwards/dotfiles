@@ -18,13 +18,11 @@ yes '' | sudo pacman -S bat \
     neovim \
     pacman-contrib \
     pavucontrol \
-    papirus-icon-theme \
     qt5-wayland \
     qt6-wayland \
     ripgrep \
     starship \
     stow \
-    tela-circle-icon-theme-dracula \
     tmux \
     ttf-jetbrains-mono-nerd \
     ttf-nerd-fonts-symbols \
@@ -40,6 +38,7 @@ yes '' | paru -S bibata-cursor-theme-bin \
     lazydocker-bin \
     lazygit \
     nerdfetch \
+    numix-circle-icon-theme-git \
     polkit-gnome \
     rofi-wayland \
     swaylock-effects \
