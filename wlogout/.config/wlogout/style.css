@@ -4,6 +4,7 @@
     background-image: none;
     font-size: ${fntSize}px;
     box-shadow: none;
+    text-shadow: none;
 }
 
 window {
@@ -12,46 +13,50 @@ window {
 
 button {
     color: @text;
-    background-color: @base;
+    background-color: @mantle;
     outline-style: none;
     border: none;
-    border-width: 0px;
     background-repeat: no-repeat;
     background-position: center;
     background-size: 10%;
     border-radius: 0px;
-    box-shadow: none;
-    text-shadow: none;
+    animation: gradient_f 20s ease-in infinite;
 }
 
 button:focus {
-    background-color: @mantle;
+    background-color: rgb(48, 50, 66);
     background-size: 20%;
 }
 
 button:hover {
     background-color: @blue;
     background-size: 25%;
+    color: @mantle;
     border-radius: ${active_rad}px;
-    transition: all 0.3s cubic-bezier(.55,0.0,.28,1.682);
+    animation: gradient_f 20s ease-in infinite;
+    transition: all 0.3s cubic-bezier(.55, 0, .28, 1.682);
 }
 
 button:hover#lock {
+    background-image: image(url("$HOME/.config/wlogout/icons/lock-dark.svg"), url("/usr/share/wlogout/assets/lock.svg"));
     border-radius: ${active_rad}px ${active_rad}px 0px ${active_rad}px;
     margin: ${y_hvr}px 0px 0px ${x_hvr}px;
 }
 
 button:hover#logout {
+    background-image: image(url("$HOME/.config/wlogout/icons/logout-dark.svg"), url("/usr/share/wlogout/assets/logout.svg"));
     border-radius: ${active_rad}px 0px ${active_rad}px ${active_rad}px;
     margin: 0px 0px ${y_hvr}px ${x_hvr}px;
 }
 
 button:hover#shutdown {
+    background-image: image(url("$HOME/.config/wlogout/icons/shutdown-dark.svg"), url("/usr/share/wlogout/assets/shutdown.svg"));
     border-radius: ${active_rad}px ${active_rad}px ${active_rad}px 0px;
     margin: ${y_hvr}px ${x_hvr}px 0px 0px;
 }
 
 button:hover#reboot {
+    background-image: image(url("$HOME/.config/wlogout/icons/reboot-dark.svg"), url("/usr/share/wlogout/assets/reboot.svg"));
     border-radius: 0px ${active_rad}px ${active_rad}px ${active_rad}px;
     margin: 0px ${x_hvr}px ${y_hvr}px 0px;
 }

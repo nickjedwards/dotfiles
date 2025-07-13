@@ -8,7 +8,7 @@
     alternate-urgent-background: @lightbg;
     lightbg:                     @mantle;
     background-color:            transparent;
-    border-color:                @foreground;
+    border-color:                @blue;
     normal-background:           @background;
     selected-urgent-background:  @red;
     alternate-active-background: @lightbg;
@@ -19,7 +19,7 @@
     background:                  #1e1e2ecc; // RGBA
     selected-active-background:  @blue;
     active-background:           @background;
-    selected-normal-background:  @lightfg;
+    selected-normal-background:  @blue;
     alternate-normal-background: @lightbg;
     foreground:                  @text;
     selected-urgent-foreground:  @background;
@@ -43,7 +43,7 @@ mainbox {
     spacing:                     0;
     padding:                     0;
     orientation:                 horizontal;
-    children:                    [ dummywall, listbox ];
+    children:                    [ dummywall, listview ];
     border:                      0;
     background-color:            transparent;
 }
@@ -86,11 +86,6 @@ entry {
     enabled:                     false;
 }
 
-listbox {
-    children:                    [ "dummy" , "listview" , "dummy" ];
-    background-color:            transparent;
-}
-
 dummy {
     expand:                      true;
     background-color:            transparent;
@@ -98,22 +93,22 @@ dummy {
 
 listview {
     columns:                     1;
-    lines:                       8;
     scrollbar:                   false;
     cycle:                       true;
     layout:                      vertical;
-    expand:                      false;
     spacing:                     10px;
     background-color:            transparent;
+    padding:                     20px;
 }
 
 element {
     spacing:                     20px;
-    padding:                     5px 20px;
+    padding:                     10px;
     cursor:                      pointer;
     orientation:                 horizontal;
     children:                    [ element-icon, element-text ];
     background-color:            transparent;
+    border-radius:               15px;
 }
 
 element normal.normal {

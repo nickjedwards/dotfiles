@@ -28,50 +28,63 @@ tooltip label {
 }
 
 #taskbar button {
-    color: @crust;
+    color: @text;
     border-radius: 10px;
-    padding: 0 5px;
-    margin: 3px;
+    padding: 0;
+    margin: 0 5px;
+    animation: gradient_f 20s ease-in infinite;
+    transition: all 0.5s cubic-bezier(.55,-0.68,.48,1.682);
 }
 
 #taskbar button.active {
-    background: @text;
+    background: @blue;
     color: @crust;
-    padding: 0 8px;
-    margin: 3px 0;
-    transition: all 0.4s cubic-bezier(.55,-0.68,.48,1.682);
+    padding: 0 10px;
+    margin: 0 5px;
+    animation: gradient_f 20s ease-in infinite;
+    transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682);
 }
 
 #taskbar button:hover {
     background: @blue;
     color: @crust;
+    padding: 0 5px;
+    margin: 0 5px;
+    animation: gradient_f 20s ease-in infinite;
     transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682);
 }
 
 #workspaces button {
     color: @text;
     border-radius: 10px;
-    padding: 0 5px;
-    margin: 3px;
+    padding: 0;
+    margin: 0 5px;
+    animation: gradient_f 20s ease-in infinite;
+    transition: all 0.5s cubic-bezier(.55,-0.68,.48,1.682);
 }
 
 #workspaces button.active {
     background: @text;
     color: @crust;
-    padding: 0 8px;
-    margin: 3px 0;
-    transition: all 0.4s cubic-bezier(.55,-0.68,.48,1.682);
+    padding: 0 10px;
+    margin: 0 5px;
+    animation: gradient_f 20s ease-in infinite;
+    transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682);
 }
 
 #workspaces button.urgent {
     background: transparent;
-    color: @maroon;
-    transition: all 0.4s cubic-bezier(.55,-0.68,.48,1.682);
+    color: @red;
+    animation: gradient_f 20s ease-in infinite;
+    transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682);
 }
 
 #workspaces button:hover {
     background: @blue;
     color: @crust;
+    padding: 0 5px;
+    margin: 0 5px;
+    animation: gradient_f 20s ease-in infinite;
     transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682);
 }
 
