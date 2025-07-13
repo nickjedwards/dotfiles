@@ -9,7 +9,6 @@ grace-no-mouse
 grace-no-touch
 
 image=~/.config/wallpaper
-# screenshots
 
 clock
 timestr=%l:%M %p
