@@ -5,6 +5,7 @@ yes '' | sudo pacman -S bat \
     brightnessctl \
     dunst \
     eza \
+    fastfetch \
     fd \
     fzf \
     git-delta \

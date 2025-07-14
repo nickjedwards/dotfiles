@@ -97,7 +97,7 @@ source $ZSH/oh-my-zsh.sh
 # User configuration
 
 # Neckbeard
-nerdfetch
+fastfetch
 
 # History
 HISTSIZE=5000
