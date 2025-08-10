@@ -43,6 +43,7 @@ yes '' | paru -S bibata-cursor-theme-bin \
     polkit-gnome \
     rofi-wayland \
     swaylock-effects \
+    vscodium-bin \
     waybar \
     wlogout \
     zen-browser-bin
