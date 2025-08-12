@@ -1,0 +1,57 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+  "theme": {
+    "mode": "system",
+    "light": "One Light",
+    "dark": "Catppuccin Mocha"
+  },
+  "icon_theme": "Catppuccin Mocha",
+  "base_keymap": "SublimeText",
+  "disable_ai": true,
+  "ui_font_size": 15,
+  "ui_font_family": "JetBrainsMono Nerd Font",
+  "buffer_font_size": 13,
+  "buffer_font_family": "JetBrainsMono Nerd Font Mono",
+  "relative_line_numbers": true,
+  "scrollbar": {
+    "show": "never"
+  },
+  "outline_panel": { "button": false },
+  "collaboration_panel": { "button": false },
+  "chat_panel": { "button": "never" },
+  "notification_panel": { "button": false },
+  "agent": { "button": false },
+  "search": { "button": false },
+  "telemetry": {
+    "diagnostics": false,
+    "metrics": false
+  },
+  "terminal": {
+    "font_family": "JetBrainsMono Nerd Font Mono",
+    "font_size": 13
+  },
+  "toolbar": {
+    "breadcrumbs": false,
+    "quick_actions": false,
+    "selections_menu": false,
+    "agent_review": false,
+    "code_actions": false
+  },
+  "title_bar": {
+    "show_branch_name": true,
+    "show_project_items": false,
+    "show_onboarding_banner": false,
+    "show_user_picture": false,
+    "show_sign_in": false,
+    "show_menus": false
+  },
+  "vim_mode": true,
+  "wrap_guides": [120]
+}
