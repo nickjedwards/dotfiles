@@ -14,11 +14,14 @@
     "telemetry.telemetryLevel": "off",
     "terminal.external.linuxExec": "ghostty",
     "window.commandCenter": false,
-    "window.menuBarVisibility": "toggle",
-    "window.titleBarStyle": "custom",
+    "window.customTitleBarVisibility": "never",
+    "window.titleBarStyle": "native",
+    "window.menuStyle": "custom",
+    "workbench.activityBar.location": "hidden",
     "workbench.colorTheme": "Catppuccin Mocha",
     "workbench.editor.empty.hint": "hidden",
     "workbench.iconTheme": "catppuccin-mocha",
+    "workbench.layoutControl.enabled": false,
     "workbench.navigationControl.enabled": false,
     "workbench.statusBar.visible": false
   }
