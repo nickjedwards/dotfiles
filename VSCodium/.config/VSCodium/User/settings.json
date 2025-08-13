@@ -17,7 +17,7 @@
     "window.customTitleBarVisibility": "never",
     "window.titleBarStyle": "native",
     "window.menuStyle": "custom",
-    "workbench.activityBar.location": "hidden",
+    "workbench.activityBar.location": "bottom",
     "workbench.colorTheme": "Catppuccin Mocha",
     "workbench.editor.empty.hint": "hidden",
     "workbench.iconTheme": "catppuccin-mocha",
