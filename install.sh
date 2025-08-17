@@ -29,6 +29,7 @@ yes '' | sudo pacman -S bat \
     ttf-nerd-fonts-symbols \
     wireplumber \
     xdg-desktop-portal-hyprland \
+    zoxide \
     zsh
 
 # Install AUR packages

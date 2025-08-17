@@ -97,7 +97,7 @@ source $ZSH/oh-my-zsh.sh
 # User configuration
 
 # Neckbeard
-fastfetch
+#fastfetch
 
 # History
 HISTSIZE=5000
@@ -164,4 +164,5 @@ alias lzg=lazygit
 # Shell integrations
 source <(fzf --zsh)
 [ -d ~/fzf-git.sh ] && source ~/fzf-git.sh/fzf-git.sh
+eval "$(zoxide init --cmd cd zsh)"
 eval "$(starship init zsh)"
