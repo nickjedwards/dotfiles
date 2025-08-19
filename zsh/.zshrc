@@ -96,6 +96,8 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
+export EDITOR=nvim
+
 # Neckbeard
 #fastfetch
 
@@ -165,4 +167,4 @@ alias lzg=lazygit
 source <(fzf --zsh)
 [ -d ~/fzf-git.sh ] && source ~/fzf-git.sh/fzf-git.sh
 eval "$(zoxide init --cmd cd zsh)"
-eval "$(starship init zsh)"
+eval "$(oh-my-posh init zsh --config ~/dotfiles/ohmyposh/catppuccin-mocha.toml)"

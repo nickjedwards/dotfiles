@@ -18,11 +18,11 @@ yes '' | sudo pacman -S bat \
     less \
     neovim \
     pacman-contrib \
+    pass \
     pavucontrol \
     qt5-wayland \
     qt6-wayland \
     ripgrep \
-    starship \
     stow \
     tmux \
     ttf-jetbrains-mono-nerd \
@@ -41,6 +41,7 @@ yes '' | paru -S bibata-cursor-theme-bin \
     lazygit \
     nerdfetch \
     numix-circle-icon-theme-git \
+    oh-my-posh \
     polkit-gnome \
     rofi-wayland \
     swaylock-effects \
@@ -58,6 +59,11 @@ git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-m
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions
 
+# Install tmux catppuccin theme
+stow tmux
+mkdir -p ${HOME}/.config/tmux/plugins/catppuccin
+git clone -b v2.1.3 https://github.com/catppuccin/tmux.git ${HOME}/.config/tmux/plugins/catppuccin/tmux
+
 # fzf-git
 git clone https://github.com/junegunn/fzf-git.sh.git ${HOME}/fzf-git.sh
 
@@ -66,4 +72,4 @@ stow bat
 bat cache --build
 
 # Setup wallpaper
-ln -sf ~/dotfiles/wallpapers/swirls.jpg ~/.config/wallpaper
+ln -sf ${HOME}/dotfiles/wallpapers/swirls.jpg ${HOME}/.config/wallpaper
