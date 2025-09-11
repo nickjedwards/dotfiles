@@ -64,9 +64,6 @@ stow tmux
 mkdir -p ${HOME}/.config/tmux/plugins/catppuccin
 git clone -b v2.1.3 https://github.com/catppuccin/tmux.git ${HOME}/.config/tmux/plugins/catppuccin/tmux
 
-# fzf-git
-git clone https://github.com/junegunn/fzf-git.sh.git ${HOME}/fzf-git.sh
-
 stow bat
 # Apply Bat theme
 bat cache --build

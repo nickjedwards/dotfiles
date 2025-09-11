@@ -157,11 +157,12 @@ export NVM_DIR="$HOME/.nvm"
 
 # Aliases
 alias cat=bat
+alias code=vscodium --ozone-platform=wayland
 alias ls="eza --color=always --icons=always --long --all --group --header --numeric --octal-permissions --git --no-time"
-alias mkdir="mkdir -p"
-alias vim=nvim
 alias lzd=lazydocker
 alias lzg=lazygit
+alias mkdir="mkdir -p"
+alias vim=nvim
 
 # Shell integrations
 source <(fzf --zsh)

@@ -46,7 +46,7 @@ stow --delete [package] # E.g.: `stow --delete nvim`
 **Note:** A wallpaper is required for Hyprpaper, Rofi and Swaylock to appear correctly.
 
 ```bash
-ln -sf ~/.config/wallpapers/astronaut.png ~/.config/wallpaper
+ln -sf ~/dotfiles/wallpapers/swirls.jpg ~/.config/wallpaper
 ```
 
 # Resources
