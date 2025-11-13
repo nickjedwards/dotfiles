@@ -23,5 +23,8 @@
     "workbench.iconTheme": "catppuccin-mocha",
     "workbench.layoutControl.enabled": false,
     "workbench.navigationControl.enabled": false,
-    "workbench.statusBar.visible": false
+    "workbench.statusBar.visible": false,
+    "[json]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
   }
