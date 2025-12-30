@@ -26,5 +26,6 @@
     "workbench.statusBar.visible": false,
     "[json]": {
       "editor.defaultFormatter": "esbenp.prettier-vscode"
-    }
+    },
+    "claudeCode.preferredLocation": "panel"
   }

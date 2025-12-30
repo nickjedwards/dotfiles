@@ -1,140 +1,176 @@
-@import "theme.css";
+@import url("../../.cache/wal/colors-waybar.css");
 
 * {
-    box-shadow: none;
-    text-shadow: none;
+    all: unset;
+    font-family: JetBrainsMono NFP;
+    font-size: 1rem;
+    min-height: 0;
     border: none;
     border-radius: 0;
-    font-family: "JetBrainsMono NFP", Helvetica, Arial, sans-serif;
-    font-size: 14px;
-    min-height: 0;
+    padding: 0;
+    margin: 0;
+}
+
+tooltip {
+    background: alpha(@background, .90);
+    border-radius: 1rem;
+}
+
+tooltip box {
+  padding: 8px;
+}
+
+tooltip label {
+  color: @cursor;
 }
 
 window#waybar {
     background: transparent;
-    color: @text;
-    margin: 5px 5px;
+    color: @cursor;
 }
 
-tooltip {
-    background: @base;
-    border-radius: 5px;
-    border: 1px solid @text;
-}
-
-tooltip label {
-  color: @text;
-  padding: 0 5px;
-}
-
-#taskbar button {
-    color: @text;
-    border-radius: 10px;
-    padding: 0;
-    margin: 3px 5px;
-    animation: gradient_f 20s ease-in infinite;
-    transition: all 0.5s cubic-bezier(.55,-0.68,.48,1.682);
-}
-
-#taskbar button.active {
-    background: @blue;
-    color: @crust;
-    padding: 0 10px;
-    animation: gradient_f 20s ease-in infinite;
-    transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682);
-}
-
-#taskbar button:hover {
-    background: @blue;
-    color: @crust;
-    padding: 0 5px;
-    animation: gradient_f 20s ease-in infinite;
-    transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682);
+#workspaces {
+    background-color: alpha(@background, 0.90);
+    border-radius: 1rem;
+    margin: 3px 5px 3px 20px;
 }
 
 #workspaces button {
-    color: @text;
-    border-radius: 10px;
-    padding: 0;
-    margin: 3px 5px;
-    animation: gradient_f 20s ease-in infinite;
+    background-color: @color3;
+    color: @cursor;
+    border-radius: 1rem;
+    padding: 0 8px;
+    margin: 3px 4px;
     transition: all 0.5s cubic-bezier(.55,-0.68,.48,1.682);
 }
 
+#workspaces button.empty {
+    background-color: transparent;
+    color: alpha(@cursor, 0.33);
+}
+
 #workspaces button.active {
-    background: @text;
-    color: @crust;
-    padding: 0 10px;
-    animation: gradient_f 20s ease-in infinite;
-    transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682);
+    background-color: @color6;
+    color: @color1;
+    padding: 0 15px;
 }
 
 #workspaces button.urgent {
     background: transparent;
-    color: @red;
-    animation: gradient_f 20s ease-in infinite;
-    transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682);
+    color: #f38ba8;
 }
 
 #workspaces button:hover {
-    background: @blue;
-    color: @crust;
-    padding: 0 5px;
-    animation: gradient_f 20s ease-in infinite;
-    transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682);
+    background-color: @color6;
+    color: @color1;
 }
 
-#tray menu {
-    background-color: alpha(@base, .9);
-    color: @text;
-    border-radius: 5px;
-    border: 1px solid @text;
+#mpris {
+    background-color: alpha(@background, 0.90);
+    color: @cursor;
+    border-radius: 1rem;
+    padding: 0 15px;
+    margin: 3px 5px;
 }
 
-#tray menu menuitem:hover {
-  background-color: @text;
-  color: @mantle;
-}
-
-#tray menu separator {
-    background-color: @text;
-    min-height: 1px;
-}
-
-#custom-rofi,
-#custom-explorer,
-#taskbar,
-#window,
-#workspaces,
 #idle_inhibitor,
 #clock,
-#mpris,
-#tray,
+#custom-notification,
 #custom-pacman,
+#cpu,
+#memory,
 #network,
+#bluetooth,
 #pulseaudio,
 #backlight,
 #battery,
-#custom-system,
-#cpu,
-#memory,
-#disk,
-#user,
-#custom-power,
-#custom-l_end,
-#custom-r_end {
-    background: alpha(@crust, .8);
-    color: @text;
-    margin: 5px 0;
-    padding: 0 5px;
+#tray,
+#custom-lock,
+#custom-power {
+    background-color: alpha(@background, 0.90);
+    padding: 0;
+    margin: 3px 0;
 }
 
-#custom-l_end {
-    border-radius: 20px 0 0 20px;
-    margin-left: 5px;
+#idle_inhibitor {
+    color: @cursor;
+    border-radius: 1rem 0 0 1rem;
+    padding: 0 0 0 15px;
+    margin: 3px 0 3px 5px;
 }
 
-#custom-r_end {
-    border-radius: 0 20px 20px 0;
-    margin-right: 5px;
+#clock {
+    color: @cursor;
+    border-radius: 0 1rem 1rem 0;
+    padding: 0 15px 0 7px;
+    margin: 3px 5px 3px 0;
+}
+
+#custom-pacman {
+    color: @cursor;
+    border-radius: 1rem;
+    padding: 0 15px;
+    margin: 3px 5px;
+}
+
+#cpu {
+    color: @cursor;
+    border-radius: 1rem 0 0 1rem;
+    padding: 0 7.5px 0 15px;
+    margin: 3px 0 3px 5px;
+}
+
+#memory {
+    color: @cursor;
+    border-radius: 0 1rem 1rem 0;
+    padding: 0 15px 0 7.5px;
+    margin: 3px 5px 3px 0;
+}
+
+#network {
+    color: @cursor;
+    border-radius: 1rem 0 0 1rem;
+    padding: 0 7.5px 0 15px;
+    margin: 3px 0 3px 5px;
+}
+
+#bluetooth {
+    color: #89b4fa;
+    border-radius: 0 1rem 1rem 0;
+    padding: 0 15px 0 7.5px;
+    margin: 3px 5px 3px 0;
+}
+
+#pulseaudio {
+    color: @cursor;
+    border-radius: 1rem 0 0 1rem;
+    padding: 0 7.5px 0 15px;
+    margin: 3px 0 3px 5px;
+}
+
+#backlight {
+    color: #f9e2af;
+    padding: 0 7.5px;
+}
+
+#battery {
+    color: #a6e3a1;
+    border-radius: 0 1rem 1rem 0;
+    padding: 0 15px 0 7.5px;
+    margin: 3px 5px 3px 0;
+}
+
+#battery.charging {
+    color: #a6e3a1;
+}
+
+#battery.warning:not(.charging) {
+    color: #f38ba8;
+}
+
+#custom-notification {
+    color: #f9e2af;
+    border-radius: 1rem;
+    padding: 0 15px;
+    margin: 3px 20px 3px 5px;
 }

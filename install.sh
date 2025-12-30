@@ -1,13 +1,17 @@
 #!/usr/bin/env bash
 
-# Install Pacman packages
-yes '' | sudo pacman -S bat \
+# Install pacman/AUR packages
+yes '' | paru -S bat \
+    bibata-cursor-theme-bin \
     brightnessctl \
-    dunst \
+    btop \
+    cliphist \
     eza \
     fastfetch \
     fd \
+    flameshot \
     fzf \
+    ghostty \
     git-delta \
     grim \
     hyprcursor \
@@ -15,40 +19,35 @@ yes '' | sudo pacman -S bat \
     hyprland \
     hyprpaper \
     jq \
+    lazydocker-bin \
+    lazygit \
     less \
     neovim \
+    numix-circle-icon-theme-git \
+    oh-my-posh \
+    pavucontrol \
     pacman-contrib \
     pass \
-    pavucontrol \
+    polkit-gnome \
+    pywal-git \
     qt5-wayland \
     qt6-wayland \
     ripgrep \
+    rofi-wayland \
     stow \
+    swaylock-effects \
+    swaync-git \
     tmux \
     ttf-jetbrains-mono-nerd \
     ttf-nerd-fonts-symbols \
-    wireplumber \
-    xdg-desktop-portal-hyprland \
-    zoxide \
-    zsh
-
-# Install AUR packages
-yes '' | paru -S bibata-cursor-theme-bin \
-    btop \
-    flameshot \
-    ghostty \
-    lazydocker-bin \
-    lazygit \
-    nerdfetch \
-    numix-circle-icon-theme-git \
-    oh-my-posh \
-    polkit-gnome \
-    rofi-wayland \
-    swaylock-effects \
     vscodium-bin \
     waybar \
+    wireplumber \
     wlogout \
-    zen-browser-bin
+    xdg-desktop-portal-hyprland \
+    zen-browser-bin \
+    zoxide \
+    zsh
 
 # Zsh && Oh My ZSH!
 chsh -s $(which zsh)
@@ -64,9 +63,11 @@ stow tmux
 mkdir -p ${HOME}/.config/tmux/plugins/catppuccin
 git clone -b v2.1.3 https://github.com/catppuccin/tmux.git ${HOME}/.config/tmux/plugins/catppuccin/tmux
 
+# Configure bat theme
 stow bat
-# Apply Bat theme
 bat cache --build
 
 # Setup wallpaper
-ln -sf ${HOME}/dotfiles/wallpapers/swirls.jpg ${HOME}/.config/wallpaper
+stow wal
+ln -sf ${HOME}/dotfiles/walls/swirls.jpg ${HOME}/.config/wallpaper
+wal -i ~/.config/wallpaper

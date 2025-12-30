@@ -1,52 +1,37 @@
 {
-    "custom/rofi": {
-        "format": "",
-        "on-click": "~/.config/hypr/scripts/rofi",
-        "tooltip": false
-    },
-
-    "custom/explorer": {
-        "format": "󱂵",
-        "on-click": "nautilus",
-        "tooltip": false
-    },
-
-    "wlr/taskbar": {
-        "format": "{icon}",
-        "icon-theme": "Numix-Circle",
-        "icon-size": 18,
-        "tooltip-format": "{title}",
-        "on-click": "activate",
-        "on-click-middle": "close",
-        "sort-by-app-id": true
-    },
-
-    "hyprland/window": {
-        "format": "{title}",
-        "icon": false,
-        "separate-outputs": true,
-        "max-length": 50
-    },
-
-    "hyprland/workspaces" : {
+    "hyprland/workspaces": {
         "on-click": "activate",
         "active-only": true,
         "all-outputs": false,
         "format": "{icon}",
         "format-icons": {
             "1": "",
-            "2": "",
-            "3": "󰈹",
+            "2": "󰨞",
+            "3": "",
             "4": "",
             "5": "",
             "urgent": "",
-            "default": ""
+            "default": ""
         },
         "persistent-workspaces": {
             "*": [1, 2, 3, 4, 5]
-        }
+        },
+        "sort-by-number": true
     },
-
+    "mpris": {
+        "format": "{player_icon} {title} — {artist}",
+        "format-paused": "{status_icon} <i>{title} - {artist}</i>",
+        "player-icons": {
+            "default": "",
+            "mpv": ""
+        },
+        "status-icons": {
+            "paused": ""
+        },
+        "dynamic-len": 50,
+        "interval": 1,
+        "tooltip": false
+    },
     "idle_inhibitor": {
         "format": "{icon}",
         "format-icons": {
@@ -54,15 +39,13 @@
             "deactivated": ""
         }
     },
-
     "clock": {
         "timezones": [
           "Australia/Melbourne",
           "America/Los_Angeles"
         ],
-        "interval": 60,
         "format": "{0:%I:%M %p} 󰸘 {0:%d·%m·%y}",
-        "tooltip-format": "<tt>{calendar}</tt>",
+        "tooltip-format": "<big>{:%B %Y}</big>\n\n<tt><small>{calendar}</small></tt>",
         "calendar": {
             "mode": "year",
             "mode-mon-col": 3,
@@ -83,48 +66,56 @@
             "on-scroll-down": "shift_down"
         }
     },
-
-    "mpris": {
-        "format": "{player_icon} {dynamic}",
-        "format-paused": "{status_icon} <i>{dynamic}</i>",
-        "player-icons": {
-            "default": "",
-            "mpv": ""
-        },
-        "status-icons": {
-            "paused": ""
-        },
-        "dynamic-len": 50,
-        "interval": 1
-    },
-
-    "tray": {
-        "icon-size": 18,
-        "spacing": 10
-    },
-
     "custom/pacman": {
-        "format": "󰮯 {}",
-        "tooltip-format": "󰮯 <b>{}</b> updates",
+        "format": "<span color='#fcc92f'>󰮯</span> {}",
+        "tooltip-format": "󰮯 {} updates",
         "exec": "(checkupdates ; paru -Qua) | wc -l",
         "interval": 30,
         "signal": 8,
         "on-click": "ghostty -e paru"
     },
-
-    "network": {
+    "cpu": {
+        "interval": 10,
+        "format": " {usage}%",
+        "format-alt": "{icon0}{icon1}{icon2}{icon3}{icon4}{icon5}{icon6}{icon7}",
+        "format-icons": ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"]
+    },
+    "memory": {
+        "states": {
+            "c": 90,
+            "h": 60,
+            "m": 30
+        },
+        "interval": 30,
+        "format": "󰾆 {}%",
+        "format-m": "󰾅 {}%",
+        "format-h": "󰓅 {}%",
+        "format-c": " {}%",
+        "max-length": 10,
         "tooltip": true,
+        "tooltip-format": " {used:0.1f}GB/{total:0.1f}GB"
+    },
+    "network": {
         "format": "{ifname}",
-        "format-wifi": " {essid}",
+        "format-wifi": "",
         "format-ethernet": "󰈀",
-        "tooltip-format": "Network: <b>{essid}</b>\nSignal strength: <b>{signaldBm}dBm ({signalStrength}%)</b>\nFrequency: <b>{frequency}MHz</b>\nInterface: <b>{ifname}</b>\nIP: <b>{ipaddr}/{cidr}</b>\nGateway: <b>{gwaddr}</b>\nNetmask: <b>{netmask}</b>",
         "format-linked": "󰈀 {ifname} (No IP)",
         "format-disconnected": "󰖪",
-        "tooltip-format-disconnected": "Disconnected",
         "format-alt": "<span foreground='#94e2d5'> {bandwidthDownBytes}</span> <span foreground='#f9e2af'> {bandwidthUpBytes}</span>",
-        "interval": 3
+        "interval": 3,
+        "tooltip": true,
+        "tooltip-format": "Network: <b>{essid}</b>\nSignal strength: <b>{signaldBm}dBm ({signalStrength}%)</b>\nFrequency: <b>{frequency}MHz</b>\nInterface: <b>{ifname}</b>\nIP: <b>{ipaddr}/{cidr}</b>\nGateway: <b>{gwaddr}</b>\nNetmask: <b>{netmask}</b>",
+        "tooltip-format-disconnected": "Disconnected"
     },
-
+    "bluetooth": {
+        "format": "",
+        "format-disabled": "󰂲",
+        "format-off": "",
+        "format-no-controller": "",
+        "interval": 30,
+        "on-click": "blueman-manager",
+        "tooltip-format": "{controller_alias}\t{controller_address}\n{num_connections} connected"
+    },
     "pulseaudio": {
         "format": "{icon} {volume}%",
         "format-muted": "",
@@ -143,20 +134,10 @@
         },
         "ignored-sinks": ["Easy Effects Sink"]
     },
-
-    "bluetooth": {
-        "format-disabled": "",
-        "format-off": "",
-        "interval": 30,
-        "on-click": "blueman-manager",
-        "format-no-controller": ""
-    },
-
     "backlight": {
         "format": "{icon} {percent}%",
         "format-icons": ["", "", "", "", "", "", "", "", ""]
     },
-
     "battery": {
         "states": {
             "good": 95,
@@ -171,80 +152,24 @@
         "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
         "rotate": 0
     },
-
-    "custom/system": {
-        "format": "",
-        "tooltip": false,
-        "on-click": "ghostty -e btop"
-    },
-
-    "cpu": {
-        "interval": 10,
-        "format": "󰍛 {usage}%",
-        "format-alt": "{icon0}{icon1}{icon2}{icon3}",
-        "format-icons": ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"]
-    },
-
-    "memory": {
-        "states": {
-            "c": 90, // Critical
-            "h": 60, // High
-            "m": 30 // Medium
+    "custom/notification": {
+        "format": "{icon}",
+        "format-icons": {
+            "notification": "󱅫",
+            "none": "󰂜",
+            "dnd-notification": "󰂠",
+            "dnd-none": "󰪓",
+            "inhibited-notification": "󰂛",
+            "inhibited-none": "󰪑",
+            "dnd-inhibited-notification": "󰂛",
+            "dnd-inhibited-none": "󰪑"
         },
-        "interval": 30,
-        "format": "󰾆 {used}GB",
-        "format-m": "󰾅 {used}GB",
-        "format-h": "󰓅 {used}GB",
-        "format-c": " {used}GB",
-        "format-alt": "󰾆 {percentage}%",
-        "max-length": 10,
+        "return-type": "json",
+        "exec-if": "which swaync-client",
+        "exec": "swaync-client -swb",
+        "on-click": "swaync-client -t -sw",
+        "on-click-right": "swaync-client -d -sw",
         "tooltip": true,
-        "tooltip-format": "󰾆 {percentage}%\n {used:0.1f}GB/{total:0.1f}GB"
-    },
-
-    "disk": {
-        "format": " {percentage_used}%",
-        "path": "/home",
-        "unit": "GB"
-    }, 
-
-    "group/resources": {
-        "orientation": "inherit",
-        "drawer": {
-            "transition-duration": 300,
-            "transition-left-to-right": false
-        },        
-        "modules": [
-            "custom/system",
-            "cpu",
-            "memory",
-            "disk"
-        ]
-    },
-
-    "custom/power": {
-        "format": "",
-        "on-click": "~/.config/hypr/scripts/wlogout",
-        "interval" : "once",
-        "tooltip": true,
-        "tooltip-format": " Power Menu"
-    },
-
-    "user": {
-        "format": " {user}",
-        "icon": true,
-        "open-on-click": true
-    },
-
-    "custom/l_end": {
-        "format": " ",
-        "interval" : "once",
-        "tooltip": false
-    },
-
-    "custom/r_end": {
-        "format": " ",
-        "interval" : "once",
-        "tooltip": false
+        "escape": true
     }
 }

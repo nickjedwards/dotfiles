@@ -1,0 +1,143 @@
+configuration {
+    modes:                       [drun, filebrowser, ssh, run];
+    show-icons:                  true;
+    icon-theme:                  "Numix-Circle";
+    display-drun:                " ";
+    display-run:                 " ";
+    display-filebrowser:         " ";
+    display-ssh:                 "";
+    drun-display-format:         "{name}";
+    font:                        "JetBrainsMono NFP 13";
+}
+
+@theme "~/.cache/wal/colors-rofi-dark"
+
+window {
+    height:                      33em;
+    width:                       63em;
+    transparency:                "real";
+    fullscreen:                  false;
+    cursor:                      "default";
+    border:                      2px;
+    border-color:                @active-background;
+    border-radius:               30px;
+    padding:                     0;
+    background-color:            #111017e6;
+}
+
+mainbox {
+    spacing:                     0;
+    padding:                     0;
+    orientation:                 horizontal;
+    children:                    [ dummywall, dummylist ];
+    border:                      0;
+    background-color:            transparent;
+}
+
+dummywall {
+    padding:                     0;
+    width:                       37em;
+    expand:                      false;
+    orientation:                 horizontal;
+    children:                    [ mode-switcher, inputbar ];
+    background-image:            url("~/.config/wallpaper", height);
+}
+
+mode-switcher {
+    orientation:                 vertical;
+    width:                       3.8em;
+    padding:                     9.2em 0.5em;
+    spacing:                     1.2em;
+    background-color:            transparent;
+}
+
+inputbar {
+    children:                    [ entry ];
+    background-color:            transparent;
+}
+
+dummylist {
+    children:                    [ dummy, listview, dummy ];
+    background-color:            transparent;
+    padding:                     0 1em;
+    spacing:                     0;
+}
+
+dummy {
+    expand:                      true;
+    background-color:            transparent;
+}
+
+listview {
+    expand:                      false;
+    columns:                     1;
+    lines:                       7;
+    scrollbar:                   false;
+    cycle:                       true;
+    layout:                      vertical;
+    spacing:                     10px;
+    background-color:            transparent;
+    padding:                     0;
+    border:                      0;
+}
+
+button {
+    cursor:                      pointer;
+    border-radius:               100%;
+}
+
+entry {
+    enabled:                     false;
+}
+
+element {
+    spacing:                     10px;
+    padding:                     5px;
+    cursor:                      pointer;
+    orientation:                 horizontal;
+    children:                    [ element-icon, element-text ];
+    border-radius:               15px;
+}
+
+element normal.normal {
+    background-color:            transparent;
+}
+
+element normal.urgent {
+    background-color:            transparent;
+}
+
+element normal.active {
+    background-color:            transparent;
+}
+
+element alternate.normal {
+    background-color:            transparent;
+}
+
+element alternate.urgent {
+    background-color:            transparent;
+}
+
+element-icon {
+    size:                        3em;
+    cursor:                      inherit;
+}
+
+element-text {
+    cursor:                      inherit;
+    highlight:                   inherit;
+    vertical-align:              0.5;
+}
+
+error-message {
+    text-transform:              capitalize;
+    children:                    [ textbox ];
+}
+
+textbox {
+    text-color:                  inherit;
+    background-color:            inherit;
+    vertical-align:              0.5;
+    horizontal-align:            0.5;
+}
