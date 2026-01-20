@@ -7,14 +7,12 @@
     "reload_style_on_change": true,
     "include": ["~/.config/waybar/modules.jsonc"],
     "modules-left": ["hyprland/workspaces"],
-    "modules-center": ["idle_inhibitor", "clock"],
+    "modules-center": ["idle_inhibitor", "clock", "custom/notification"],
     "modules-right": [
         "custom/pacman",
-        "network",
-        "bluetooth",
+        "tray",
         "pulseaudio",
         "backlight",
-        "battery",
-        "custom/notification"
+        "battery"
     ]
 }

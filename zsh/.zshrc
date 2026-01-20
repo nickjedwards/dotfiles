@@ -165,7 +165,10 @@ alias vim=nvim
 source <(fzf --zsh)
 [ -d ~/fzf-git.sh ] && source ~/fzf-git.sh/fzf-git.sh
 eval "$(zoxide init --cmd cd zsh)"
-eval "$(oh-my-posh init zsh --config ~/dotfiles/ohmyposh/catppuccin-mocha.toml)"
+eval "$(starship init zsh)"
+
+# AWS Profile
+export AWS_PROFILE=nick.edwards
 
 # Claude
 export PATH="$HOME/.local/bin:$PATH"

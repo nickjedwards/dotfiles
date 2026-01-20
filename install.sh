@@ -9,7 +9,6 @@ yes '' | paru -S bat \
     eza \
     fastfetch \
     fd \
-    flameshot \
     fzf \
     ghostty \
     git-delta \
@@ -24,7 +23,6 @@ yes '' | paru -S bat \
     less \
     neovim \
     numix-circle-icon-theme-git \
-    oh-my-posh \
     pavucontrol \
     pacman-contrib \
     pass \
@@ -34,6 +32,9 @@ yes '' | paru -S bat \
     qt6-wayland \
     ripgrep \
     rofi-wayland \
+    satty \
+    slurp \
+    starship \
     stow \
     swaylock-effects \
     swaync-git \

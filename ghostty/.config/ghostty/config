@@ -44,6 +44,7 @@
 
 theme = catppuccin-mocha
 
+gtk-single-instance = false
 window-theme = ghostty
 window-decoration = true
 adw-toolbar-style = flat

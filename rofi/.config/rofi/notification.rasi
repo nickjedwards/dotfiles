@@ -19,7 +19,7 @@ window {
     border-color:                @active-background;
     border-radius:               30px;
     padding:                     0;
-    background-color:            #111017e6;
+    background-color:            #11111be6;
 }
 
 mainbox {

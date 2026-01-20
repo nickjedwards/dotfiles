@@ -74,6 +74,14 @@
         "signal": 8,
         "on-click": "ghostty -e paru"
     },
+    "tray": {
+        "icon-size": 16,
+        "spacing": 10,
+        "show-passive-items": true,
+        "icons": {
+            "blueman": "bluetooth"
+        }
+    },
     "cpu": {
         "interval": 10,
         "format": " {usage}%",

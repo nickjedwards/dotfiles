@@ -101,9 +101,15 @@ window#waybar {
 
 #clock {
     color: @cursor;
+    padding: 0 7.5px;
+    margin: 3px 0;
+}
+
+#custom-notification {
+    color: #f9e2af;
     border-radius: 0 1rem 1rem 0;
-    padding: 0 15px 0 7px;
-    margin: 3px 5px 3px 0;
+    padding: 0 15px 0 0px;
+    margin: 3px 0;
 }
 
 #custom-pacman {
@@ -113,18 +119,42 @@ window#waybar {
     margin: 3px 5px;
 }
 
-#cpu {
+#tray {
     color: @cursor;
-    border-radius: 1rem 0 0 1rem;
-    padding: 0 7.5px 0 15px;
-    margin: 3px 0 3px 5px;
+    border-radius: 1rem;
+    padding: 0 15px;
+    margin: 3px 5px;
 }
 
-#memory {
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+    background-color: #f38ba8;
+}
+
+#tray menu {
+    background-color: alpha(@background, 0.90);
+    border-radius: 1rem;
+    padding: 10px;
+}
+
+#tray menu menuitem {
     color: @cursor;
-    border-radius: 0 1rem 1rem 0;
-    padding: 0 15px 0 7.5px;
-    margin: 3px 5px 3px 0;
+    border-radius: 4px;
+    padding: 3px 8px;
+}
+
+#tray menu menuitem:hover {
+    color: @background;
+    background: @foreground;
+}
+
+#tray menu separator {
+    background: transparent;
+    margin: 4px 0;
 }
 
 #network {
@@ -157,7 +187,7 @@ window#waybar {
     color: #a6e3a1;
     border-radius: 0 1rem 1rem 0;
     padding: 0 15px 0 7.5px;
-    margin: 3px 5px 3px 0;
+    margin: 3px 20px 3px 0;
 }
 
 #battery.charging {
@@ -166,11 +196,4 @@ window#waybar {
 
 #battery.warning:not(.charging) {
     color: #f38ba8;
-}
-
-#custom-notification {
-    color: #f9e2af;
-    border-radius: 1rem;
-    padding: 0 15px;
-    margin: 3px 20px 3px 5px;
 }

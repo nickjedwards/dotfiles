@@ -22,7 +22,7 @@ window {
     border-color:                @active-background;
     border-radius:               30px;
     padding:                     0;
-    background-color:            #111017e6;
+    background-color:            #11111be6;
 }
 
 mainbox {
@@ -92,11 +92,12 @@ entry {
 
 element {
     spacing:                     10px;
-    padding:                     5px;
+    padding:                     5px 10px;
     cursor:                      pointer;
     orientation:                 horizontal;
     children:                    [ element-icon, element-text ];
     border-radius:               15px;
+    background-color:            transparent;
 }
 
 element normal.normal {
@@ -111,6 +112,19 @@ element normal.active {
     background-color:            transparent;
 }
 
+element selected.normal {
+    background-color:            @selected-normal-background;
+    text-color:                  @selected-normal-foreground;
+}
+
+element selected.urgent {
+    background-color:            @selected-urgent-background;
+}
+
+element selected.active {
+    background-color:            @selected-active-background;
+}
+
 element alternate.normal {
     background-color:            transparent;
 }
@@ -119,15 +133,22 @@ element alternate.urgent {
     background-color:            transparent;
 }
 
+element alternate.active {
+    background-color:            transparent;
+}
+
 element-icon {
     size:                        3em;
     cursor:                      inherit;
+    background-color:            transparent;
 }
 
 element-text {
     cursor:                      inherit;
     highlight:                   inherit;
     vertical-align:              0.5;
+    background-color:            transparent;
+    text-color:                  inherit;
 }
 
 error-message {
