@@ -67,21 +67,20 @@ tooltip label {
     background: linear-gradient(90deg, @pink 0%, @mauve 100%);
     font-weight: 800;
     min-width: 24px;
-    box-shadow: 0 0 3px alpha(@mauve, 0.5);
+    /* box-shadow: 0 0 3px alpha(@mauve, 0.5); */
 }
 
 #workspaces button.empty {
-    color: @overlay0;
+    color: @surface0;
     background: transparent;
 }
 
 #workspaces button.empty:hover {
-    background: alpha(@overlay0, 0.12);
+    background: @base;
 }
 
 #workspaces button.empty.active {
-    color: @surface0;
-    background: @overlay0;
+    background: @base;
     box-shadow: none;
 }
 
@@ -183,7 +182,7 @@ tooltip label {
 #battery.icon {
     color: @mantle;
     padding: 0 5px 0 10px;
-    margin: 0 0 0 4px;
+    margin: 0 0 0 7.5px;
     border-radius: 13px 0 0 13px;
 }
 
@@ -194,7 +193,7 @@ tooltip label {
 #battery.text {
     background: @mantle;
     padding: 0 10px;
-    margin: 0 4px 0 0;
+    margin: 0 7.5px 0 0;
     border-radius: 0 13px 13px 0;
     transition: all 0.3s ease;
 }

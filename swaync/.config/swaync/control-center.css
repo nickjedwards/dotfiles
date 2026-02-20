@@ -208,17 +208,15 @@ scrollbar trough {
 
 /* Mpris widget */
 .widget-mpris {
-  background: transparent;
-  margin: 7.5px 0;
+  margin-top: 7.5px;
+  margin-bottom: 7.5px;
   padding: 0;
 }
 
 .widget-mpris .widget-mpris-player {
   background: linear-gradient(135deg, alpha(@base, .06) 0%, alpha(@base, .04) 100%);
-  border: 1px solid alpha(@base, .08);
   border-radius: var(--border-radius);
-  padding: 20px 15px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, .08);
+  padding: 15px 10px;
 }
 
 .widget-mpris .widget-mpris-player .mpris-background {
@@ -249,20 +247,20 @@ scrollbar trough {
 
 .widget-mpris .widget-mpris-player .mpris-overlay button {
   color: @text;
-  background: alpha(@base, .08);
+  background: alpha(@surface0, .5);
   opacity: 0.75;
   border-radius: 50%;
   margin: 12px 6px 0;
   min-width: 47px;
   min-height: 10px;
   padding: 5px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .05);
   transition: all 150ms cubic-bezier(0.4, 0.0, 0.2, 1);
 }
 
 .widget-mpris .widget-mpris-player .mpris-overlay button:hover {
-  background: alpha(@subtext1, .2);
+  background: @base;
   transform: scale(1.08);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, .15);
 }
 
 .widget-mpris .widget-mpris-player .mpris-overlay button:active {
@@ -271,14 +269,14 @@ scrollbar trough {
 
 /* Play/Pause button */
 .widget-mpris .widget-mpris-player .mpris-overlay button:nth-child(3) {
+  color: @base;
   min-width: 48px;
   min-height: 48px;
-  background: alpha(@blue, .15);
+  background: linear-gradient(90deg, alpha(@lavender, .75) 0%, alpha(@blue, .75) 100%);
 }
 
 .widget-mpris .widget-mpris-player .mpris-overlay button:nth-child(3):hover {
-  background: alpha(@blue, .25);
-  box-shadow: 0 4px 12px alpha(@blue, .3);
+  background: linear-gradient(90deg, @lavender 0%, @blue 100%);
 }
 
 /* Volume and Brightness widget */
