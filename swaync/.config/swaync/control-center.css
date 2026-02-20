@@ -1,0 +1,373 @@
+:root {
+  --border-radius: 13px;
+  --mpris-album-art-icon-size: 80px;
+}
+
+* {
+  all: unset;
+  font-size: 14px;
+  font-family: "JetBrainsMono NFP", sans-serif;
+  transition: all 200ms cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+trough highlight {
+  background: @overlay1;
+}
+
+scale {
+  margin: 0 7px;
+}
+
+scale trough {
+  margin: 0rem 1rem;
+  min-height: 8px;
+  min-width: 70px;
+  border-radius: 12.6px;
+}
+
+trough slider {
+  margin: -10px;
+  border-radius: 12.6px;
+  border: 1px solid @surface0;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.8);
+  transition: all 200ms cubic-bezier(0.4, 0.0, 0.2, 1);
+  background-color: @base;
+}
+
+trough slider:hover {
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.8), 0 0 8px @surface1;
+}
+
+trough {
+  background-color: @surface0;
+}
+
+/* Window behind control center and on all other monitors */
+.blank-window {
+  background: transparent;
+}
+
+.control-center {
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.8), inset 0 0 0 1px @surface0;
+  border-radius: var(--border-radius);
+  background: alpha(@mantle, .9);
+  color: @text;
+}
+
+/*** Widgets ***/
+.widget {
+  background: alpha(@base, 0.9);
+  border-radius: calc(var(--border-radius) / 2);
+  padding: 13px;
+  margin: 15px;
+}
+
+/* Title widget */
+.widget-title {
+  background: linear-gradient(90deg, @lavender 0%, @blue 100%);
+  border-radius: 0;
+  margin: 0;
+}
+
+.widget-title > label {
+  color: @base;
+  font-size: 1.3em;
+  font-weight: 600;
+}
+
+.widget-title button {
+  color: @text;
+  background: @surface0;
+  border-radius: calc(var(--border-radius) / 2);
+  box-shadow: inset 0 0 0 1px @surface1;
+  padding: 8px;
+}
+
+.widget-title button:hover {
+  background: @surface1;
+}
+
+.widget-title button:active {
+  background: @surface2;
+  transform: scale(0.95);
+}
+
+.widget-title button:disabled {
+  opacity: 0.75;
+}
+
+/* DND widget */
+.widget-dnd {
+  font-size: 1.1rem;
+  margin-bottom: 7.5px;
+}
+
+.widget-dnd > switch {
+  font-size: initial;
+  border-radius: 8px;
+  background: @surface0;
+}
+
+.widget-dnd > switch:checked {
+  background: linear-gradient(90deg, @lavender 0%, @blue 100%);
+}
+
+.widget-dnd > switch slider {
+  background: @surface1;
+  border-radius: 8px;
+}
+
+/* Notifications widget */
+.widget-notifications {
+  background: transparent;
+  margin-top: 7.5px;
+  margin-bottom: 7.5px;
+  padding: 0;
+}
+
+scrollbar slider {
+  margin: -3px;
+  opacity: 0.8;
+}
+
+scrollbar trough {
+  margin: 2px 0;
+}
+
+.control-center .control-center-list-placeholder {
+  /* The placeholder when there are no notifications */
+  color: @surface1;
+}
+
+.control-center .notification-row .notification-background {
+  background: @base;
+  border-radius: var(--border-radius);
+  margin: 7.5px 0;
+  box-shadow: inset 0 0 0 1px @mantle;
+  transition: all 200ms cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.control-center .notification-background .notification.low {
+  opacity: 0.8;
+}
+
+.control-center .notification-group .notification-group-close-button .close-button {
+  color: @base;
+  background: @red;
+  border-radius: calc(var(--border-radius) / 2);
+  padding: 2px;
+  margin: 15px 9px;
+}
+
+.control-center .notification-group .notification-group-close-button .close-button:hover {
+  background-color: @maroon;
+}
+
+.control-center .notification-group .notification-group-close-button .close-button:active {
+  background-color: @pink;
+}
+
+.control-center .notification-group .notification-group-buttons, .notification-group .notification-group-headers {
+  margin: 0 16px;
+  color: var(--text-color);
+}
+
+.control-center .notification-group .notification-group-headers {
+  /* Notification Group Headers */
+}
+
+.control-center .notification-group .notification-group-headers .notification-group-icon {
+  color: var(--text-color);
+  -gtk-icon-size: 24px;
+}
+
+.control-center .notification-group .notification-group-headers .notification-group-header {
+  color: var(--text-color);
+}
+
+.control-center .notification-group .notification-group-buttons {
+  /* Notification Group Buttons */
+}
+
+.control-center .notification-group.collapsed {
+  /* When another group is expanded, lower the opacity of the collapsed ones */
+}
+
+.control-center .notification-group.collapsed.not-expanded {
+  opacity: 0.5;
+}
+
+/* Notification actions */
+.control-center .notification-row .notification-background .notification > *:last-child > * .notification-action:hover {
+  transform: scale(1.02);
+}
+
+.control-center .notification-row .notification-background .notification > *:last-child > * .notification-action:active {
+  transform: scale(0.98);
+}
+
+/* Mpris widget */
+.widget-mpris {
+  background: transparent;
+  margin: 7.5px 0;
+  padding: 0;
+}
+
+.widget-mpris .widget-mpris-player {
+  background: linear-gradient(135deg, alpha(@base, .06) 0%, alpha(@base, .04) 100%);
+  border: 1px solid alpha(@base, .08);
+  border-radius: var(--border-radius);
+  padding: 20px 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .08);
+}
+
+.widget-mpris .widget-mpris-player .mpris-background {
+  filter: blur(13px) brightness(0.5);
+  opacity: 0.6;
+  border-radius: var(--border-radius);
+}
+
+.widget-mpris .widget-mpris-player .mpris-overlay .widget-mpris-album-art {
+  border-radius: var(--border-radius);
+  border: 1px solid alpha(@base, .12);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, .2);
+  margin: 0 15px 15px 0;
+  -gtk-icon-size: var(--mpris-album-art-icon-size);
+}
+
+.widget-mpris .widget-mpris-player .mpris-overlay .widget-mpris-title {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: @text;
+}
+
+.widget-mpris .widget-mpris-player .mpris-overlay .widget-mpris-subtitle {
+  font-weight: 400;
+  font-size: 0.9rem;
+  color: @subtext0;
+}
+
+.widget-mpris .widget-mpris-player .mpris-overlay button {
+  color: @text;
+  background: alpha(@base, .08);
+  opacity: 0.75;
+  border-radius: 50%;
+  margin: 12px 6px 0;
+  min-width: 47px;
+  min-height: 10px;
+  padding: 5px;
+  transition: all 150ms cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.widget-mpris .widget-mpris-player .mpris-overlay button:hover {
+  background: alpha(@subtext1, .2);
+  transform: scale(1.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .15);
+}
+
+.widget-mpris .widget-mpris-player .mpris-overlay button:active {
+  transform: scale(0.95);
+}
+
+/* Play/Pause button */
+.widget-mpris .widget-mpris-player .mpris-overlay button:nth-child(3) {
+  min-width: 48px;
+  min-height: 48px;
+  background: alpha(@blue, .15);
+}
+
+.widget-mpris .widget-mpris-player .mpris-overlay button:nth-child(3):hover {
+  background: alpha(@blue, .25);
+  box-shadow: 0 4px 12px alpha(@blue, .3);
+}
+
+/* Volume and Brightness widget */
+.widget-volume {
+  background: @base;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  padding-bottom: 7.5px;
+  margin-top: 7.5px;
+  margin-bottom: 0;
+}
+
+.widget-backlight {
+  background: @base;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  padding-top: 7.5px;
+  margin-top: 0;
+  margin-bottom: 7.5px;
+}
+
+.widget-volume label, 
+.widget-backlight label {
+  font-size: 1.3rem;
+  min-width: 30px;
+}
+
+.widget-volume label {
+  color: @sapphire;
+}
+
+.widget-volume trough highlight {
+  background: linear-gradient(90deg, @blue 0%, @sapphire 100%);
+}
+
+.widget-backlight label {
+  color: @yellow;
+}
+
+.widget-backlight trough highlight {
+  background: linear-gradient(90deg, @peach 0%, @yellow 100%);
+}
+
+/* Buttons widget */
+.widget-buttons-grid {
+  background: transparent;
+  margin-top: 7.5px;
+  margin-right: 7.5px;
+  margin-left: 7.5px;
+  padding: 0;
+}
+
+.widget-buttons-grid > flowbox > flowboxchild > button {
+  color: @blue;
+  background: @base;
+  margin: 0 7.5px;
+  border-radius: calc(var(--border-radius) / 2);
+  min-height: 48px;
+  min-width: 48px;
+  transition: all 200ms cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.widget-buttons-grid > flowbox > flowboxchild > button:hover {
+  color: @base;
+  background: linear-gradient(90deg, @lavender 0%, @blue 100%);
+}
+
+.widget-buttons-grid > flowbox > flowboxchild > button:active {
+  transform: scale(0.95);
+}
+
+.widget-buttons-grid > flowbox > flowboxchild > button label {
+  font-size: 1.5rem;
+  transition: transform 200ms cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+/* Animations */
+
+@keyframes slide-in {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.notification-row {
+  animation: slide-in 300ms cubic-bezier(0.4, 0.0, 0.2, 1);
+}

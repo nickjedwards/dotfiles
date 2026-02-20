@@ -12,11 +12,11 @@ yes '' | paru -S bat \
     fzf \
     ghostty \
     git-delta \
-    grim \
     hyprcursor \
     hypridle \
     hyprland \
     hyprpaper \
+    hyprshot \
     jq \
     lazydocker-bin \
     lazygit \
@@ -27,13 +27,12 @@ yes '' | paru -S bat \
     pacman-contrib \
     pass \
     polkit-gnome \
-    pywal-git \
+    power-profiles-daemon \
     qt5-wayland \
     qt6-wayland \
     ripgrep \
     rofi-wayland \
     satty \
-    slurp \
     starship \
     stow \
     swaylock-effects \
@@ -69,6 +68,4 @@ stow bat
 bat cache --build
 
 # Setup wallpaper
-stow wal
 ln -sf ${HOME}/dotfiles/walls/swirls.jpg ${HOME}/.config/wallpaper
-wal -i ~/.config/wallpaper
