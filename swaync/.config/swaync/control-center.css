@@ -291,10 +291,15 @@ scrollbar trough {
 
 .widget-backlight {
   background: @base;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-  padding-top: 7.5px;
-  margin-top: 0;
+  border-radius: 0;
+  padding: 7.5px 13px;
+  margin: 0 15px;
+}
+
+.widget-backlight.KB {
+  border-bottom-right-radius: calc(var(--border-radius) / 2);
+  border-bottom-left-radius: calc(var(--border-radius) / 2);
+  padding-bottom: 13px;
   margin-bottom: 7.5px;
 }
 

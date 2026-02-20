@@ -37,6 +37,7 @@ yes '' | paru -S bat \
     stow \
     swaylock-effects \
     swaync-git \
+    swayosd \
     tmux \
     ttf-jetbrains-mono-nerd \
     ttf-nerd-fonts-symbols \

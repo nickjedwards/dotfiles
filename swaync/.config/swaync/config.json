@@ -6,7 +6,7 @@
   "layer-shell": true,
   "layer-shell-cover-screen": true,
   "cssPriority": "user",
-  "control-center-margin-top": 14,
+  "control-center-margin-top": 20,
   "control-center-margin-right": 20,
   "control-center-margin-bottom": 20,
   "control-center-margin-left": 20,
@@ -45,6 +45,7 @@
     "mpris",
     "volume",
     "backlight",
+    "backlight#KB",
     "buttons-grid"
   ],
   "widget-config": {
@@ -75,7 +76,7 @@
       "min": 5
     },
     "backlight#KB": {
-      "label": " ",
+      "label": "",
       "device": "chromeos::kbd_backlight",
       "subsystem": "leds"
     },
