@@ -23,8 +23,8 @@ tooltip {
 }
 
 tooltip label {
-  color: @text;
-  padding: 4px 8px;
+    color: @text;
+    padding: 4px 8px;
 }
 
 /* Module Base Styling */
@@ -95,10 +95,10 @@ tooltip label {
 
 /* Window Title */
 #window {
-  color: @subtext1;
-  font-style: italic;
-  font-weight: 400;
-  font-size: 12px;
+    color: @subtext1;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 12px;
 }
 
 /* Idle inhibitor / Clock / Notifications */
@@ -208,7 +208,7 @@ tooltip label {
 }
 
 #custom-pacman.text:hover {
-  background: alpha(@peach, 0.12);
+    background: alpha(@peach, 0.12);
 }
 
 /* Pulseaudio */
@@ -221,11 +221,11 @@ tooltip label {
 }
 
 #pulseaudio.text:hover {
-  background: alpha(@sapphire, 0.12);
+    background: alpha(@sapphire, 0.12);
 }
 
 #pulseaudio.text.muted {
-  color: @overlay0;
+    color: @overlay0;
 }
 
 /* Network */
@@ -238,11 +238,11 @@ tooltip label {
 }
 
 #network.text:hover {
-  background: alpha(@teal, 0.12);
+    background: alpha(@teal, 0.12);
 }
 
 #network.text.disconnected {
-  color: @overlay0;
+    color: @overlay0;
 }
 
 /* Backlight */
@@ -255,7 +255,7 @@ tooltip label {
 }
 
 #backlight.text:hover {
-  background: alpha(@yellow, 0.12);
+    background: alpha(@yellow, 0.12);
 }
 
 /* Battery */
@@ -263,26 +263,43 @@ tooltip label {
     background: linear-gradient(90deg, @teal 0%, @green 100%);
 }
 
-#battery.text {
+#battery.icon.warning {
+    background: linear-gradient(90deg, @yellow 0%, @peach 100%);
+}
+
+#battery.icon.critical {
+    background: linear-gradient(90deg, @maroon 0%, @red 100%);
+}
+
+#battery.text,
+#battery.text:hover {
     color: @green;
     margin: 0;
 }
 
-#battery.text:hover {
-  background: alpha(@green, 0.12);
+#battery.text.warning,
+#battery.text.warning:hover {
+    color: @peach;
 }
 
-#battery.text.warning {
-  color: @peach;
-  background: alpha(@peach, 0.12);
-}
-
-#battery.text.critical {
-  color: @red;
-  background: alpha(@red, 0.12);
+#battery.text.critical,
+#battery.text.critical:hover {
+    color: @red;
 }
 
 #battery.text.charging,
 #battery.text.plugged {
-  color: @green;
+    color: @green;
+}
+
+#battery.text:hover {
+    background: alpha(@green, 0.12);
+}
+
+#battery.text.warning:hover {
+    background: alpha(@peach, 0.12);
+}
+
+#battery.text.critical:hover {
+    background: alpha(@red, 0.12);
 }
