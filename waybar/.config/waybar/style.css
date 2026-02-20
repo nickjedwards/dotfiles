@@ -64,10 +64,10 @@ tooltip label {
 
 #workspaces button.active {
     color: @base;
-    background: @mauve;
+    background: linear-gradient(90deg, @pink 0%, @mauve 100%);
     font-weight: 800;
     min-width: 24px;
-    /* box-shadow: 0 0 3px alpha(@mauve, 0.5); */
+    box-shadow: 0 0 3px alpha(@mauve, 0.5);
 }
 
 #workspaces button.empty {
@@ -82,6 +82,7 @@ tooltip label {
 #workspaces button.empty.active {
     color: @surface0;
     background: @overlay0;
+    box-shadow: none;
 }
 
 #workspaces button.urgent {
