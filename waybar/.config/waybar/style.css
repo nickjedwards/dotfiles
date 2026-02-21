@@ -263,43 +263,35 @@ tooltip label {
     background: linear-gradient(90deg, @teal 0%, @green 100%);
 }
 
-#battery.icon.warning {
+#battery.icon.warning:not(.charging) {
     background: linear-gradient(90deg, @yellow 0%, @peach 100%);
 }
 
-#battery.icon.critical {
+#battery.icon.critical:not(.charging) {
     background: linear-gradient(90deg, @maroon 0%, @red 100%);
 }
 
-#battery.text,
-#battery.text:hover {
+#battery.text {
     color: @green;
     margin: 0;
-}
-
-#battery.text.warning,
-#battery.text.warning:hover {
-    color: @peach;
-}
-
-#battery.text.critical,
-#battery.text.critical:hover {
-    color: @red;
-}
-
-#battery.text.charging,
-#battery.text.plugged {
-    color: @green;
 }
 
 #battery.text:hover {
     background: alpha(@green, 0.12);
 }
 
-#battery.text.warning:hover {
+#battery.text.warning:not(.charging) {
+    color: @peach;
+}
+
+#battery.text.warning:not(.charging):hover {
     background: alpha(@peach, 0.12);
 }
 
-#battery.text.critical:hover {
+#battery.text.critical:not(.charging) {
+    color: @red;
+}
+
+#battery.text.critical:not(.charging):hover {
     background: alpha(@red, 0.12);
 }

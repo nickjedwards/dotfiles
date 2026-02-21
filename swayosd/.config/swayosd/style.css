@@ -1,0 +1,60 @@
+@import '../waybar/colors.css';
+
+* {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+window#osd {
+  border-radius: 13px;
+  background: alpha(@mantle, 0.9);
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.8), inset 0 0 0 1px @surface0;
+}
+
+window#osd #container {
+  background: transparent;
+  margin: 0;
+}
+
+window#osd image {
+  -gtk-icon-transform: scale(0.7);
+  padding: 13px;
+}
+
+window#osd image,
+window#osd label {
+  color: @base;
+  background: linear-gradient(90deg, @lavender 0%, @blue 100%);
+}
+
+window#osd label:last-child {
+  color: @subtext1;
+  background: transparent;
+  margin: 0 13px 0 0;
+}
+
+window#osd progressbar:disabled,
+window#osd image:disabled {
+  opacity: 0.5;
+}
+
+window#osd progressbar {
+  min-height: 6px;
+  border-radius: 999px;
+  background: transparent;
+  border: none;
+}
+
+window#osd trough {
+  min-height: inherit;
+  border-radius: inherit;
+  border: none;
+  background: @surface0;
+}
+
+window#osd progress {
+  min-height: inherit;
+  border-radius: inherit;
+  border: none;
+  background: linear-gradient(90deg, @lavender 0%, @blue 100%);
+}

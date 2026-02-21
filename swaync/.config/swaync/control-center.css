@@ -247,7 +247,7 @@ scrollbar trough {
 
 .widget-mpris .widget-mpris-player .mpris-overlay button {
   color: @text;
-  background: alpha(@surface0, .5);
+  background: alpha(@base, .75);
   opacity: 0.75;
   border-radius: 50%;
   margin: 12px 6px 0;
@@ -259,7 +259,7 @@ scrollbar trough {
 }
 
 .widget-mpris .widget-mpris-player .mpris-overlay button:hover {
-  background: @base;
+  background: @surface0;
   transform: scale(1.08);
 }
 
@@ -272,11 +272,11 @@ scrollbar trough {
   color: @base;
   min-width: 48px;
   min-height: 48px;
-  background: linear-gradient(90deg, alpha(@lavender, .75) 0%, alpha(@blue, .75) 100%);
+  background: linear-gradient(90deg, @teal 0%, @green 100%);
 }
 
 .widget-mpris .widget-mpris-player .mpris-overlay button:nth-child(3):hover {
-  background: linear-gradient(90deg, @lavender 0%, @blue 100%);
+  background: linear-gradient(90deg, @teal 0%, @green 100%);
 }
 
 /* Volume and Brightness widget */

@@ -178,6 +178,11 @@
         "scroll-step": 5
     },
     "battery#icon": {
+        "states": {
+            "good": 95,
+            "warning": 30,
+            "critical": 15
+        },
         "format": "{icon}",
         "format-full": "{icon}",
         "format-charging": "󰂄",
