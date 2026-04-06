@@ -28,14 +28,9 @@ scale trough {
 trough slider {
   margin: -10px;
   border-radius: 12.6px;
-  border: 1px solid @surface0;
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.8);
   transition: all 200ms cubic-bezier(0.4, 0.0, 0.2, 1);
-  background-color: @base;
-}
-
-trough slider:hover {
-  box-shadow: 0 0 2px rgba(0, 0, 0, 0.8), 0 0 8px @surface1;
+  background: @surface1;
 }
 
 trough {
@@ -103,9 +98,9 @@ trough {
 }
 
 .widget-dnd > switch {
-  font-size: initial;
-  border-radius: 8px;
   background: @surface0;
+  border-radius: 12.6px;
+  font-size: initial;
 }
 
 .widget-dnd > switch:checked {
@@ -114,7 +109,7 @@ trough {
 
 .widget-dnd > switch slider {
   background: @surface1;
-  border-radius: 8px;
+  border-radius: 12.6px;
 }
 
 /* Notifications widget */
@@ -247,7 +242,7 @@ scrollbar trough {
 
 .widget-mpris .widget-mpris-player .mpris-overlay button {
   color: @text;
-  background: alpha(@base, .75);
+  background: alpha(@mantle, .9);
   opacity: 0.75;
   border-radius: 50%;
   margin: 12px 6px 0;
@@ -259,7 +254,7 @@ scrollbar trough {
 }
 
 .widget-mpris .widget-mpris-player .mpris-overlay button:hover {
-  background: @surface0;
+  background: @base;
   transform: scale(1.08);
 }
 
@@ -272,11 +267,11 @@ scrollbar trough {
   color: @base;
   min-width: 48px;
   min-height: 48px;
-  background: linear-gradient(90deg, @teal 0%, @green 100%);
+  background: linear-gradient(90deg, alpha(@sky, .9) 0%, alpha(@teal, .9) 100%);
 }
 
 .widget-mpris .widget-mpris-player .mpris-overlay button:nth-child(3):hover {
-  background: linear-gradient(90deg, @teal 0%, @green 100%);
+  background: linear-gradient(90deg, @sky 0%, @teal 100%);
 }
 
 /* Volume and Brightness widget */

@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+playing=$(playerctl metadata --format '  {{title}}')
+
+echo "$playing"

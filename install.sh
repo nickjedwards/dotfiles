@@ -15,6 +15,7 @@ yes '' | paru -S bat \
     hyprcursor \
     hypridle \
     hyprland \
+    hyprlock \
     hyprpaper \
     hyprshot \
     jq \
@@ -35,7 +36,6 @@ yes '' | paru -S bat \
     satty \
     starship \
     stow \
-    swaylock-effects \
     swaync-git \
     swayosd \
     tmux \

@@ -109,14 +109,11 @@
     },
     "custom/pacman#text": {
         "format": "{}",
-        "tooltip-format": "󰮯 {} updates",
+        "tooltip-format": "{} updates",
         "exec": "(checkupdates ; paru -Qua) | wc -l",
         "interval": 30,
         "signal": 8,
         "on-click": "ghostty -e paru"
-    },
-    "custom/pulseaudio-icon": {
-        "format": "󰮯"
     },
     "pulseaudio#icon": {
         "format": "{icon}",

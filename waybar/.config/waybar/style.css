@@ -63,7 +63,7 @@ tooltip label {
 }
 
 #workspaces button.active {
-    color: @base;
+    color: @mantle;
     background: linear-gradient(90deg, @pink 0%, @mauve 100%);
     font-weight: 800;
     min-width: 24px;
@@ -106,12 +106,9 @@ tooltip label {
     color: @rosewater;
     font-weight: 700;
     border-radius: 13px 0 0 13px;
+    border-top: 1px solid alpha(@rosewater, .12);
+    border-bottom: 1px solid alpha(@rosewater, .12);
     margin: 0;
-}
-
-#idle_inhibitor:hover {
-    color: @rosewater;
-    background: alpha(@rosewater, 0.1);
 }
 
 #clock {
@@ -119,24 +116,24 @@ tooltip label {
     font-weight: 700;
     font-size: 13.5px;
     border-radius: 0;
+    border-top: 1px solid alpha(@rosewater, .12);
+    border-bottom: 1px solid alpha(@rosewater, .12);
     margin: 0;
-}
-
-#clock:hover {
-    color: @rosewater;
-    background: alpha(@rosewater, 0.1);
 }
 
 #custom-notification {
     color: @rosewater;
     font-weight: 700;
+    border-top: 1px solid alpha(@rosewater, .12);
+    border-bottom: 1px solid alpha(@rosewater, .12);
     border-radius: 0 13px 13px 0;
     margin: 0;
 }
 
+#idle_inhibitor:hover,
+#clock:hover,
 #custom-notification:hover {
-    color: @rosewater;
-    background: alpha(@rosewater, 0.12);
+    background: alpha(@rosewater, 0.1);
 }
 
 /* Tray */
@@ -199,16 +196,23 @@ tooltip label {
 }
 
 /* Updates */
+#custom-pacman {
+    border: 2px solid #1919a6;
+}
+
 #custom-pacman.icon {
-    background: linear-gradient(90deg, @yellow 0%, @peach 100%);
+    color: #ffff00;
+    background: @mantle;
+    border-right: none;
 }
 
 #custom-pacman.text {
-    color: @peach;
+    color: #dea185;
+    border-left: none;
 }
 
 #custom-pacman.text:hover {
-    background: alpha(@peach, 0.12);
+    background: alpha(#1919a6, 0.12);
 }
 
 /* Pulseaudio */
@@ -218,6 +222,7 @@ tooltip label {
 
 #pulseaudio.text {
     color: @sapphire;
+    border: 1px solid alpha(@sapphire, .12);
 }
 
 #pulseaudio.text:hover {
@@ -235,6 +240,7 @@ tooltip label {
 
 #network.text {
     color: @teal;
+    border: 1px solid alpha(@teal, .12);
 }
 
 #network.text:hover {
@@ -252,6 +258,7 @@ tooltip label {
 
 #backlight.text {
     color: @yellow;
+    border: 1px solid alpha(@yellow, .12);
 }
 
 #backlight.text:hover {
@@ -273,6 +280,7 @@ tooltip label {
 
 #battery.text {
     color: @green;
+    border: 1px solid alpha(@green, .12);
     margin: 0;
 }
 
