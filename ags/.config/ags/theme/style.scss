@@ -1,0 +1,26 @@
+@use 'base' as *;
+@use 'clock';
+@use 'calendar';
+@use 'mpris';
+@use 'workspaces';
+
+button.quick-settings {
+  border-radius: $radius;
+  @include px-4;
+
+  & > box > image.audio {
+    color: $blue;
+  }
+
+  & > box > image.network {
+    color: $teal;
+  }
+
+  & > box > image.battery {
+    color: $green;
+  }
+
+  &:hover {
+    background: $base;
+  }
+}

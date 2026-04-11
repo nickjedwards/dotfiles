@@ -1,0 +1,94 @@
+@use 'base' as *;
+
+// Calendar
+
+calendar {
+  background: $base;
+  color: $text;
+  border: 1px solid $surface0;
+  border-radius: $radius;
+  padding: 8px;
+
+  > header {
+    background: transparent;
+    border-bottom: 1px solid $surface0;
+    padding: 4px 0 8px 0;
+
+    > button {
+      color: $blue;
+      background: transparent;
+      border: none;
+      border-radius: $radius;
+      min-height: 28px;
+      min-width: 28px;
+
+      &:hover {
+        background: $surface0;
+        color: $lavender;
+      }
+    }
+  }
+
+  > grid {
+    /* Day-of-week labels */
+    > label.day-name {
+      color: $subtext0;
+      font-weight: 600;
+      font-size: 12px;
+    }
+
+    /* Day cells */
+    > label.day-number {
+      color: $text;
+      border-radius: $radius;
+      font-size: 14px;
+      background: transparent;
+
+      &:hover {
+        color: $lavender;
+        background: rgba($lavender, 0.12);
+      }
+
+      /* Today */
+      &.today {
+        background: rgba($mauve, 0.12);
+        color: $mauve;
+        font-weight: bold;
+        border: none;
+        outline: none;
+        box-shadow: none;
+      }
+
+      /* Selected */
+      &:selected,
+      &.today:selected {
+        background: linear-gradient(90deg, $pink 0%, $mauve 100%);
+        color: $crust;
+        font-weight: bold;
+        border: none;
+        outline: none;
+        box-shadow: none;
+      }
+
+      &:selected:hover {
+        color: $crust;
+        background: $lavender;
+      }
+
+      /* Other month */
+      &.other-month {
+        color: $surface1;
+
+        &:hover {
+          background: $surface0;
+        }
+      }
+    }
+
+    /* Week numbers */
+    > label.week-number {
+      color: $surface2;
+      font-size: 11px;
+    }
+  }
+}

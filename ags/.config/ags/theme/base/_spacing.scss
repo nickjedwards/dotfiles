@@ -1,0 +1,46 @@
+// Base unit
+$spacing: 4px;
+
+// Spacing function: space(4) => 16px, space(2) => 8px
+@function space($n) {
+  @return $spacing * $n;
+}
+
+@mixin pr-1 {
+  padding-right: space(1);
+}
+
+@mixin pr-2 {
+  padding-right: space(2);
+}
+
+@mixin pr-4 {
+  padding-right: space(4);
+}
+
+@mixin pl-1 {
+  padding-left: space(1);
+}
+
+@mixin pl-2 {
+  padding-left: space(2);
+}
+
+@mixin pl-4 {
+  padding-left: space(4);
+}
+
+@mixin px-4 {
+  padding-right: space(4);
+  padding-left: space(4);
+}
+
+@mixin py-1 {
+  padding-top: space(1);
+  padding-bottom: space(1);
+}
+
+@mixin my-1 {
+  margin-top: space(1);
+  margin-bottom: space(1);
+}

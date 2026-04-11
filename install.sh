@@ -41,6 +41,7 @@ yes '' | paru -S bat \
     tmux \
     ttf-jetbrains-mono-nerd \
     ttf-nerd-fonts-symbols \
+    ttf-roboto-mono-nerd \
     vscodium-bin \
     waybar \
     wireplumber \
