@@ -1,0 +1,41 @@
+@use 'base' as *;
+
+// Workspace widget
+
+box.workspaces {
+  background: $base;
+  border-radius: $radius;
+
+  > button {
+    color: $text;
+    border-radius: $radius;
+    min-width: 32px;
+    @include py-1;
+    transition: all 300ms ease-in-out;
+
+    &:hover {
+      color: $lavender;
+      background: rgba($lavender, 0.12);
+      min-width: 42px;
+    }
+
+    &.active {
+      color: $crust;
+      background: linear-gradient(90deg, $pink 0%, $mauve 100%);
+      min-width: 42px;
+    }
+
+    &.empty {
+      color: $surface1;
+
+      &:hover {
+        background: $surface0;
+      }
+    }
+
+    &.empty.active {
+      color: $subtext0;
+      background: $surface0;
+    }
+  }
+}

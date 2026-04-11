@@ -2,6 +2,22 @@
 
 Hypr dotfile configuration.
 
+## TODO
+
+- [x] Clock
+  - [ ] Calendar
+- [x] Workspaces
+- [ ] Now playing (Mpris)
+- [ ] Quick settings
+  - [ ] Screen shot
+  - [ ] Network
+  - [ ] Bluetooth
+  - [ ] Notifications
+  - [ ] Volume
+  - [ ] Brightness
+  - [ ] Mpris
+- [ ] Idle switch
+
 ## Prerequisites
 
 ### Install Paru
@@ -12,6 +28,7 @@ $ git clone https://aur.archlinux.org/paru.git
 $ cd paru
 $ makepkg -si
 ```
+
 ## Installation
 
 Clone dotfiles into your `$HOME` directory.
@@ -21,6 +38,7 @@ $ git clone git@github.com/nickjedwards/dotfiles.git
 $ cd dotfiles
 $ ./install.sh
 ```
+
 ## Usage
 
 Do not modify the file system and instead show what would happen.

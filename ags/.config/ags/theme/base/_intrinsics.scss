@@ -1,0 +1,114 @@
+@use 'colors' as *;
+@use 'rounding' as *;
+@use 'spacing' as *;
+
+$font-stack:
+  RobotoMono Nerd Font Propo,
+  JetBrainsMono NFP,
+  monospace;
+
+* {
+  font-family: $font-stack;
+  font-size: 13px;
+}
+
+window.panel {
+  color: $text;
+  background: $mantle;
+  border-radius: $radius;
+  padding: space(1);
+  margin: 14px;
+  box-shadow:
+    0 0 8px 0 rgba(0, 0, 0, 0.8),
+    inset 0 0 0 1px $base;
+
+  > * {
+    padding: 0;
+    margin: 0;
+  }
+}
+
+tooltip {
+  color: $text;
+  background: $mantle;
+  border-radius: $radius;
+  border: 1px solid $surface1;
+
+  > box {
+    padding: space(1) space(4);
+
+    > label {
+      color: $text;
+    }
+  }
+}
+
+centerbox,
+box {
+  min-height: 0;
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+}
+
+button {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  outline: none;
+  padding: 0;
+  margin: 0;
+  min-height: 0;
+  min-width: 0;
+}
+
+button:checked {
+  background: $base;
+  color: $subtext1;
+}
+button:focus,
+button:active {
+  outline: none;
+  box-shadow: none;
+}
+
+menubutton > button {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  outline: none;
+  padding: 0;
+  margin: 0;
+  min-height: 0;
+  min-width: 0;
+}
+
+popover {
+  > arrow {
+    background: $crust;
+    border: 1px solid $surface0;
+  }
+
+  > contents {
+    background: $crust;
+    border: 1px solid $surface0;
+    border-radius: $radius;
+    padding: 4px;
+  }
+
+  // button {
+  //   color: $subtext1;
+  //   transition: all 0.3s ease;
+
+  //   &:hover {
+  //     background: rgba($lavender, 0.12);
+  //     color: $lavender;
+
+  //     image {
+  //       color: $lavender;
+  //     }
+  //   }
+  // }
+}
