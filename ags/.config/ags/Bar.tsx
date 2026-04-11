@@ -4,7 +4,7 @@ import Astal from 'gi://Astal?version=4.0'
 import Gdk from 'gi://Gdk?version=4.0'
 import Gtk from 'gi://Gtk?version=4.0'
 
-import { Clock, Mpris, QuickSettings, Workspace } from './widget/bar'
+import { Clock, Mpris, Pacman, QuickSettings, Workspace } from './widget/bar'
 
 export default function Bar({ gdkmonitor }: { gdkmonitor: Gdk.Monitor }) {
   const { TOP } = Astal.WindowAnchor
@@ -29,6 +29,7 @@ export default function Bar({ gdkmonitor }: { gdkmonitor: Gdk.Monitor }) {
           <Mpris />
         </box>
         <box $type="end" spacing={7}>
+          <Pacman />
           <QuickSettings />
         </box>
       </centerbox>
