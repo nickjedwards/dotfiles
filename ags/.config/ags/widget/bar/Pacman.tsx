@@ -11,14 +11,15 @@ function update() {
 export default function Pacman() {
   const updates = createPoll('0', 3000, `bash -c "(checkupdates ; paru -Qua) | wc -l"`)
 
-  const classes = createComputed(() => (updates() === '0' ? 'none' : ''))
+  const classes = createComputed(() => (updates() === '0' ? 'none' : 'cherry'))
+  const label = createComputed(() => (updates() === '0' ? '󰇘' : ''))
 
   return (
     <box class="pacman">
-      <button onClicked={update}>
+      <button onClicked={update} tooltipText={updates.as((count) => `${count} updates`)}>
         <box spacing={7}>
           <label class="pac-man" label="󰮯" />
-          <label class={classes} label={updates} />
+          <label class={classes} label={label} />
         </box>
       </button>
     </box>
