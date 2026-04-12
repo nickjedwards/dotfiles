@@ -34,6 +34,7 @@ yes '' | paru -S bat \
     ripgrep \
     rofi-wayland \
     satty \
+    sound-theme-freedesktop \
     starship \
     stow \
     swaync-git \
