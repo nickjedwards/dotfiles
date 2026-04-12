@@ -2,22 +2,6 @@
 
 Hypr dotfile configuration.
 
-## TODO
-
-- [x] Clock
-  - [ ] Calendar
-- [x] Workspaces
-- [ ] Now playing (Mpris)
-- [ ] Quick settings
-  - [ ] Screen shot
-  - [ ] Network
-  - [ ] Bluetooth
-  - [ ] Notifications
-  - [ ] Volume
-  - [ ] Brightness
-  - [ ] Mpris
-- [ ] Idle switch
-
 ## Prerequisites
 
 ### Install Paru
