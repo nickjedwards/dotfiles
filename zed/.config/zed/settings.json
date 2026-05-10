@@ -7,6 +7,12 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "project_panel": {
+    "dock": "left"
+  },
+  "git_panel": {
+    "dock": "left"
+  },
   "theme": {
     "mode": "system",
     "light": "One Light",
@@ -23,11 +29,14 @@
   "scrollbar": {
     "show": "never"
   },
-  "outline_panel": { "button": false },
-  "collaboration_panel": { "button": false },
+  "outline_panel": { "dock": "left",
+                     "button": false },
+  "collaboration_panel": { "dock": "left",
+                           "button": false },
   "chat_panel": { "button": "never" },
   "notification_panel": { "button": false },
-  "agent": { "button": false },
+  "agent": { "dock": "right",
+             "button": false },
   "search": { "button": false },
   "telemetry": {
     "diagnostics": false,
