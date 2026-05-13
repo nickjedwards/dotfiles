@@ -50,9 +50,9 @@ window-decoration = none
 adw-toolbar-style = flat
 confirm-close-surface = false
 
-background-opacity = 0.96
-window-padding-x = 13
-window-padding-y = 13
+background-opacity = 0.90
+window-padding-x = 12
+window-padding-y = 12
 
 # Cursor
 cursor-style = block
