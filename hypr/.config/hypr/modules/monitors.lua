@@ -4,10 +4,10 @@
 
 -- See https://wiki.hypr.land/Configuring/Basics/Monitors/
 hl.monitor({
-    output   = "",
-    mode     = "preferred",
+    output   = "eDP-1",
+    mode     = "2256x1504@60.00",
     position = "auto",
-    scale    = "auto",
+    scale    = "1.17",
 })
 -- Home
 hl.monitor({
@@ -27,6 +27,9 @@ hl.monitor({
 -- Trigger when the switch is toggled.
 hl.bind("switch:Lid Switch", hl.dsp.exec_cmd("hyprlock -c ~/.config/hypr/hyprlock.conf"), { locked = true })
 -- Trigger when the switch is turning on.
-hl.bind("switch:on:Lid Switch", hl.dsp.exec_cmd("hyprctl eval 'hl.monitor({ output = \"desc:BOE 0x0BCA\", disabled = true })'"), { locked = true })
+hl.bind("switch:on:Lid Switch", hl.dsp.exec_cmd("hyprctl eval 'hl.monitor({ output = \"eDP-1\", disabled = true })'"), { locked = true })
 -- Trigger when the switch is turning off.
-hl.bind("switch:off:Lid Switch", hl.dsp.exec_cmd("hyprctl eval 'hl.monitor({ output = \"\", mode = \"preferred\", position = \"auto\", scale = \"auto\" })'"), { locked = true })
+hl.bind(
+    "switch:off:Lid Switch",
+    hl.dsp.exec_cmd("hyprctl eval 'hl.monitor({ output = \"eDP-1\", disabled = false, mode = \"2256x1504@60.00\", position = \"auto\", scale = \"1.17\" })'"), { locked = true }
+)
