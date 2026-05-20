@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 # Install pacman/AUR packages
-yes '' | paru -S bat \
+yes '' | paru -S \
+    bat \
     bibata-cursor-theme-bin \
     brightnessctl \
     btop \
@@ -12,11 +13,13 @@ yes '' | paru -S bat \
     fzf \
     ghostty \
     git-delta \
+    gnome-themes-extra \
     hyprcursor \
     hypridle \
     hyprland \
     hyprlock \
     hyprpaper \
+    hyprpolkitagent \
     hyprshot \
     jq \
     lazydocker-bin \
@@ -24,13 +27,14 @@ yes '' | paru -S bat \
     less \
     neovim \
     numix-circle-icon-theme-git \
+    nwg-look \
     pavucontrol \
     pacman-contrib \
     pass \
-    polkit-gnome \
     power-profiles-daemon \
     qt5-wayland \
     qt6-wayland \
+    qt6ct \
     ripgrep \
     rofi-wayland \
     satty \
@@ -42,7 +46,6 @@ yes '' | paru -S bat \
     tmux \
     ttf-jetbrains-mono-nerd \
     ttf-nerd-fonts-symbols \
-    ttf-roboto-mono-nerd \
     vscodium-bin \
     waybar \
     wireplumber \

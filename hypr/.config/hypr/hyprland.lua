@@ -29,14 +29,15 @@ require("modules.rules")
 --
 hl.on("hyprland.start", function ()
     -- Cursor theme
+    hl.exec_cmd("hyprctl setcursor Banana-Catppuccin-Mocha 48")
     hl.exec_cmd("gsettings set org.gnome.desktop.interface cursor-theme 'Banana-Catppuccin-Mocha'")
     hl.exec_cmd("gsettings set org.gnome.desktop.interface cursor-size 48")
     -- GTK and icon theme
-    hl.exec_cmd("gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'")
     hl.exec_cmd("gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'")
+    hl.exec_cmd("gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'")
     hl.exec_cmd("gsettings set org.gnome.desktop.interface icon-theme 'Numix-Circle'")
 
-    hl.exec_cmd("/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1")
+    hl.exec_cmd("systemctl --user start hyprpolkitagent")
     hl.exec_cmd("wayle panel start")
     hl.exec_cmd("hyprpaper & hypridle")
     hl.exec_cmd("wl-paste --type text --watch cliphist store") -- Stores only text data

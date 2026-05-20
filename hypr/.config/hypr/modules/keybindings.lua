@@ -5,7 +5,8 @@
 -- Set programs that you use
 local terminal    = "ghostty"
 local fileManager = "nautilus"
-local menu        = "rofi -show drun -theme ~/.config/rofi/launcher.rasi"
+local launcher    = "rofi -show drun -theme ~/.config/rofi/launcher.rasi"
+local runner      = "rofi -show run -theme ~/.config/rofi/launcher.rasi"
 local editor      = "vscodium --ozone-platform=wayland"
 local browser     = "zen-browser"
 local webapp      = "google-chrome-stable --new-window --force-dark-mode --enable-features=UseOzonePlatform,WaylandWindowDecorations --ozone-platform=wayland --app="
@@ -16,19 +17,22 @@ local webapp      = "google-chrome-stable --new-window --force-dark-mode --enabl
 ---------------------
 
 local mainMod = "SUPER" -- Sets "Windows" key as main modifier
+local shiftMod = mainMod .. " + SHIFT"
 
 -- Example binds, see https://wiki.hypr.land/Configuring/Basics/Binds/ for more
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
--- hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"))
+hl.bind(shiftMod .. " + Q", hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"))
 hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + escape", hl.dsp.exec_cmd("~/.config/hypr/scripts/wlogout"))
 hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("hyprlock -c ~/.config/hypr/hyprlock.conf"))
 hl.bind(mainMod .. " + CTRL + V", hl.dsp.exec_cmd("cliphist list | rofi -dmenu -i -display-columns 2 -p \"\" -theme ~/.config/rofi/cliphist.rasi | cliphist decode | wl-copy")) -- Clipboard
+hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("hyprctl hyprpaper wallpaper ', ~/.config/wallpaper, cover'")) -- Reload wallpaper
 
 -- Applications
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
-hl.bind(mainMod .. " + space", hl.dsp.exec_cmd(string.format("pkill -x rofi || %s", menu)))
+hl.bind(mainMod .. " + space", hl.dsp.exec_cmd(string.format("pkill -x rofi || %s", launcher)))
+hl.bind(shiftMod .. " + space", hl.dsp.exec_cmd(string.format("pkill -x rofi || %s", runner)))
 hl.bind(mainMod .. " + A", hl.dsp.exec_cmd(webapp .. "https://claude.ai"))
 hl.bind(mainMod .. " + Y", hl.dsp.exec_cmd(webapp .. "https://youtube.com"))
 hl.bind(mainMod .. " + T", hl.dsp.exec_cmd(terminal))
@@ -40,9 +44,9 @@ hl.bind("Print", hl.dsp.exec_cmd("hyprshot -m region --raw | satty -f -")) -- Sc
 hl.bind("SHIFT + Print", hl.dsp.exec_cmd("hyprshot -m output -m DP-3 --raw | satty -f -")) -- Full screen → edit in satty
 
 -- Resize the current column
-hl.bind(mainMod .. " + SHIFT + Equal", hl.dsp.layout("colresize +conf"))
-hl.bind(mainMod .. " + SHIFT + F", hl.dsp.layout("fit active"))
-hl.bind(mainMod .. " + SHIFT + Minus", hl.dsp.layout("colresize -conf"))
+hl.bind(shiftMod .. " + Equal", hl.dsp.layout("colresize +conf"))
+hl.bind(shiftMod .. " + F", hl.dsp.layout("fit active"))
+hl.bind(shiftMod .. " + Minus", hl.dsp.layout("colresize -conf"))
 
 -- Move focus with mainMod + arrow keys
 hl.bind(mainMod .. " + left",  hl.dsp.focus({ direction = "left" }))
@@ -51,22 +55,22 @@ hl.bind(mainMod .. " + up",    hl.dsp.focus({ direction = "up" }))
 hl.bind(mainMod .. " + down",  hl.dsp.focus({ direction = "down" }))
 
 -- Move focused window with mainMod + shift + arrow keys
-hl.bind(mainMod .. " + SHIFT + left", hl.dsp.window.swap({ direction = "left" }))
-hl.bind(mainMod .. " + SHIFT + right", hl.dsp.window.swap({ direction = "right" }))
-hl.bind(mainMod .. " + SHIFT + up", hl.dsp.window.swap({ direction = "up" }))
-hl.bind(mainMod .. " + SHIFT + down", hl.dsp.window.swap({ direction = "down" }))
+hl.bind(shiftMod .. " + left", hl.dsp.window.swap({ direction = "left" }))
+hl.bind(shiftMod .. " + right", hl.dsp.window.swap({ direction = "right" }))
+hl.bind(shiftMod .. " + up", hl.dsp.window.swap({ direction = "up" }))
+hl.bind(shiftMod .. " + down", hl.dsp.window.swap({ direction = "down" }))
 
 -- Switch workspaces with mainMod + [0-9]
 -- Move active window to a workspace with mainMod + SHIFT + [0-9]
 for i = 1, 10 do
     local key = i % 10 -- 10 maps to key 0
     hl.bind(mainMod .. " + " .. key,         hl.dsp.focus({ workspace = i}))
-    hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }))
+    hl.bind(shiftMod .. " + " .. key, hl.dsp.window.move({ workspace = i }))
 end
 
 -- Example special workspace (scratchpad)
 hl.bind(mainMod .. " + S",         hl.dsp.workspace.toggle_special("magic"))
-hl.bind(mainMod .. " + SHIFT + S", hl.dsp.window.move({ workspace = "special:magic" }))
+hl.bind(shiftMod .. " + S", hl.dsp.window.move({ workspace = "special:magic" }))
 
 -- Scroll through existing workspaces with mainMod + scroll
 hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
