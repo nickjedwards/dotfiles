@@ -5,8 +5,7 @@
 -- Set programs that you use
 local terminal    = "ghostty"
 local fileManager = "nautilus"
-local launcher    = "rofi -show drun -theme ~/.config/rofi/launcher.rasi"
-local runner      = "rofi -show run -theme ~/.config/rofi/launcher.rasi"
+local dankIpc     = "dms ipc call"
 local editor      = "vscodium --ozone-platform=wayland"
 local browser     = "zen-browser"
 local webapp      = "google-chrome-stable --new-window --force-dark-mode --enable-features=UseOzonePlatform,WaylandWindowDecorations --ozone-platform=wayland --app="
@@ -16,23 +15,25 @@ local webapp      = "google-chrome-stable --new-window --force-dark-mode --enabl
 ---- KEYBINDINGS ----
 ---------------------
 
-local mainMod = "SUPER" -- Sets "Windows" key as main modifier
+local mainMod  = "SUPER" -- Sets "Windows" key as main modifier
 local shiftMod = mainMod .. " + SHIFT"
 
 -- Example binds, see https://wiki.hypr.land/Configuring/Basics/Binds/ for more
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
 hl.bind(shiftMod .. " + Q", hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"))
-hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
+hl.bind(mainMod .. " + F", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
-hl.bind(mainMod .. " + escape", hl.dsp.exec_cmd("~/.config/hypr/scripts/wlogout"))
-hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("hyprlock -c ~/.config/hypr/hyprlock.conf"))
-hl.bind(mainMod .. " + CTRL + V", hl.dsp.exec_cmd("cliphist list | rofi -dmenu -i -display-columns 2 -p \"\" -theme ~/.config/rofi/cliphist.rasi | cliphist decode | wl-copy")) -- Clipboard
-hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("hyprctl hyprpaper wallpaper ', ~/.config/wallpaper, cover'")) -- Reload wallpaper
+
+-- DankMaterialShell
+hl.bind(mainMod .. " + space", hl.dsp.exec_cmd(dankIpc .. " spotlight toggle")) -- Spotlight
+hl.bind(mainMod .. " + V", hl.dsp.exec_cmd(dankIpc .. " clipboard toggle")) -- Clipboard
+hl.bind(mainMod .. " + N", hl.dsp.exec_cmd(dankIpc .. " notifications toggle")) -- Notifications
+hl.bind(mainMod .. " + W", hl.dsp.exec_cmd(dankIpc .. " dankdash wallpaper")) -- Wallpapers
+hl.bind(shiftMod .. " + L", hl.dsp.exec_cmd(dankIpc .. " lock lock")) -- Security
+hl.bind(mainMod .. " + escape", hl.dsp.exec_cmd(dankIpc .. " powermenu toggle")) -- Power menu
 
 -- Applications
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
-hl.bind(mainMod .. " + space", hl.dsp.exec_cmd(string.format("pkill -x rofi || %s", launcher)))
-hl.bind(shiftMod .. " + space", hl.dsp.exec_cmd(string.format("pkill -x rofi || %s", runner)))
 hl.bind(mainMod .. " + A", hl.dsp.exec_cmd(webapp .. "https://claude.ai"))
 hl.bind(mainMod .. " + Y", hl.dsp.exec_cmd(webapp .. "https://youtube.com"))
 hl.bind(mainMod .. " + T", hl.dsp.exec_cmd(terminal))

@@ -7,14 +7,13 @@
 
 -- Example window rules that are useful
 
-local suppressMaximizeRule = hl.window_rule({
+hl.window_rule({
     -- Ignore maximize requests from all apps. You'll probably like this.
     name  = "suppress-maximize-events",
     match = { class = ".*" },
 
     suppress_event = "maximize",
 })
--- suppressMaximizeRule:set_enabled(false)
 
 hl.window_rule({
     -- Fix some dragging issues with XWayland
@@ -30,14 +29,6 @@ hl.window_rule({
 
     no_focus = true,
 })
-
--- Layer rules also return a handle.
--- local overlayLayerRule = hl.layer_rule({
---     name  = "no-anim-overlay",
---     match = { namespace = "^my-overlay$" },
---     no_anim = true,
--- })
--- overlayLayerRule:set_enabled(false)
 
 hl.workspace_rule({ workspace = "1", default = true, persistent = true })
 hl.workspace_rule({ workspace = "2", persistent = true })
@@ -73,8 +64,8 @@ hl.window_rule({
   workspace = 5
 })
 
--- Ghostty supports its own transparency
 hl.window_rule({
+  -- Ghostty supports its own transparency
   match   = { class = "com.mitchellh.ghostty"},
   opacity = "1.0 override 0.90 override",
 })
@@ -122,10 +113,16 @@ hl.window_rule({
 })
 
 hl.window_rule({
+  match  = { class = "^org.quickshell" },
+  float  = true,
+  center = true,
+})
+
+hl.window_rule({
   match       = { class = "^xdg-desktop-portal-.*" },
   float       = true,
   center      = true,
-  border_size = 0
+  border_size = 0,
 })
 
 hl.window_rule({
@@ -142,36 +139,29 @@ hl.window_rule({
 ----------------
 
 hl.layer_rule({
-  match        = { namespace = "gtk-layer-shell" },
+  match        = { namespace = "dms:dash" },
   blur         = true,
   ignore_alpha = 0,
+  animation    = "slide up",
 })
 
 hl.layer_rule({
-  name         = "launcher",
-  match        = { namespace = "rofi" },
+  match        = { namespace = "dms:control-center" },
+  blur         = true,
+  ignore_alpha = 0,
+  animation    = "slide right",
+})
+
+hl.layer_rule({
+  match = { namespace = "dms:(clipboard|notification-center-modal|power-menu|spotlight)" },
   blur         = true,
   ignore_alpha = 0,
   dim_around   = true,
-  xray         = false,
-  animation    = "popin 25%"
+  animation    = "slide bottom",
 })
 
 hl.layer_rule({
-  name         = "bar",
-  match        = { namespace = "^wayle-bar-.*" },
+  match        = { namespace = "dms:(bar|tooltip|notification-center-popout|notification-popup|dash|system-update|polkit|process-list-popout|battery|popout)" },
   blur         = true,
-  blur_popups  = true,
-  ignore_alpha = 0.3,
-  xray         = true,
-})
-
-hl.layer_rule({
-  match = { namespace = "logout_dialog" },
-  blur  = true,
-})
-
-hl.layer_rule({
-  match = { namespace = "swayosd" },
-  blur  = true,
+  ignore_alpha = .25,
 })

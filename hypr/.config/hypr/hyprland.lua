@@ -37,9 +37,7 @@ hl.on("hyprland.start", function ()
     hl.exec_cmd("gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'")
     hl.exec_cmd("gsettings set org.gnome.desktop.interface icon-theme 'Numix-Circle'")
 
-    hl.exec_cmd("systemctl --user start hyprpolkitagent")
-    hl.exec_cmd("wayle panel start")
-    hl.exec_cmd("hyprpaper & hypridle")
+    hl.exec_cmd("dms run")
     hl.exec_cmd("wl-paste --type text --watch cliphist store") -- Stores only text data
     hl.exec_cmd("wl-paste --type image --watch cliphist store") -- Stores only image data
 end)

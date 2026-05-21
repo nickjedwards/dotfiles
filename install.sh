@@ -6,7 +6,9 @@ yes '' | paru -S \
     bibata-cursor-theme-bin \
     brightnessctl \
     btop \
+    cava \
     cliphist \
+    dms-shell \
     eza \
     fastfetch \
     fd \
@@ -17,14 +19,12 @@ yes '' | paru -S \
     hyprcursor \
     hypridle \
     hyprland \
-    hyprlock \
-    hyprpaper \
-    hyprpolkitagent \
     hyprshot \
     jq \
     lazydocker-bin \
     lazygit \
     less \
+    matugen \
     neovim \
     numix-circle-icon-theme-git \
     nwg-look \
@@ -35,21 +35,18 @@ yes '' | paru -S \
     qt5-wayland \
     qt6-wayland \
     qt6ct \
+    quickshell-git \
     ripgrep \
-    rofi-wayland \
     satty \
     sound-theme-freedesktop \
     starship \
     stow \
-    swaync-git \
-    swayosd \
     tmux \
     ttf-jetbrains-mono-nerd \
     ttf-nerd-fonts-symbols \
+    ttf-rubik-vf \
     vscodium-bin \
-    waybar \
     wireplumber \
-    wlogout \
     xdg-desktop-portal-hyprland \
     zen-browser-bin \
     zoxide \
@@ -72,6 +69,3 @@ git clone -b v2.1.3 https://github.com/catppuccin/tmux.git ${HOME}/.config/tmux/
 # Configure bat theme
 stow bat
 bat cache --build
-
-# Setup wallpaper
-ln -sf ${HOME}/dotfiles/walls/swirls.jpg ${HOME}/.config/wallpaper

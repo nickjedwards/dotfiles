@@ -9,12 +9,12 @@ hl.monitor({
     position = "auto",
     scale    = "auto",
 })
--- Laptop
+-- Built-in display
 hl.monitor({
     output   = "eDP-1",
     mode     = "2256x1504@60.00",
     position = "auto",
-    scale    = 1.17,
+    scale    = 1.33,
 })
 -- Home
 hl.monitor({
@@ -37,3 +37,8 @@ hl.bind("switch:Lid Switch", hl.dsp.exec_cmd("hyprlock -c ~/.config/hypr/hyprloc
 -- hl.bind("switch:on:Lid Switch", hl.dsp.exec_cmd("hyprctl eval 'hl.monitor({ output = \"eDP-1\", disabled = true })'"), { locked = true })
 -- Trigger when the switch is turning off.
 -- hl.bind("switch:off:Lid Switch", hl.dsp.exec_cmd("hyprctl eval 'hl.monitor({ output = \"eDP-1\", disabled = false })'"), { locked = true })
+
+-- Trigger when secondary displays are removed.
+hl.on("monitor.removed", function()
+    hl.monitor({output = "eDP-1", mode = "2256x1504@60.00", position = "auto", scale = 1.33, disabled = false})
+end)
