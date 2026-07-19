@@ -172,3 +172,6 @@ export AWS_PROFILE=nick.edwards
 
 # Claude
 export PATH="$HOME/.local/bin:$PATH"
+
+# Pi
+export PATH="/home/nick/.local/share/pi-node/node-v22.22.3-linux-x64/bin:$PATH"

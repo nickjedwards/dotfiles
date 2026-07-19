@@ -8,7 +8,10 @@ local fileManager = "nautilus"
 local dankIpc     = "dms ipc call"
 local editor      = "vscodium --ozone-platform=wayland"
 local browser     = "zen-browser"
+local datagrip    = "/opt/DataGrip-2024.1.4/bin/datagrip"
 local webapp      = "google-chrome-stable --new-window --force-dark-mode --enable-features=UseOzonePlatform,WaylandWindowDecorations --ozone-platform=wayland --app="
+local clamShell    = "~/.config/hypr/scripts/lid-switch"
+local recorder    = "~/.config/hypr/scripts/record"
 
 
 ---------------------
@@ -18,14 +21,16 @@ local webapp      = "google-chrome-stable --new-window --force-dark-mode --enabl
 local mainMod  = "SUPER" -- Sets "Windows" key as main modifier
 local shiftMod = mainMod .. " + SHIFT"
 
+
 -- Example binds, see https://wiki.hypr.land/Configuring/Basics/Binds/ for more
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
 hl.bind(shiftMod .. " + Q", hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"))
+hl.bind(shiftMod .. " + D", hl.dsp.exec_cmd(clamShell))
 hl.bind(mainMod .. " + F", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 
 -- DankMaterialShell
-hl.bind(mainMod .. " + space", hl.dsp.exec_cmd(dankIpc .. " spotlight toggle")) -- Spotlight
+hl.bind(mainMod .. " + space", hl.dsp.exec_cmd(dankIpc .. " spotlight-bar toggle")) -- Spotlight
 hl.bind(mainMod .. " + V", hl.dsp.exec_cmd(dankIpc .. " clipboard toggle")) -- Clipboard
 hl.bind(mainMod .. " + N", hl.dsp.exec_cmd(dankIpc .. " notifications toggle")) -- Notifications
 hl.bind(mainMod .. " + W", hl.dsp.exec_cmd(dankIpc .. " dankdash wallpaper")) -- Wallpapers
@@ -39,10 +44,12 @@ hl.bind(mainMod .. " + Y", hl.dsp.exec_cmd(webapp .. "https://youtube.com"))
 hl.bind(mainMod .. " + T", hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + C", hl.dsp.exec_cmd(editor))
 hl.bind(mainMod .. " + B", hl.dsp.exec_cmd(browser))
-hl.bind(mainMod .. " + D", hl.dsp.exec_cmd("datagrip"))
+hl.bind(mainMod .. " + D", hl.dsp.exec_cmd(datagrip))
 hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("spotify-launcher"))
-hl.bind("Print", hl.dsp.exec_cmd("hyprshot -m region --raw | satty -f -")) -- Screenshot region → edit in satty
-hl.bind("SHIFT + Print", hl.dsp.exec_cmd("hyprshot -m output -m DP-3 --raw | satty -f -")) -- Full screen → edit in satty
+hl.bind("Print", hl.dsp.exec_cmd(recorder .. " \"screenshot region\"")) -- Screenshot region → edit in satty
+hl.bind("SHIFT + Print", hl.dsp.exec_cmd(recorder .. " \"screenshot\"")) -- Screenshot fullscreen → edit in satty
+hl.bind(mainMod .. " + Print", hl.dsp.exec_cmd(recorder .. " \"record region\"")) -- Record region
+hl.bind(shiftMod .. " + Print", hl.dsp.exec_cmd(recorder .. " \"record\"")) -- Record fullscreen
 
 -- Resize the current column
 hl.bind(shiftMod .. " + Equal", hl.dsp.layout("colresize +conf"))

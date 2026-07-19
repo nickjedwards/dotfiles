@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+wf-recorder_check() {
+	if pgrep -x wf-recorder > /dev/null; then
+		pkill -INT -x wf-recorder
+		notify-send "Stopped screen recording" "$(cat /tmp/recording.txt)"
+		exit 0
+	fi
+}
+
+wf-recorder_check
+
+VIDEO="${HOME}/Videos/$(date +%Y-%m-%d_%H-%m-%s).mp4"
+
+case $1 in
+	"screenshot region")
+		hyprshot -m region --raw | satty -f -
+		;;
+	"screenshot")
+		hyprshot -m output -m DP-3 --raw | satty -f -
+		;;
+	"record region")
+		echo "$VIDEO" > /tmp/recording.txt
+    notify-send "Started screen recording" "$VIDEO"
+		wf-recorder -g "$(slurp)" -f "$VIDEO" &>/dev/null
+		;;
+	"record")
+		echo "$VIDEO" > /tmp/recording.txt
+    notify-send "Started screen recording" "$VIDEO"
+		wf-recorder -o DP-3 -f "$VIDEO" &>/dev/null
+		;;
+esac

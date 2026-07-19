@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+hyprctl eval 'hl.monitor({ output = "eDP-1", disabled = true })'
+brightnessctl -sd chromeos::kbd_backlight set 0

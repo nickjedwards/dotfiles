@@ -7,16 +7,17 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "cli_default_open_behavior": "existing_window",
   "project_panel": {
-    "dock": "left"
+    "dock": "left",
   },
   "git_panel": {
-    "dock": "left"
+    "dock": "left",
   },
   "theme": {
     "mode": "system",
     "light": "One Light",
-    "dark": "Catppuccin Mocha"
+    "dark": "Catppuccin Mocha",
   },
   "icon_theme": "Catppuccin Mocha",
   "base_keymap": "SublimeText",
@@ -27,31 +28,34 @@
   "buffer_font_family": "JetBrainsMono Nerd Font Mono",
   "relative_line_numbers": "enabled",
   "scrollbar": {
-    "show": "never"
+    "show": "never",
   },
-  "outline_panel": { "dock": "left",
-                     "button": false },
-  "collaboration_panel": { "dock": "left",
-                           "button": false },
-  "chat_panel": { "button": "never" },
-  "notification_panel": { "button": false },
-  "agent": { "dock": "right",
-             "button": false },
+  "outline_panel": { "dock": "left", "button": false },
+  "collaboration_panel": { "dock": "left", "button": false },
+  "agent": { "dock": "right", "button": false },
   "search": { "button": false },
+  "tab_bar": {
+    "show_nav_history_buttons": false,
+    "show_tab_bar_buttons": false,
+  },
+  "tabs": {
+    "file_icons": true,
+    "git_status": true,
+  },
   "telemetry": {
     "diagnostics": false,
-    "metrics": false
+    "metrics": false,
   },
   "terminal": {
     "font_family": "JetBrainsMono Nerd Font Mono",
-    "font_size": 13
+    "font_size": 13,
   },
   "toolbar": {
     "breadcrumbs": false,
     "quick_actions": false,
     "selections_menu": false,
     "agent_review": false,
-    "code_actions": false
+    "code_actions": false,
   },
   "title_bar": {
     "show_branch_name": true,
@@ -59,8 +63,8 @@
     "show_onboarding_banner": false,
     "show_user_picture": false,
     "show_sign_in": false,
-    "show_menus": false
+    "show_menus": false,
   },
-  "vim_mode": true,
-  "wrap_guides": [120]
+  "vim_mode": false,
+  "wrap_guides": [120],
 }

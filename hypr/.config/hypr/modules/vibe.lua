@@ -8,13 +8,13 @@ local colors = require("colors")
 hl.config({
     general = {
         gaps_in  = 5,
-        gaps_out = 20,
+        gaps_out = 12,
 
         border_size = 2,
 
         col = {
             active_border   = {
-                colors = { colors.pink, colors.mauve },
+                colors = { colors.mauve, colors.lavender },
                 angle = 45
             },
             inactive_border = colors.surface0,
@@ -41,18 +41,21 @@ hl.config({
             enabled      = true,
             range        = 30,
             render_power = 5,
-            offset       = { 0, 3 },
+            offset       = { 0, 5 },
             color        = colors.rgba.crust("80"),
         },
 
         blur = {
-            enabled        = true,
-            size           = 15,
-            passes         = 3,
-            vibrancy       = 0.1696,
-            ignore_opacity = true,
-            xray           = true,
-            popups         = true,
+            enabled           = true,
+            size              = 10,
+            passes            = 4,
+            ignore_opacity    = true,
+            new_optimizations = true,
+            xray              = false,
+            contrast          = 1.1,
+            vibrancy          = 0.2,
+            vibrancy_darkness = 0.3,
+            popups            = true,
         },
     },
 

@@ -38,6 +38,7 @@ yes '' | paru -S \
     quickshell-git \
     ripgrep \
     satty \
+    slurp \
     sound-theme-freedesktop \
     starship \
     stow \
@@ -46,6 +47,7 @@ yes '' | paru -S \
     ttf-nerd-fonts-symbols \
     ttf-rubik-vf \
     vscodium-bin \
+    wf-recorder \
     wireplumber \
     xdg-desktop-portal-hyprland \
     zen-browser-bin \

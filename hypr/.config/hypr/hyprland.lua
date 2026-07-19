@@ -32,12 +32,14 @@ hl.on("hyprland.start", function ()
     hl.exec_cmd("hyprctl setcursor Banana-Catppuccin-Mocha 48")
     hl.exec_cmd("gsettings set org.gnome.desktop.interface cursor-theme 'Banana-Catppuccin-Mocha'")
     hl.exec_cmd("gsettings set org.gnome.desktop.interface cursor-size 48")
+
     -- GTK and icon theme
     hl.exec_cmd("gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'")
     hl.exec_cmd("gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'")
     hl.exec_cmd("gsettings set org.gnome.desktop.interface icon-theme 'Numix-Circle'")
 
-    hl.exec_cmd("dms run")
+    hl.exec_cmd("dms run") -- DankMaterialShell
+
     hl.exec_cmd("wl-paste --type text --watch cliphist store") -- Stores only text data
     hl.exec_cmd("wl-paste --type image --watch cliphist store") -- Stores only image data
 end)
