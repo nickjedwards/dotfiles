@@ -4,9 +4,6 @@
 # 1s for key sequences
 KEYTIMEOUT=100
 
-# zsh-completions
-fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
-
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
@@ -73,6 +70,9 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 
 # Set the Tmux configuration path for the tmux plugin.
 ZSH_TMUX_CONFIG="$HOME/.config/tmux/tmux.conf"
+
+# zsh-completions
+fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
 
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
