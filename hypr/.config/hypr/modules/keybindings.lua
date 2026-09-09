@@ -5,12 +5,12 @@
 -- Set programs that you use
 local terminal    = "ghostty"
 local fileManager = "nautilus"
-local dankIpc     = "dms ipc call"
-local editor      = "vscodium --ozone-platform=wayland"
+local ndvrIpc     = "qs -c ndvr ipc call"
+local editor      = "zeditor"
 local browser     = "zen-browser"
 local datagrip    = "/opt/DataGrip-2024.1.4/bin/datagrip"
 local webapp      = "google-chrome-stable --new-window --force-dark-mode --enable-features=UseOzonePlatform,WaylandWindowDecorations --ozone-platform=wayland --app="
-local clamShell    = "~/.config/hypr/scripts/lid-switch"
+local clamShell   = "~/.config/hypr/scripts/lid-switch"
 local recorder    = "~/.config/hypr/scripts/record"
 
 
@@ -19,23 +19,27 @@ local recorder    = "~/.config/hypr/scripts/record"
 ---------------------
 
 local mainMod  = "SUPER" -- Sets "Windows" key as main modifier
+local ctrlMod  = mainMod .. " + CTRL"
 local shiftMod = mainMod .. " + SHIFT"
 
 
 -- Example binds, see https://wiki.hypr.land/Configuring/Basics/Binds/ for more
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
-hl.bind(shiftMod .. " + Q", hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"))
-hl.bind(shiftMod .. " + D", hl.dsp.exec_cmd(clamShell))
+hl.bind(ctrlMod .. " + Q", hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"))
+hl.bind(ctrlMod .. " + D", hl.dsp.exec_cmd(clamShell))
 hl.bind(mainMod .. " + F", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 
--- DankMaterialShell
-hl.bind(mainMod .. " + space", hl.dsp.exec_cmd(dankIpc .. " spotlight-bar toggle")) -- Spotlight
-hl.bind(mainMod .. " + V", hl.dsp.exec_cmd(dankIpc .. " clipboard toggle")) -- Clipboard
-hl.bind(mainMod .. " + N", hl.dsp.exec_cmd(dankIpc .. " notifications toggle")) -- Notifications
-hl.bind(mainMod .. " + W", hl.dsp.exec_cmd(dankIpc .. " dankdash wallpaper")) -- Wallpapers
-hl.bind(shiftMod .. " + L", hl.dsp.exec_cmd(dankIpc .. " lock lock")) -- Security
-hl.bind(mainMod .. " + escape", hl.dsp.exec_cmd(dankIpc .. " powermenu toggle")) -- Power menu
+-- Endever Shell
+hl.bind(ctrlMod .. " + C", hl.dsp.exec_cmd(ndvrIpc .. " notch control")) -- App launcher
+hl.bind(mainMod .. " + space", hl.dsp.exec_cmd(ndvrIpc .. " notch launcher")) -- App launcher
+hl.bind(ctrlMod .. " + N", hl.dsp.exec_cmd(ndvrIpc .. " notch notifications")) -- Notifications
+hl.bind(ctrlMod .. " + T", hl.dsp.exec_cmd(ndvrIpc .. " notch theme"))     -- Theme
+hl.bind(ctrlMod .. " + W", hl.dsp.exec_cmd(ndvrIpc .. " notch wallpaper"))     -- Wallpapers
+hl.bind(ctrlMod .. " + L", hl.dsp.exec_cmd("pidof hyprlock || hyprlock")) -- Security
+-- Power menu
+hl.bind(mainMod .. " + escape", hl.dsp.exec_cmd(ndvrIpc .. " notch power"))
+hl.bind("XF86PowerOff", hl.dsp.exec_cmd(ndvrIpc .. " notch power"))
 
 -- Applications
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))

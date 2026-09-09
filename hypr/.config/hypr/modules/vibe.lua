@@ -10,11 +10,11 @@ hl.config({
         gaps_in  = 5,
         gaps_out = 12,
 
-        border_size = 2,
+        border_size = 1,
 
         col = {
             active_border   = {
-                colors = { colors.mauve, colors.lavender },
+                colors = { colors.yellow, colors.sapphire },
                 angle = 45
             },
             inactive_border = colors.surface0,

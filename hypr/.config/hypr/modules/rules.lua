@@ -77,7 +77,7 @@ hl.window_rule({
 
 hl.window_rule({
     name      = "chat",
-    match     = { class = "chrome-teams.microsoft.com__v2_-Default" },
+    match     = { class = "chrome-teams.microsoft.com__v2_-Default|slack" },
     workspace = 5
 })
 
@@ -108,14 +108,4 @@ hl.window_rule({
     no_initial_focus = true,
     max_size         = {1, 1},
     no_blur          = true,
-})
-
-----------------
----- LAYERS ----
-----------------
-
-hl.layer_rule({
-    match        = { namespace = "^(dms:.*)$" },
-    blur         = true,
-    ignore_alpha = 0,
 })

@@ -45,10 +45,10 @@ stow --delete [package] # E.g.: `stow --delete nvim`
 
 ### Wallpaper
 
-**Note:** A wallpaper is required for Hyprpaper and Rofi to appear correctly.
+**Note:** A wallpaper is required for hyprpaper and hyprlock to appear correctly.
 
 ```bash
-ln -sf ~/dotfiles/wallpapers/swirls.jpg ~/.config/wallpaper
+ln -sf ~/dotfiles/ndvr/.config/wallpapers/swirls.jpg ~/.config/wallpaper
 ```
 
 # Resources

@@ -27,7 +27,11 @@ require("modules.rules")
 -- Autostart necessary processes (like notifications daemons, status bars, etc.)
 -- Or execute your favorite apps at launch like this:
 --
-hl.on("hyprland.start", function ()
+hl.on("hyprland.start", function()
+    -- Endever Shell
+    hl.exec_cmd("qs -c ndvr -d -n")
+    hl.exec_cmd("hyprpaper")
+
     -- Cursor theme
     hl.exec_cmd("hyprctl setcursor Banana-Catppuccin-Mocha 48")
     hl.exec_cmd("gsettings set org.gnome.desktop.interface cursor-theme 'Banana-Catppuccin-Mocha'")
@@ -37,8 +41,6 @@ hl.on("hyprland.start", function ()
     hl.exec_cmd("gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'")
     hl.exec_cmd("gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'")
     hl.exec_cmd("gsettings set org.gnome.desktop.interface icon-theme 'Numix-Circle'")
-
-    hl.exec_cmd("dms run") -- DankMaterialShell
 
     hl.exec_cmd("wl-paste --type text --watch cliphist store") -- Stores only text data
     hl.exec_cmd("wl-paste --type image --watch cliphist store") -- Stores only image data
