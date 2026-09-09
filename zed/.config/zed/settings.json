@@ -7,8 +7,18 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "status_bar": {
+    "experimental.show": false
+  },
+  "sticky_scroll": {
+    "enabled": false
+  },
+  "minimap": {
+    "show": "never"
+  },
   "cli_default_open_behavior": "existing_window",
   "project_panel": {
+    "auto_reveal_entries": true,
     "dock": "left",
   },
   "git_panel": {
@@ -16,18 +26,25 @@
   },
   "theme": {
     "mode": "system",
-    "light": "One Light",
+    "light": "Catppuccin Latte",
     "dark": "Catppuccin Mocha",
   },
-  "icon_theme": "Catppuccin Mocha",
+  "icon_theme": {
+    "mode": "system",
+    "light": "Catppuccin Latte",
+    "dark": "Catppuccin Mocha"
+  },
   "base_keymap": "SublimeText",
   "disable_ai": true,
   "ui_font_size": 15,
   "ui_font_family": "JetBrainsMono Nerd Font Mono",
   "buffer_font_size": 13,
-  "buffer_font_family": "JetBrainsMono Nerd Font Mono",
+  "buffer_font_family": "JetBrainsMono Nerd Font",
   "relative_line_numbers": "enabled",
   "scrollbar": {
+    "axes": {
+      "vertical": false
+    },
     "show": "never",
   },
   "outline_panel": { "dock": "left", "button": false },
