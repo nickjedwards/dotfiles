@@ -367,20 +367,24 @@ Singleton {
     readonly property real stripPanelHeight: panelHeadingHeight + panelHeadingGap + stripTileHeight + stripCaptionGap + stripCaptionHeight + ccPadX
 
     // ── Panel headings ───────────────────────────────────────────────────
-    // What the notification centre, the power menu and the wallpaper picker
-    // all wear: a title, a hairline under it, and the same air above the
-    // content below. They are the same kind of object, so they are the same
-    // shape — see PanelHeading.qml.
+    // What the notification centre, the power menu and the two pickers all
+    // wear: a title, and the same air between it and the content below.
+    // They are the same kind of object, so they are the same shape — see
+    // PanelHeading.qml.
+    //
+    // No rule under the title any more. The gap is the 14 the title used to
+    // keep from its hairline, not that plus the hairline plus the 8 under
+    // it: without a line to stand on, 23px of air parts the title from what
+    // it names.
     readonly property real panelHeadingSize: 14
-    readonly property real panelRuleGap: 14
-    readonly property real panelHeadingGap: 8
+    readonly property real panelHeadingGap: 14
 
-    // What PanelHeading comes to: ccPadX + the label + panelRuleGap + the
-    // rule. Measured rather than guessed — the label is 17px tall at
-    // panelHeadingSize — because panels that size themselves to their
-    // contents have to add it up in here, where the font is not available to
-    // ask. Re-measure if panelHeadingSize changes.
-    readonly property real panelHeadingHeight: ccPadX + 17 + panelRuleGap + 1
+    // What PanelHeading comes to: ccPadX + the label. Measured rather than
+    // guessed — the label is 17px tall at panelHeadingSize — because panels
+    // that size themselves to their contents have to add it up in here,
+    // where the font is not available to ask. Re-measure if
+    // panelHeadingSize changes.
+    readonly property real panelHeadingHeight: ccPadX + 17
 
     // ── Theme picker ─────────────────────────────────────────────────────
     // Built as a strip panel, exactly like the wallpaper picker: you pick a

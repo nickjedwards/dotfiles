@@ -160,7 +160,7 @@ components/
   MediaPanel.qml       Open panel: transport and scrubber.
   LauncherPanel.qml    Open panel: search field and application list.
   AppRow.qml           One application in the launcher list.
-  PanelHeading.qml     Title, hairline, and room for what acts on the panel.
+  PanelHeading.qml     Title, and room for what acts on the panel.
   ThemePanel.qml       Open panel: the palettes, as a strip.
   ThemeTile.qml        One palette in that strip, drawn in itself.
   WallpaperPanel.qml   Open panel: the wallpaper strip.
@@ -943,20 +943,26 @@ is also the only one of the four that closes the notch on its way, because
 it is the only one you come back from: the others end the session, so what
 the notch does afterwards is nobody's business.
 
-**Three panels wear the same heading, from one component.** The notification
-centre, the power menu and the wallpaper picker all open on a title over a
-hairline, and `PanelHeading.qml` is that title, that hairline, and the room
-between them. They had been three copies, and three copies of a heading are
-three headings that drift apart: only the notification centre ruled its
-heading off, and each panel left a different gap under the title — 14, 16
-and 14 — which is the kind of difference you can't see and can't unsee.
+**Four panels wear the same heading, from one component.** The notification
+centre, the power menu and the two pickers all open on a title, and
+`PanelHeading.qml` is that title and the room for what acts on the panel
+beside it. They had been copies, and copies of a heading are headings that
+drift apart: only the notification centre ruled its heading off, and each
+panel left a different gap under the title — 14, 16 and 14 — which is the
+kind of difference you can't see and can't unsee.
 
-Anything a panel puts at the right of that line — `Clear`, the bell the bar
+The heading used to be ruled off with a hairline, and no longer is. The line
+divided nothing from nothing — what sits under a title is already set apart
+by being under it — and taking it out took the 8px below it too, so the gap
+from title to content is now just `panelHeadingGap`, the 14 the title used to
+keep from its rule. Every panel sized from the heading closed up by the
+difference; the notification centre, which has a fixed height, gave it to
+its list.
+
+Anything a panel puts at the right of the title — `Clear`, the bell the bar
 flies in — is declared inside the heading and anchored against
 `parent.line`, the title's own line, rather than against the heading, which
-is taller by a rule. Both panels grew by the difference: `powerMenuHeight`
-and `wallpaperHeight` carry the extra hairline and gap rather than closing
-up the air at the bottom.
+is taller by the padding above it.
 
 **The wallpaper is a symlink, and the panel only moves it.** `Wallpaper`
 lists `Config.wallpaperDir`, and choosing one repoints
