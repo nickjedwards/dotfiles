@@ -74,13 +74,14 @@ Item {
         cursorShape: Qt.PointingHandCursor
     }
 
-    // ReleaseWithinBounds takes the press outright, which cancels the row's
-    // own tap behind it. Without that, pressing a button would fire the
-    // notification's default action as well as the one you asked for.
+    // Default gesture policy, which takes a *passive* grab. Taking the press
+    // outright would have been the tidy way to stop the row's own tap firing
+    // too, but an exclusive grab is refused inside a ListView — the Flickable
+    // has already taken one to see whether you are flicking — so the chip
+    // never tapped at all. The row checks where the tap landed instead.
     TapHandler {
         id: press
 
-        gesturePolicy: TapHandler.ReleaseWithinBounds
         onTapped: root.activated()
     }
 }

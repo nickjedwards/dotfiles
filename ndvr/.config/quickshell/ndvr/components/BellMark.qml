@@ -3,14 +3,10 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import qs.services
 
-// The bell, at whatever size it is asked for. Always the solid, bright one:
-// it is only ever on screen when something is waiting — Notch.showBell — so
-// there is no quiet state for it to draw. Its being there is the whole of
-// what it says.
-//
-// That is also what keeps the disappearance clean. Back when this dimmed and
-// hollowed itself out for an empty list, clearing the panel would have had
-// the mark change shape and colour on its way out rather than simply going.
+// The bell, at whatever size it is asked for. Always in the bar, and says by
+// its fill whether anything is waiting: the outline, knocked back to textDim
+// like every other mark at rest, while the list is empty; solid and bright
+// once there is something in it.
 //
 // Presentation only, so the notification centre can hold an invisible one of
 // exactly the right size to say where the real one should land. NotchBell is
@@ -20,6 +16,8 @@ Item {
 
     property real iconSize: Config.barBellSize
 
+    readonly property bool unread: Notifs.count > 0
+
     implicitWidth: root.iconSize
     implicitHeight: root.iconSize
 
@@ -27,7 +25,13 @@ Item {
         anchors.centerIn: parent
         kind: "bell"
         size: root.iconSize
-        filled: true
-        color: Config.text
+        filled: root.unread
+        color: root.unread ? Config.text : Config.textDim
+
+        Behavior on color {
+            ColorAnimation {
+                duration: Config.fadeDuration
+            }
+        }
     }
 }

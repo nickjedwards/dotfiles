@@ -25,8 +25,6 @@ Item {
     readonly property real titleX: content.x + column.x + titleRow.x + title.x
     readonly property real titleY: content.y + column.y + titleRow.y + title.y
     readonly property real titleWidth: title.width
-    readonly property real visualiserX: content.x + column.x + titleRow.x + visualiser.x
-    readonly property real visualiserY: content.y + column.y + titleRow.y + visualiser.y
 
     // MPRIS does not push position updates. Tick it only while this panel is
     // actually on screen and something is actually playing — which is now a
@@ -47,7 +45,7 @@ Item {
 
         anchors.fill: parent
         anchors.margins: Config.ccPadX
-        spacing: 18
+        spacing: Config.mediaArtGap
 
         // Not drawn. Reserves the art's place and reports it; the real thing
         // flies in from the bar.
@@ -71,9 +69,7 @@ Item {
                 Layout.fillHeight: true
             }
 
-            // Neither of these is drawn, for the same reason as the art
-            // above. The visualiser sits at the end of the row so the title
-            // elides before it rather than running underneath it.
+            // Not drawn, for the same reason as the art above.
             RowLayout {
                 id: titleRow
 
@@ -90,14 +86,6 @@ Item {
                     font.family: Config.font
                     font.pixelSize: Config.panelTitleSize
                     font.weight: Font.DemiBold
-                }
-
-                Item {
-                    id: visualiser
-
-                    Layout.alignment: Qt.AlignVCenter
-                    Layout.preferredWidth: Config.visualiserWidth
-                    Layout.preferredHeight: Config.panelVisualiserHeight
                 }
             }
 

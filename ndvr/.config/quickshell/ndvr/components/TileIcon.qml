@@ -1,15 +1,20 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
-import QtQuick.Shapes
 import qs.services
 
-// Control-centre marks drawn as geometry rather than glyphs, for the same
-// reason MediaButton is: no icon font has to be installed for the shell to
-// look right.
+// Every mark in the shell, as a Material Design glyph from the Nerd Font
+// symbols set (Config.iconFont).
 //
-// Everything but the wifi fan is laid out on the conventional 24-unit grid
-// and scaled, so the marks stay in proportion with each other at any size.
+// These used to be drawn as geometry, on the grounds that no icon font would
+// then have to be installed. They are glyphs now: a real, consistent icon set
+// rather than hand-built approximations, and one that recolours through
+// `color` like any text — so every theme works with nothing extra, where
+// themed SVGs would need a colorize layer per icon.
+//
+// The API is unchanged, so nothing that uses a mark had to change: `kind`
+// picks it, `size` is the box it is centred in, `filled` and `level` are read
+// by the few marks that have states.
 Item {
     id: root
 
@@ -21,749 +26,120 @@ Item {
 
     property real size: 16
 
-    // Only the bell reads this, and it passes true — the bell is only drawn
-    // when there is something waiting. The hollow bell is still what the
-    // outline gives you for free, and is what this is for if anything else
-    // ever wants a mark with a quiet state.
+    // The bell's two faces: filled when something is waiting, the outline
+    // otherwise. The bar's bell uses both — BellMark sets it off the
+    // notification count.
     property bool filled: false
 
-    // 0..1, and only the speaker reads it: how many of its three waves are
-    // drawn. Defaults to all of them, so every other use of the mark — the
-    // output tile's badge, which is about which device is selected rather
-    // than how loud it is — gets a whole speaker without asking.
+    // 0..1, read by the three marks that stand for a quantity. The speaker,
+    // the sun and the wifi fan each have MDI glyphs for a few levels, and
+    // this picks between them. It defaults to the top, so a use of one of
+    // those marks that isn't about the quantity — the output tile's badge,
+    // which is about which device is selected rather than how loud it is —
+    // shows the whole mark without being told anything.
     property real level: 1
 
-    implicitWidth: size
-    implicitHeight: size
+    implicitWidth: root.size
+    implicitHeight: root.size
 
-    readonly property real u: size / 24
-    readonly property real weight: Math.max(1.2, size * 0.09)
+    // One table of names to codepoints, so a mark is changed in one place.
+    // Two entries are chosen by look rather than by name: MDI's "memory"
+    // (pins on all four sides) is what a CPU looks like, and its "chip" (pins
+    // top and bottom) is what a stick of RAM looks like.
+    readonly property var glyphs: ({
+            bluetooth: 0xF00AF, // bluetooth
+            input: 0xF036C,     // microphone
+            back: 0xF0141,      // chevron_left
+            search: 0xF0349,    // magnify
+            cpu: 0xF035B,       // memory — reads as a CPU
+            memory: 0xF061A,    // chip — reads as RAM
+            temp: 0xF050F,      // thermometer
+            battery: 0xF0079,   // battery
+            close: 0xF0156,     // close
+            power: 0xF0425,     // power
+            restart: 0xF0709,   // restart
+            lock: 0xF033E,      // lock
+            logout: 0xF0343     // logout
+        })
 
-    // One arc of a circle, given in degrees on screen axes: 0 is to the
-    // right and angles run clockwise, so 270 is the top. Every curved mark
-    // here is one of these, which is why none of them need rotating into
-    // place — the angles say where they open.
-    component Sweep: Shape {
-        id: sweep
+    readonly property int codepoint: {
+        const t = Math.max(0, Math.min(1, root.level));
 
-        required property real cx
-        required property real cy
-        required property real radius
-        required property real from
-        required property real to
-        required property color stroke
-        required property real thickness
+        switch (root.kind) {
+        // Four steps, the same four the drawn speaker had: silent (muted, or
+        // wound all the way down), then a wave for each third.
+        case "output":
+            if (t <= 0)
+                return 0xF0581; // volume_off
+            if (t < 1 / 3)
+                return 0xF057F; // volume_low
+            if (t < 2 / 3)
+                return 0xF0580; // volume_medium
+            return 0xF057E;     // volume_high
 
-        preferredRendererType: Shape.CurveRenderer
+        // Four suns, one per quarter, so the slider steps as often as the
+        // volume mark beside it: the centre fills hollow, crescent, half,
+        // full. MDI numbers them out of that order — the crescent is
+        // brightness_4, before the hollow brightness_5 — which is how it
+        // was missed the first time. Not F00E1, which sits next to them and
+        // looks like the top of the sequence but is the *auto* brightness
+        // sun, with an A in it.
+        case "brightness":
+            if (t < 0.25)
+                return 0xF00DE; // brightness_5 — hollow
+            if (t < 0.5)
+                return 0xF00DD; // brightness_4 — crescent
+            if (t < 0.75)
+                return 0xF00DF; // brightness_6 — half
+            return 0xF00E0;     // brightness_7 — full
 
-        function px(deg: real): real {
-            return cx + radius * Math.cos(deg * Math.PI / 180);
-        }
+        // Signal bars, one per quarter of the connected network's strength
+        // — the same number the Wi-Fi page prints as a percent, so the mark
+        // and the figure agree. Equal quarters rather than GNOME's
+        // perceptual cut-offs, which would put a 79% link at three bars and
+        // read as a mismatch next to the percentage. No network means no
+        // bars: the empty outline, not a full fan on a tile saying "Off".
+        //
+        // MDI's fan-shaped strength set, not the arcs of its plain "wifi"
+        // glyph, because only the fans come in steps.
+        case "wifi":
+            if (t <= 0)
+                return 0xF092F; // wifi_strength_outline — no bars
+            if (t < 0.25)
+                return 0xF091F; // wifi_strength_1
+            if (t < 0.5)
+                return 0xF0922; // wifi_strength_2
+            if (t < 0.75)
+                return 0xF0925; // wifi_strength_3
+            return 0xF0928;     // wifi_strength_4
 
-        function py(deg: real): real {
-            return cy + radius * Math.sin(deg * Math.PI / 180);
-        }
+        case "bell":
+            return root.filled ? 0xF009A : 0xF009C; // bell / bell_outline
 
-        // PathArc draws the *minor* arc between two points unless told
-        // otherwise, so anything over half a circle — the power ring, the
-        // restart arrow — comes out as its own short complement.
-        readonly property real sweepAngle: ((to - from) % 360 + 360) % 360
-
-        ShapePath {
-            strokeColor: sweep.stroke
-            strokeWidth: sweep.thickness
-            capStyle: ShapePath.RoundCap
-            fillColor: "transparent"
-
-            startX: sweep.px(sweep.from)
-            startY: sweep.py(sweep.from)
-
-            PathArc {
-                x: sweep.px(sweep.to)
-                y: sweep.py(sweep.to)
-                radiusX: sweep.radius
-                radiusY: sweep.radius
-                direction: PathArc.Clockwise
-                useLargeArc: sweep.sweepAngle > 180
-            }
-        }
-    }
-
-    // Wifi: three arcs over a dot, struck from one centre below the icon so
-    // the sweeps stay concentric.
-    Item {
-        id: wifi
-
-        anchors.fill: parent
-        visible: root.kind === "wifi"
-
-        readonly property real cx: root.size / 2
-        readonly property real cy: root.size * 0.78
-
-        Sweep {
-            anchors.fill: parent
-            cx: wifi.cx
-            cy: wifi.cy
-            radius: root.size * 0.62
-            from: 225
-            to: 315
-            stroke: root.color
-            thickness: root.weight
-        }
-
-        Sweep {
-            anchors.fill: parent
-            cx: wifi.cx
-            cy: wifi.cy
-            radius: root.size * 0.41
-            from: 225
-            to: 315
-            stroke: root.color
-            thickness: root.weight
-        }
-
-        Sweep {
-            anchors.fill: parent
-            cx: wifi.cx
-            cy: wifi.cy
-            radius: root.size * 0.20
-            from: 225
-            to: 315
-            stroke: root.color
-            thickness: root.weight
-        }
-
-        Rectangle {
-            x: wifi.cx - width / 2
-            y: wifi.cy - height / 2
-            width: root.weight * 1.4
-            height: width
-            radius: width / 2
-            color: root.color
+        default:
+            return root.glyphs[root.kind] || 0;
         }
     }
 
-    // Bluetooth: the Hagall rune as one stroked polyline.
-    Shape {
-        anchors.fill: parent
-        visible: root.kind === "bluetooth"
-        preferredRendererType: Shape.CurveRenderer
-
-        ShapePath {
-            strokeColor: root.color
-            strokeWidth: root.weight
-            capStyle: ShapePath.RoundCap
-            joinStyle: ShapePath.RoundJoin
-            fillColor: "transparent"
-
-            startX: 5 * root.u
-            startY: 17 * root.u
-
-            PathLine {
-                x: 19 * root.u
-                y: 7 * root.u
-            }
-            PathLine {
-                x: 12 * root.u
-                y: 1 * root.u
-            }
-            PathLine {
-                x: 12 * root.u
-                y: 23 * root.u
-            }
-            PathLine {
-                x: 19 * root.u
-                y: 17 * root.u
-            }
-            PathLine {
-                x: 5 * root.u
-                y: 7 * root.u
-            }
-        }
-    }
-
-    // Output: a filled speaker cone with two waves opening right.
-    Item {
-        anchors.fill: parent
-        visible: root.kind === "output"
-
-        Shape {
-            anchors.fill: parent
-            preferredRendererType: Shape.CurveRenderer
-
-            ShapePath {
-                fillColor: root.color
-                strokeWidth: -1
-
-                startX: 3 * root.u
-                startY: 9 * root.u
-
-                PathLine {
-                    x: 7 * root.u
-                    y: 9 * root.u
-                }
-                PathLine {
-                    x: 12 * root.u
-                    y: 4 * root.u
-                }
-                PathLine {
-                    x: 12 * root.u
-                    y: 20 * root.u
-                }
-                PathLine {
-                    x: 7 * root.u
-                    y: 15 * root.u
-                }
-                PathLine {
-                    x: 3 * root.u
-                    y: 15 * root.u
-                }
-                PathLine {
-                    x: 3 * root.u
-                    y: 9 * root.u
-                }
-            }
-        }
-
-        // Three waves rather than two, so the mark can count: silent, and
-        // then a third of the way up for each one that lights. The radii are
-        // 4/7/10 on the 24 grid — the outermost reaches 22 plus half a
-        // stroke, which is the most that fits without touching the edge.
-        Repeater {
-            model: [
-                { radius: 4, from: 0 },
-                { radius: 7, from: 1 / 3 },
-                { radius: 10, from: 2 / 3 }
-            ]
-
-            Sweep {
-                required property var modelData
-
-                anchors.fill: parent
-                cx: 12 * root.u
-                cy: 12 * root.u
-                radius: modelData.radius * root.u
-                from: 315
-                to: 45
-                stroke: root.color
-                thickness: root.weight
-
-                // Strictly greater, so a level of exactly zero — muted, or
-                // wound all the way down — draws the cone on its own.
-                opacity: root.level > modelData.from ? 1 : 0
-
-                // Short enough to read as immediate under a drag, long
-                // enough that a wave arrives rather than blinking on.
-                Behavior on opacity {
-                    NumberAnimation {
-                        duration: Config.pressDuration
-                    }
-                }
-            }
-        }
-    }
-
-    // Input: a capsule over a cradle, on a stem.
-    Item {
-        anchors.fill: parent
-        visible: root.kind === "input"
-
-        Rectangle {
-            x: 9 * root.u
-            y: 2 * root.u
-            width: 6 * root.u
-            height: 12 * root.u
-            radius: width / 2
-            color: root.color
-        }
-
-        Sweep {
-            anchors.fill: parent
-            cx: 12 * root.u
-            cy: 12 * root.u
-            radius: 5.5 * root.u
-            from: 0
-            to: 180
-            stroke: root.color
-            thickness: root.weight
-        }
-
-        Rectangle {
-            x: 12 * root.u - width / 2
-            y: 17.5 * root.u
-            width: root.weight
-            height: 4.5 * root.u
-            radius: width / 2
-            color: root.color
-        }
-    }
-
-    // Brightness: a disc with eight rays.
-    Item {
-        id: sun
-
-        anchors.fill: parent
-        visible: root.kind === "brightness"
-
-        readonly property real reach: 11 * root.u
-
-        Rectangle {
-            anchors.centerIn: parent
-            width: 9 * root.u
-            height: width
-            radius: width / 2
-            color: root.color
-        }
-
-        Repeater {
-            model: 8
-
-            Rectangle {
-                required property int index
-
-                x: 12 * root.u - width / 2
-                y: 12 * root.u - sun.reach
-                width: root.weight
-                height: 4 * root.u
-                radius: width / 2
-                color: root.color
-
-                // Rotated about the icon's centre, which sits `reach` below
-                // this rectangle's own top-left corner.
-                transform: Rotation {
-                    angle: index * 45
-                    origin.x: root.weight / 2
-                    origin.y: sun.reach
-                }
-            }
-        }
-    }
-
-    // Back: a plain chevron.
-    Shape {
-        anchors.fill: parent
-        visible: root.kind === "back"
-        preferredRendererType: Shape.CurveRenderer
-
-        ShapePath {
-            strokeColor: root.color
-            strokeWidth: root.weight
-            capStyle: ShapePath.RoundCap
-            joinStyle: ShapePath.RoundJoin
-            fillColor: "transparent"
-
-            startX: 15 * root.u
-            startY: 4 * root.u
-
-            PathLine {
-                x: 8 * root.u
-                y: 12 * root.u
-            }
-            PathLine {
-                x: 15 * root.u
-                y: 20 * root.u
-            }
-        }
-    }
-
-    // Search: a ring with a handle.
-    Item {
-        anchors.fill: parent
-        visible: root.kind === "search"
-
-        Rectangle {
-            x: 3 * root.u
-            y: 3 * root.u
-            width: 13 * root.u
-            height: width
-            radius: width / 2
-            color: "transparent"
-            border.width: root.weight
-            border.color: root.color
-        }
-
-        Rectangle {
-            x: 14.5 * root.u
-            y: 14.5 * root.u
-            width: root.weight
-            height: 7 * root.u
-            radius: width / 2
-            color: root.color
-            transformOrigin: Item.TopLeft
-            rotation: -45
-        }
-    }
-
-    // CPU: a chip. Outline plus a solid core, and no pins — at the size these
-    // are drawn a ring of pins turns into a smudge.
-    Item {
-        anchors.fill: parent
-        visible: root.kind === "cpu"
-
-        Rectangle {
-            x: 5 * root.u
-            y: 5 * root.u
-            width: 14 * root.u
-            height: width
-            radius: 3 * root.u
-            color: "transparent"
-            border.width: root.weight
-            border.color: root.color
-        }
-
-        Rectangle {
-            anchors.centerIn: parent
-            width: 5 * root.u
-            height: width
-            radius: 1.5 * root.u
-            color: root.color
-        }
-    }
-
-    // Temperature: a thermometer. The bulb is drawn over the stem's lower
-    // end, so the stem's outline disappears into it and reads as one object.
-    Item {
-        anchors.fill: parent
-        visible: root.kind === "temp"
-
-        Rectangle {
-            x: 9 * root.u
-            y: 2 * root.u
-            width: 6 * root.u
-            height: 14 * root.u
-            radius: width / 2
-            color: "transparent"
-            border.width: root.weight
-            border.color: root.color
-        }
-
-        Rectangle {
-            x: 8 * root.u
-            y: 14.5 * root.u
-            width: 8 * root.u
-            height: width
-            radius: width / 2
-            color: root.color
-        }
-    }
-
-    // Memory: stacked modules.
-    Item {
-        anchors.fill: parent
-        visible: root.kind === "memory"
-
-        Repeater {
-            model: 3
-
-            Rectangle {
-                required property int index
-
-                x: 4 * root.u
-                y: (6 + index * 5.5) * root.u
-                width: 16 * root.u
-                height: 3.2 * root.u
-                radius: height / 2
-                color: root.color
-            }
-        }
-    }
-
-    // Battery: stood on end, to sit with the vertical meters it labels.
-    Item {
-        anchors.fill: parent
-        visible: root.kind === "battery"
-
-        Rectangle {
-            x: 10.5 * root.u
-            y: 2 * root.u
-            width: 3 * root.u
-            height: 2 * root.u
-            radius: root.weight / 2
-            color: root.color
-        }
-
-        Rectangle {
-            x: 7.5 * root.u
-            y: 4 * root.u
-            width: 9 * root.u
-            height: 18 * root.u
-            radius: 2 * root.u
-            color: "transparent"
-            border.width: root.weight
-            border.color: root.color
-        }
-    }
-
-    // Close: a plain cross.
-    Shape {
-        anchors.fill: parent
-        visible: root.kind === "close"
-        preferredRendererType: Shape.CurveRenderer
-
-        ShapePath {
-            strokeColor: root.color
-            strokeWidth: root.weight
-            capStyle: ShapePath.RoundCap
-            fillColor: "transparent"
-
-            startX: 7 * root.u
-            startY: 7 * root.u
-
-            PathLine {
-                x: 17 * root.u
-                y: 17 * root.u
-            }
-        }
-
-        ShapePath {
-            strokeColor: root.color
-            strokeWidth: root.weight
-            capStyle: ShapePath.RoundCap
-            fillColor: "transparent"
-
-            startX: 17 * root.u
-            startY: 7 * root.u
-
-            PathLine {
-                x: 7 * root.u
-                y: 17 * root.u
-            }
-        }
-    }
-
-    // Bell: a dome on a base, with a clapper under it. The outline is left
-    // open at the bottom, so filling it closes along the base line and the
-    // solid mark is the same bell rather than a second drawing of one.
-    Item {
-        anchors.fill: parent
-        visible: root.kind === "bell"
-
-        Shape {
-            anchors.fill: parent
-            preferredRendererType: Shape.CurveRenderer
-
-            ShapePath {
-                strokeColor: root.color
-                strokeWidth: root.weight
-                capStyle: ShapePath.RoundCap
-                joinStyle: ShapePath.RoundJoin
-
-                // Fades in and out of the outline's own colour rather than
-                // out of "transparent", which is a transparent *black* and
-                // would take the fill through a grey that isn't in the
-                // palette on its way.
-                fillColor: root.filled ? root.color : Qt.rgba(root.color.r, root.color.g, root.color.b, 0)
-
-                Behavior on fillColor {
-                    ColorAnimation {
-                        duration: Config.fadeDuration
-                    }
-                }
-
-                startX: 4.5 * root.u
-                startY: 17.5 * root.u
-
-                PathLine {
-                    x: 7 * root.u
-                    y: 17.5 * root.u
-                }
-                PathLine {
-                    x: 7 * root.u
-                    y: 11 * root.u
-                }
-                PathArc {
-                    x: 17 * root.u
-                    y: 11 * root.u
-                    radiusX: 5 * root.u
-                    radiusY: 5.5 * root.u
-                    direction: PathArc.Clockwise
-                }
-                PathLine {
-                    x: 17 * root.u
-                    y: 17.5 * root.u
-                }
-                PathLine {
-                    x: 19.5 * root.u
-                    y: 17.5 * root.u
-                }
-            }
-        }
-
-        Rectangle {
-            x: 12 * root.u - width / 2
-            y: 18.5 * root.u
-            width: 3.6 * root.u
-            height: width
-            radius: width / 2
-            color: root.color
-        }
-    }
-
-    // Power: the IEC mark — a ring broken at the top, with a stem through it.
-    Item {
-        anchors.fill: parent
-        visible: root.kind === "power"
-
-        Sweep {
-            anchors.fill: parent
-            cx: 12 * root.u
-            cy: 13 * root.u
-            radius: 7.5 * root.u
-            from: 290
-            to: 250
-            stroke: root.color
-            thickness: root.weight
-        }
-
-        Rectangle {
-            x: 12 * root.u - width / 2
-            y: 2.5 * root.u
-            width: root.weight
-            height: 8 * root.u
-            radius: width / 2
-            color: root.color
-        }
-    }
-
-    // Restart: a ring broken at the top, with an arrowhead closing it.
-    Item {
-        anchors.fill: parent
-        visible: root.kind === "restart"
-
-        Sweep {
-            anchors.fill: parent
-            cx: 12 * root.u
-            cy: 12.5 * root.u
-            radius: 7.5 * root.u
-            from: 315
-            to: 272
-            stroke: root.color
-            thickness: root.weight
-        }
-
-        Shape {
-            anchors.fill: parent
-            preferredRendererType: Shape.CurveRenderer
-
-            ShapePath {
-                fillColor: root.color
-                strokeWidth: -1
-
-                startX: 11 * root.u
-                startY: 2 * root.u
-
-                PathLine {
-                    x: 11 * root.u
-                    y: 8 * root.u
-                }
-                PathLine {
-                    x: 16.5 * root.u
-                    y: 5 * root.u
-                }
-                PathLine {
-                    x: 11 * root.u
-                    y: 2 * root.u
-                }
-            }
-        }
-    }
-
-    // Lock: a shackle over a body.
-    Item {
-        anchors.fill: parent
-        visible: root.kind === "lock"
-
-        Sweep {
-            anchors.fill: parent
-            cx: 12 * root.u
-            cy: 10.5 * root.u
-            radius: 4 * root.u
-            from: 180
-            to: 0
-            stroke: root.color
-            thickness: root.weight
-        }
-
-        Rectangle {
-            x: 5.5 * root.u
-            y: 10.5 * root.u
-            width: 13 * root.u
-            height: 10 * root.u
-            radius: 2.5 * root.u
-            color: "transparent"
-            border.width: root.weight
-            border.color: root.color
-        }
-    }
-
-    // Log out: a doorway with an arrow leaving it.
-    Item {
-        anchors.fill: parent
-        visible: root.kind === "logout"
-
-        Shape {
-            anchors.fill: parent
-            preferredRendererType: Shape.CurveRenderer
-
-            ShapePath {
-                strokeColor: root.color
-                strokeWidth: root.weight
-                capStyle: ShapePath.RoundCap
-                joinStyle: ShapePath.RoundJoin
-                fillColor: "transparent"
-
-                startX: 13 * root.u
-                startY: 4 * root.u
-
-                PathLine {
-                    x: 5 * root.u
-                    y: 4 * root.u
-                }
-                PathLine {
-                    x: 5 * root.u
-                    y: 20 * root.u
-                }
-                PathLine {
-                    x: 13 * root.u
-                    y: 20 * root.u
-                }
-            }
-
-            ShapePath {
-                strokeColor: root.color
-                strokeWidth: root.weight
-                capStyle: ShapePath.RoundCap
-                joinStyle: ShapePath.RoundJoin
-                fillColor: "transparent"
-
-                startX: 10 * root.u
-                startY: 12 * root.u
-
-                PathLine {
-                    x: 20 * root.u
-                    y: 12 * root.u
-                }
-            }
-
-            ShapePath {
-                strokeColor: root.color
-                strokeWidth: root.weight
-                capStyle: ShapePath.RoundCap
-                joinStyle: ShapePath.RoundJoin
-                fillColor: "transparent"
-
-                startX: 16.5 * root.u
-                startY: 8.5 * root.u
-
-                PathLine {
-                    x: 20 * root.u
-                    y: 12 * root.u
-                }
-                PathLine {
-                    x: 16.5 * root.u
-                    y: 15.5 * root.u
-                }
-            }
-        }
+    // Centring the text box centres the ink: MDI glyphs sit centred in their
+    // own advance and their line box, which was measured rather than assumed.
+    // Rotation — the notification group turns the chevron — happens about
+    // this item's centre, so it turns about the glyph's centre too.
+    Text {
+        anchors.centerIn: parent
+        width: root.size
+        height: root.size
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+
+        text: root.codepoint ? String.fromCodePoint(root.codepoint) : ""
+        color: root.color
+
+        font.family: Config.iconFont
+
+        // Whole pixels, so a mark whose size animates — the bell flying from
+        // the bar into the notification heading — asks the glyph cache for a
+        // handful of sizes rather than a new one every frame.
+        font.pixelSize: Math.round(root.size * Config.iconScale)
     }
 }

@@ -40,14 +40,35 @@ PanelWindow {
     WlrLayershell.layer: WlrLayer.Top
     WlrLayershell.namespace: "quickshell:ndvr"
 
-    // Only the keyboard-driven panels want the keyboard, and only while they
-    // are up. Asking for it the rest of the time would take focus off
-    // whatever you were typing into every time the notch so much as widened
-    // for a track change. None of them can be reached by hovering the bar,
-    // so any of them being open is already something you asked for.
-    readonly property bool wantsKeyboard: root.mode === "launcher" || root.mode === "wallpaper" || root.mode === "theme"
+    // A panel takes the keyboard when it was *asked for* — pinned by a
+    // keybind or by right-clicking the bar — and never when it was merely
+    // hovered into. That is the whole condition, and it is the honest one:
+    // grabbing focus on hover would pull the keyboard out of whatever you
+    // were typing into every time the pointer crossed the top of the screen.
+    //
+    // It also replaces a list of modes that had to be kept in step by hand;
+    // the theme picker spent its first minutes unable to see its own Escape
+    // key because it had been added to the panels but not to that list. The
+    // three keyboard-driven panels are exactly the ones `targetAt` can never
+    // return, so they are always pinned and this still covers them.
+    readonly property bool wantsKeyboard: NotchState.forced !== ""
 
     WlrLayershell.keyboardFocus: root.wantsKeyboard ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
+
+    // Escape closes whatever is open, for the panels that don't take the
+    // keyboard themselves — the control centre, the notifications, the power
+    // menu, now playing. The launcher and the two strips hold activeFocus so
+    // they can type and arrow around, and handle their own Escape; this is
+    // what has it the rest of the time.
+    //
+    // One handler rather than one per panel, because "Escape closes the
+    // notch" is a property of the notch and not of anything inside it.
+    Item {
+        id: keyCatcher
+
+        focus: true
+        Keys.onEscapePressed: NotchState.close()
+    }
 
     // Sized for the largest state, once, forever — plus room for the shadow
     // to fall into. The extra is transparent and outside the input mask, so
@@ -74,16 +95,10 @@ PanelWindow {
     // at, and a paused track is exactly when you want the transport controls.
     readonly property bool showMedia: Media.hasPlayer
 
-    // The bell is only in the bar when it has something to say. Nothing
-    // waiting is the ordinary state, and a mark that is on screen all day to
-    // report it is a mark you stop seeing — so the bar earns back the width
-    // and the bell means something when it appears.
-    //
-    // Unlike showMedia this is not a stable thing to aim at, and it does not
-    // pretend to be: the notification centre is still one keybind away when
-    // the bell is gone, which is the only way to reach the history of what
-    // you have already dismissed.
-    readonly property bool showBell: Notifs.count > 0
+    // No workspaces means this is not Hyprland, or it has not answered yet.
+    // Either way the strip takes no room rather than reserving it.
+    readonly property bool showWorkspaces: Workspaces.count > 0
+
 
     readonly property string mode: {
         if (root.opened) {
@@ -127,13 +142,13 @@ PanelWindow {
         case "notify":
             return Config.peekWidth;
         case "bar":
-            // Sized to its contents rather than to a worst case, so a short
-            // title doesn't leave a hole after the clock. The clock and bell
-            // widths are their own; nothing here feeds back into them, so
-            // there is no loop.
-            return Config.barPadX * 2 + root.bellBlockWidth + clock.width + Config.barGap + root.barContentWidth;
+            // Sized to its contents, in the order they sit: workspaces, the
+            // clock, the bell, now playing. The clock and bell widths are
+            // their own; nothing here feeds back into them, so there is no
+            // loop.
+            return Config.barPadX * 2 + root.workspaceBlockWidth + clock.width + root.bellBlockWidth + Config.barGap + root.barContentWidth;
         default:
-            return Config.barPadX * 2 + clock.width + root.bellBlockWidth;
+            return Config.barPadX * 2 + root.workspaceBlockWidth + clock.width + root.bellBlockWidth;
         }
     }
 
@@ -178,12 +193,19 @@ PanelWindow {
     // another has one morph arriving and another leaving at the same moment,
     // and they want opposite curves.
 
-    // The bell and the gap after it, which the clock starts beyond — and
-    // nothing at all when there is no bell, so the bar closes up rather than
-    // holding a space for it. Every measurement below is expressed in terms
-    // of this, so that is the whole of what appearing and disappearing
-    // costs.
-    readonly property real bellBlockWidth: root.showBell ? Config.barBellGap + bell.width : 0
+    // The workspace strip and the gap after it, and nothing at all when there
+    // are no workspaces. Same shape as the bell block below it: one property
+    // that everything else is expressed in terms of. The strip stops growing
+    // at barWorkspaceSlots dots, so past that this no longer changes as
+    // workspaces come and go.
+    readonly property real workspaceBlockWidth: root.showWorkspaces ? workspaces.width + Config.barWorkspaceGap : 0
+
+    // The gap before the bell and the bell itself, which sit between the
+    // clock and now playing. Always there: the bell is in the bar whether or
+    // not anything is waiting and says which by its fill, so the bar's width
+    // no longer changes when the first notification lands or the last is
+    // cleared.
+    readonly property real bellBlockWidth: Config.barBellGap + bell.width
 
     // Where the closed bar's three things sit, in one place rather than
     // scattered across the items that use them — the hover zones below are
@@ -200,8 +222,14 @@ PanelWindow {
     // is loaded into: CollapsedMedia packs its row to the left of a
     // generously-sized layout, so anchoring the box would leave the slack
     // between the title and the padding rather than after it.
-    readonly property real barBellX: Config.barPadX
-    readonly property real barClockX: Config.barPadX + root.bellBlockWidth
+    readonly property real barWorkspacesX: Config.barPadX
+    readonly property real barClockX: Config.barPadX + root.workspaceBlockWidth
+
+    // After the clock, measured from its width. Only read in the bar and on
+    // the flight into the notification heading, and the clock is at its
+    // small size in both — it grows only into the control centre, where the
+    // bell has already faded out.
+    readonly property real barBellX: root.barClockX + clock.width + Config.barBellGap
     readonly property real barMediaX: contentClip.width - Config.barPadX - root.barContentWidth
 
     // What the now-playing group actually occupies. Falls back to the widest
@@ -220,8 +248,8 @@ PanelWindow {
     readonly property CollapsedMedia barItem: barMedia.item as CollapsedMedia
     readonly property NotificationCenter notifItem: notifications.item as NotificationCenter
 
-    // The bell's journey, from the right of the closed bar to the right of
-    // the notification centre's heading.
+    // The bell's journey, from between the time and now playing to the right
+    // of the notification centre's heading.
     property real notifMorph: root.mode === "notifications" ? 1 : 0
 
     Behavior on clockMorph {
@@ -285,8 +313,8 @@ PanelWindow {
 
     // ── Input ────────────────────────────────────────────────────────────
 
-    // The closed bar is three things, and each leads somewhere: the bell, the
-    // time, now playing. The boundaries are taken from where those elements
+    // The closed bar is three things, and each leads somewhere: the time,
+    // the bell, now playing. The boundaries are taken from where those elements
     // are laid out rather than from configured zone widths, so they cannot
     // drift out of step with what is drawn. Each gap is split down the
     // middle, so there is no dead ground between two zones.
@@ -295,17 +323,20 @@ PanelWindow {
     function targetAt(x: real): string {
         const bodyX = x - root.zoneOffset;
 
-        // Guarded on the bell being there at all: without it barClockX is
-        // just the padding, and the leftmost sliver of the bar — the hover
-        // pad included, where bodyX is negative — would still open a
-        // notification centre nothing had pointed you at.
-        if (root.showBell && bodyX < root.barClockX - Config.barBellGap / 2)
-            return "notifications";
+        // The workspace strip is a dead zone: its dots are switched by
+        // clicking one, not by opening anything, so hovering it leaves the
+        // notch closed. "" is what hoverTarget already means by closed, so
+        // this needs no special case anywhere else.
+        if (root.showWorkspaces && bodyX < root.barClockX - Config.barWorkspaceGap / 2)
+            return "";
+
+        if (bodyX < root.barBellX - Config.barBellGap / 2)
+            return "control";
 
         // With no player there is no right third, so everything past the
-        // bell is the time.
+        // clock is the bell's.
         if (!root.showMedia || bodyX < root.barMediaX - Config.barGap / 2)
-            return "control";
+            return "notifications";
 
         return "media";
     }
@@ -383,9 +414,19 @@ PanelWindow {
 
         // Right-click anywhere pins whichever panel you are looking at. Left
         // clicks are left alone so they reach the controls underneath.
+        //
+        // Nothing to pin over the workspace strip: targetAt calls that a dead
+        // zone and NotchState.resolve turns an unrecognised target into the
+        // media panel, so without this guard right-clicking a dot would open
+        // now playing — the one panel you were furthest from asking for.
         TapHandler {
             acceptedButtons: Qt.RightButton
-            onTapped: eventPoint => NotchState.toggle(root.opened ? root.openTarget : root.targetAt(eventPoint.position.x))
+
+            onTapped: eventPoint => {
+                const target = root.opened ? root.openTarget : root.targetAt(eventPoint.position.x);
+                if (target !== "")
+                    NotchState.toggle(target);
+            }
         }
 
         // ── Shape ────────────────────────────────────────────────────────
@@ -456,6 +497,25 @@ PanelWindow {
             width: shape.bodyWidth
             height: shape.bodyHeight
             clip: true
+
+            // The workspace dots — the left end of the closed bar, and the
+            // only thing in it that acts on a click rather than opening
+            // something on hover.
+            WorkspaceDots {
+                id: workspaces
+
+                x: root.barWorkspacesX
+                anchors.verticalCenter: parent.verticalCenter
+
+                opacity: root.showWorkspaces && (root.mode === "bar" || root.mode === "idle") ? 1 : 0
+                visible: opacity > 0
+
+                Behavior on opacity {
+                    NumberAnimation {
+                        duration: Config.fadeDuration
+                    }
+                }
+            }
 
             // Now playing — the right end of the closed bar.
             Loader {
@@ -679,9 +739,25 @@ PanelWindow {
                 }
             }
 
+            // The spectrum around the art. Declared just before it so it
+            // draws behind it, and bound to its geometry so it makes the same
+            // journey between the bar and the panel.
+            NotchSpectrum {
+                x: notchArt.x
+                y: notchArt.y
+                width: notchArt.width
+                height: notchArt.height
+                artRadius: notchArt.radius
+                sizeMorph: notchArt.sizeMorph
+                opacity: notchArt.opacity
+                visible: notchArt.visible
+            }
+
             // Declared after the panels so they draw over whichever state's
             // content is on screen while they fly across it.
             NotchArt {
+                id: notchArt
+
                 morph: root.mediaMorph
 
                 collapsedX: barMedia.x + (root.barItem ? root.barItem.artX : 0)
@@ -712,25 +788,12 @@ PanelWindow {
                 collapsedWidth: root.barItem ? root.barItem.titleWidth : 0
                 expandedWidth: root.mediaItem ? root.mediaItem.titleWidth : 0
 
-                opacity: root.mode === "bar" || root.mode === "media" ? 1 : 0
-                visible: opacity > 0 && Media.hasPlayer
-
-                Behavior on opacity {
-                    NumberAnimation {
-                        duration: Config.fadeDuration
-                    }
-                }
-            }
-
-            NotchVisualizer {
-                morph: root.mediaMorph
-
-                collapsedX: barMedia.x + (root.barItem ? root.barItem.visualiserX : 0)
-                collapsedY: barMedia.y + (root.barItem ? root.barItem.visualiserY : 0)
-                expandedX: mediaPanel.x + (root.mediaItem ? root.mediaItem.visualiserX : 0)
-                expandedY: mediaPanel.y + (root.mediaItem ? root.mediaItem.visualiserY : 0)
-
-                opacity: root.mode === "bar" || root.mode === "media" ? 1 : 0
+                // The panel only. The closed bar has no title — it starts
+                // this journey invisible and zero wide beside the art, and
+                // fades in as it grows into the panel, so it still arrives as
+                // the one object it has always been rather than appearing
+                // from nowhere once the panel has finished opening.
+                opacity: root.mode === "media" ? 1 : 0
                 visible: opacity > 0 && Media.hasPlayer
 
                 Behavior on opacity {
@@ -750,11 +813,8 @@ PanelWindow {
                 expandedX: notifications.x + (root.notifItem ? root.notifItem.bellX : 0)
                 expandedY: notifications.y + (root.notifItem ? root.notifItem.bellY : 0)
 
-                // The closed bar and the panel it opens, and nothing else —
-                // and only while there is something waiting. Clearing the
-                // list with the panel open takes the bell with it, which is
-                // the same thing it says everywhere else.
-                opacity: root.showBell && (root.mode === "bar" || root.mode === "idle" || root.mode === "notifications") ? 1 : 0
+                // The closed bar and the panel it opens, and nothing else.
+                opacity: root.mode === "bar" || root.mode === "idle" || root.mode === "notifications" ? 1 : 0
                 visible: opacity > 0
 
                 Behavior on opacity {
@@ -822,6 +882,14 @@ PanelWindow {
     onOpenedChanged: {
         if (!root.opened)
             return;
+
+        // Take the keyboard back from whichever panel had it last: an item
+        // that goes invisible drops activeFocus and nothing hands it on, so
+        // without this the first launcher visit would be the last time
+        // Escape worked. A panel that wants it grabs it again a frame later,
+        // when it becomes visible — which is why this doesn't need to know
+        // which panels those are.
+        keyCatcher.forceActiveFocus();
         mediaPanel.active = true;
         controlCentre.active = true;
         notifications.active = true;

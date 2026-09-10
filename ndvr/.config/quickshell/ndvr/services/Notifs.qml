@@ -75,6 +75,55 @@ Singleton {
         root.peeked();
     }
 
+    // History folded by sender, newest group first, newest entry first
+    // within each. Grouped by app name rather than by desktop entry because
+    // the name is what the panel puts at the top of the group — grouping by
+    // something the reader can't see would look arbitrary the first time two
+    // apps shared an id.
+    //
+    // Derived rather than kept: `history` is already rebuilt on every push,
+    // dismiss and close, so a second structure to maintain alongside it is a
+    // second structure to forget to maintain.
+    readonly property var groups: {
+        const byApp = {};
+        const out = [];
+
+        for (let i = 0; i < root.history.length; i++) {
+            const entry = root.history[i];
+            let group = byApp[entry.appName];
+
+            if (!group) {
+                group = {
+                    key: entry.appName,
+                    appName: entry.appName,
+                    entries: []
+                };
+                byApp[entry.appName] = group;
+                out.push(group);
+            }
+
+            group.entries.push(entry);
+        }
+
+        return out;
+    }
+
+    // Everything one sender has waiting, in one go. Same order as `clear`:
+    // history is assigned first, and only then are the notifications closed,
+    // because closing lands back in `deactivate` looking through it.
+    function dismissGroup(key: string): void {
+        const dropped = root.history.filter(e => e.appName === key);
+        if (dropped.length === 0)
+            return;
+
+        root.history = root.history.filter(e => e.appName !== key);
+
+        if (root.latest && root.latest.appName === key)
+            root.latest = null;
+
+        dropped.forEach(entry => root.release(entry));
+    }
+
     // What to draw for an entry: the sender's live object where there still
     // is one, because it is the only thing that knows about a replacement,
     // and the copy taken on arrival once there isn't.

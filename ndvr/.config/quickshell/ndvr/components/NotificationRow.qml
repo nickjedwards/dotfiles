@@ -19,6 +19,51 @@ Item {
 
     required property var entry
 
+    // Off inside a group that has a header, which already names the sender —
+    // repeating it on every row would say "Chat" four times down a column
+    // whose heading says Chat.
+    property bool showApp: true
+
+    // Set by the group while this row is being cleared. It slides out to the
+    // right, fading as it goes, and then — unless something is about to take
+    // its place — folds its height away, so the rows under it close up
+    // rather than jump. The list is rebuilt whenever any notification
+    // changes, and a row built already leaving starts out gone rather than
+    // replaying the slide: Behaviors don't run on a property's first value.
+    property bool leaving: false
+    property bool foldOnLeave: true
+
+    property real slide: root.leaving ? 1 : 0
+    property real fold: root.leaving && root.foldOnLeave ? 1 : 0
+
+    Behavior on slide {
+        NumberAnimation {
+            duration: Config.notifSlideDuration
+            easing.type: Easing.InCubic
+        }
+    }
+
+    Behavior on fold {
+        SequentialAnimation {
+            PauseAnimation {
+                duration: Config.notifSlideDuration
+            }
+
+            NumberAnimation {
+                duration: Config.notifCollapseDuration
+                easing.type: Easing.OutCubic
+            }
+        }
+    }
+
+    enabled: !root.leaving
+    opacity: 1 - root.slide
+    clip: root.fold > 0
+
+    transform: Translate {
+        x: root.slide * root.width
+    }
+
     // The sender's own object, while it still has one. Only a live
     // notification can be acted on, and only it knows about a replacement.
     readonly property var live: root.entry.notification
@@ -37,7 +82,7 @@ Item {
     signal dismissed
     signal invoked(action: var)
 
-    implicitHeight: Config.notifRowHeight + (root.actions.length > 0 ? buttons.implicitHeight + Config.notifActionGap : 0)
+    implicitHeight: (Config.notifRowHeight + (root.actions.length > 0 ? buttons.implicitHeight + Config.notifActionGap : 0)) * (1 - root.fold)
 
     RowHighlight {
         on: hover.hovered
@@ -48,11 +93,32 @@ Item {
         cursorShape: root.defaultAction ? Qt.PointingHandCursor : Qt.ArrowCursor
     }
 
-    // The default action, on the row itself. The cross and the buttons take
-    // the press outright where they are hit, which cancels this one.
+    // The default action, on the row itself.
+    //
+    // The cross and the buttons used to take the press outright to cancel
+    // this one, but an exclusive grab is refused inside a ListView — the
+    // Flickable has one — so they never tapped at all. Everything here is a
+    // passive grab now, which means this handler and a control's both fire
+    // on the same press, in no guaranteed order. Hence the guard: a tap that
+    // landed on a control is that control's, not the row's.
+    function overControl(pos: point): bool {
+        if (closeMark.visible && closeMark.contains(closeMark.mapFromItem(root, pos)))
+            return true;
+        if (buttons.visible && buttons.contains(buttons.mapFromItem(root, pos)))
+            return true;
+
+        return false;
+    }
+
     TapHandler {
         enabled: root.defaultAction !== null
-        onTapped: root.invoked(root.defaultAction)
+
+        onTapped: eventPoint => {
+            if (root.overControl(eventPoint.position))
+                return;
+
+            root.invoked(root.defaultAction);
+        }
     }
 
     ClippingRectangle {
@@ -91,6 +157,7 @@ Item {
             spacing: 6
 
             Text {
+                visible: root.showApp
                 text: root.entry.appName
                 color: Config.textDim
                 font.family: Config.font
@@ -124,6 +191,8 @@ Item {
             // Takes the age's place rather than sitting beside it, so the row
             // doesn't reflow under the pointer.
             TileIcon {
+                id: closeMark
+
                 Layout.alignment: Qt.AlignVCenter
                 visible: hover.hovered
                 kind: "close"
@@ -136,7 +205,6 @@ Item {
                 }
 
                 TapHandler {
-                    gesturePolicy: TapHandler.ReleaseWithinBounds
                     onTapped: root.dismissed()
                 }
             }

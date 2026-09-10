@@ -2,60 +2,40 @@ import QtQuick
 import QtQuick.Layouts
 import qs.services
 
-// What the notch shows when it is closed but something is playing.
+// What the notch shows when it is closed but something is playing: the art,
+// with its spectrum around it, and nothing else.
 //
-// The art and the title are not drawn here. They are single objects that
-// morph into the media panel (see NotchArt/NotchTitle), so this holds
-// invisible stand-ins of exactly their size and reports where the layout put
-// them. That keeps the visualiser positioned by the layout — it sits after
-// whatever width the title actually took — without the strip owning either.
+// The title used to be here too, capped at ten characters. It is gone from
+// the closed bar entirely — the art already says what is playing at a
+// glance, and the title was the one thing in the bar whose width changed
+// with every track, which is what moved the whole centred notch sideways on
+// a song change. It still exists in the media panel, and still arrives there
+// as one object growing into place; it simply grows out of nothing beside
+// the art rather than out of a truncated copy of itself.
+//
+// The art is not drawn here. It is a single object that morphs into the
+// media panel (see NotchArt, and NotchSpectrum riding on it), so this holds an
+// invisible stand-in of exactly its size and reports where the layout put it.
 RowLayout {
     id: root
 
     readonly property real artX: art.x
     readonly property real artY: art.y
-    readonly property real titleX: title.x
-    readonly property real titleY: title.y
-    readonly property real titleWidth: title.width
-    readonly property real visualiserX: visualiser.x
-    readonly property real visualiserY: visualiser.y
 
-    // What the strip actually occupies, as opposed to what it was allotted.
-    // The layout is given a fixed, generous width so it never has to reflow;
-    // this is what the notch sizes itself to, so a short title doesn't leave
-    // a hole between the visualiser and the clock.
-    readonly property real contentWidth: art.width + title.width + visualiser.width + root.spacing * 2
+    // Where the title starts its journey into the panel: zero wide, at the
+    // art's right edge, level with its middle. It is invisible at this end,
+    // so what matters is not the point itself but that the flight starts
+    // from the art — the title reads as coming out of the thing it names
+    // rather than out of the clock or the middle of the bar.
+    readonly property real titleX: art.x + art.width
+    readonly property real titleY: art.y + (art.height - Config.barTitleSize) / 2
+    readonly property real titleWidth: 0
 
-    // The character cap, as the width it takes to draw exactly that many
-    // characters of *this* title plus the ellipsis. Ten characters is not a
-    // fixed width in a proportional font — "Illmatic O" and "Wilkommen"
-    // differ by half again — so the cap is measured per track rather than
-    // guessed once.
-    //
-    // Applied as a width because the visible title is a single object that
-    // grows into the media panel and elides against whatever width it has
-    // (see NotchTitle). Truncating the string instead would mean swapping
-    // the text mid-flight, halfway through the notch opening.
-    readonly property real titleCap: {
-        // `metrics.font` is read rather than used: advanceWidth is a call,
-        // and a call registers no dependency on the metrics behind it, so
-        // without this the cap would be measured once — in whatever font the
-        // metrics happened to have before the real one was applied — and
-        // never corrected. It came out in Noto Sans at 16px, which is a third
-        // wider than the title it was supposed to be measuring.
-        metrics.font;
-        return Math.ceil(metrics.advanceWidth(Media.title.slice(0, Config.barTitleChars) + "…"));
-    }
+    // What the strip actually occupies — a constant, since nothing in it
+    // depends on the track.
+    readonly property real contentWidth: art.width
 
     spacing: Config.barSpacing
-
-    FontMetrics {
-        id: metrics
-
-        // The font the title is actually drawn in, rather than a second copy
-        // of the same three lines to drift away from it.
-        font: title.font
-    }
 
     Item {
         id: art
@@ -65,34 +45,8 @@ RowLayout {
         Layout.alignment: Qt.AlignVCenter
     }
 
-    // Capped rather than filling. Filling would stretch this to whatever is
-    // left over and pin the visualiser to the far right, so a short title
-    // would sit in the middle of a wide empty box; capping lets the text hug
-    // its own width and truncate only when it actually runs long.
-    Text {
-        id: title
-
-        Layout.maximumWidth: root.titleCap
-        Layout.alignment: Qt.AlignVCenter
-        text: Media.title
-        opacity: 0
-        elide: Text.ElideRight
-        font.family: Config.font
-        font.pixelSize: Config.barTitleSize
-        font.weight: Font.Medium
-    }
-
-    // A stand-in, like the art and the title above it.
-    Item {
-        id: visualiser
-
-        Layout.alignment: Qt.AlignVCenter
-        Layout.preferredWidth: Config.visualiserWidth
-        Layout.preferredHeight: Config.barVisualiserHeight
-    }
-
-    // Takes the slack a short title leaves, so the three above stay packed
-    // against the left instead of being spread across the strip.
+    // Takes whatever slack the box has, so the art stays packed against the
+    // left rather than floating in it.
     Item {
         Layout.fillWidth: true
     }

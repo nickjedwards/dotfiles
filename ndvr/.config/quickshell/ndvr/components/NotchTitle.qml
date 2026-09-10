@@ -21,8 +21,8 @@ Text {
     //
     // Both start at zero rather than at some stand-in width: each end is
     // measured by the strip or the panel it belongs to, and until one of them
-    // has been built there is no honest number to use. The art and the
-    // visualiser fall back to the same nothing for the same reason.
+    // has been built there is no honest number to use. The art falls back
+    // to the same nothing for the same reason.
     property real collapsedWidth: 0
     property real expandedWidth: 0
 

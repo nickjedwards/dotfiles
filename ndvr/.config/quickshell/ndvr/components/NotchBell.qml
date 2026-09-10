@@ -2,10 +2,11 @@ pragma ComponentBehavior: Bound
 
 import qs.services
 
-// The bell, morphing between the right end of the closed bar and the right
-// end of the notification centre's heading — the same journey the art, title
-// and visualiser make into the media panel, and for the same reason: the
-// thing you aimed at should still be there when you arrive.
+// The bell, morphing between its place in the closed bar — between the time
+// and now playing — and the right end of the notification centre's heading.
+// It is the same journey the art and title make into the media panel, for
+// the same reason: the thing you aimed at should still be there when you
+// arrive.
 BellMark {
     id: root
 

@@ -22,6 +22,11 @@ Item {
     // being switched off: there is nothing to switch.
     property bool available: true
 
+    // Passed through to TileIcon, for a tile whose mark stands for a
+    // quantity — the wifi tile's bars follow the signal. Every other tile
+    // leaves it at the top, which draws its mark whole.
+    property real level: 1
+
     signal activated
 
     implicitHeight: Config.tileHeight
@@ -91,6 +96,7 @@ Item {
             TileIcon {
                 anchors.centerIn: parent
                 kind: root.kind
+                level: root.level
                 size: Math.round(Config.tileBadge * 0.58)
                 // Contrasting with the lit badge, knocked back on the
                 // unlit one.

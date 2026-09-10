@@ -50,6 +50,18 @@ Item {
         return d;
     }
 
+    // Saturday and Sunday. Asked by index rather than by date so a cell can
+    // ask about its neighbours without building three Date objects to find
+    // out whether it is at the end of a run — and so an index off either end
+    // of the window answers false rather than throwing.
+    function isWeekend(i: int): bool {
+        if (i < 0 || i >= root.windowDays)
+            return false;
+
+        const day = root.dateAt(i).getDay();
+        return day === 0 || day === 6;
+    }
+
     function dateAt(i: int): date {
         const d = new Date(root.windowStart);
         d.setDate(d.getDate() + i);
@@ -76,7 +88,11 @@ Item {
         font.pixelSize: Config.calMonthSize
     }
 
-    readonly property real datesY: weekdayFm.height + Config.calRowGap
+    // Both rows are pushed down by the weekend band's padding, and the block
+    // grows by it again underneath, so the band — which fills the block —
+    // has air above the weekdays and below the dates.
+    readonly property real weekdaysY: Config.calWeekendPadY
+    readonly property real datesY: root.weekdaysY + weekdayFm.height + Config.calRowGap
 
     Item {
         id: block
@@ -84,7 +100,7 @@ Item {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.verticalCenter: parent.verticalCenter
-        height: root.datesY + dateFm.height
+        height: root.datesY + dateFm.height + Config.calWeekendPadY
 
         Text {
             id: month
@@ -156,13 +172,36 @@ Item {
                     // rather than a date comparison.
                     readonly property bool isToday: cell.index === root.centerIndex
 
+                    readonly property bool isWeekend: root.isWeekend(cell.index)
+
+                    // Saturday and Sunday sit next to each other, so a band
+                    // per column would pinch where two rounded corners meet.
+                    // Each cell rounds only the ends of the run it is in,
+                    // which makes a weekend one block rather than two marks —
+                    // and still rounds both ends of a lone Saturday or Sunday
+                    // stranded at the edge of the window.
+                    readonly property bool opensRun: cell.isWeekend && !root.isWeekend(cell.index - 1)
+                    readonly property bool closesRun: cell.isWeekend && !root.isWeekend(cell.index + 1)
+
                     x: strip.offset + cell.index * Config.calCellWidth
                     width: Config.calCellWidth
                     height: strip.height
 
+                    // Declared first so it sits behind the day it is behind.
+                    Rectangle {
+                        anchors.fill: parent
+                        visible: cell.isWeekend
+                        color: Config.raise(Config.calWeekendWash)
+
+                        topLeftRadius: cell.opensRun ? Config.calWeekendRadius : 0
+                        bottomLeftRadius: cell.opensRun ? Config.calWeekendRadius : 0
+                        topRightRadius: cell.closesRun ? Config.calWeekendRadius : 0
+                        bottomRightRadius: cell.closesRun ? Config.calWeekendRadius : 0
+                    }
+
                     Text {
                         anchors.horizontalCenter: parent.horizontalCenter
-                        y: 0
+                        y: root.weekdaysY
 
                         text: {
                             const name = Qt.formatDateTime(cell.date, "ddd").toUpperCase();

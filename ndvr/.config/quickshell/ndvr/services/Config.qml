@@ -35,17 +35,13 @@ Singleton {
     readonly property real barWidth: 296
     readonly property real barHeight: 36
 
-    // The box CollapsedMedia is laid out in, not what it occupies: the row is
-    // packed to its left and the slack left over. Fixed rather than derived
-    // from barWidth, so the strip is translated as the bar grows instead of
-    // being re-laid-out every frame. Wide enough for art + a capped title +
-    // visualiser, which is the worst case.
-    //
-    // Because now playing sits at the right end of the bar, Notch places it
-    // by its *content* width rather than this one — see barMediaX — so the
-    // slack falls outside the notch and gets clipped rather than sitting
-    // between the title and the padding.
-    readonly property real barMediaWidth: 166
+    // The box CollapsedMedia is laid out in: just the art, now that the
+    // visualiser bars have given way to the spectrum around it. Derived rather
+    // than written down, because with no title in the bar there is no worst
+    // case to allow for — the strip is the same width for every track, and
+    // this is exactly that width. The spectrum is drawn outside it, in the
+    // padding and gap either side, so it costs no width.
+    readonly property real barMediaWidth: barArtSize
     readonly property real barPadX: 14
     readonly property real barSpacing: 8
 
@@ -54,17 +50,6 @@ Singleton {
     // and no wider than it takes to say that.
     readonly property real barGap: 20
 
-    // Where a long title gets truncated, counted in characters rather than
-    // pixels: ten of them, then an ellipsis. The bar is a glance, not a place
-    // to read a track name from end to end — and the shorter this is, the
-    // less the whole bar moves when the track changes.
-    //
-    // CollapsedMedia turns this into the width the title elides against, by
-    // measuring the ten characters it is willing to show. A pixel width would
-    // have been simpler, but "ten characters" is the thing actually being
-    // asked for, and ten characters is not a fixed width in a proportional
-    // font.
-    readonly property int barTitleChars: 10
 
     // The two ends of the art and title animations. Like the clock, each is
     // one object that grows rather than two that cross-fade, so both ends
@@ -80,15 +65,57 @@ Singleton {
     readonly property real panelArtRadius: 18
     readonly property real panelTitleSize: 17
 
-    // The visualiser makes the same journey, ending at the far right of the
-    // title. Its width is the Row's natural one either end; only the bars get
-    // taller, to suit the larger title it sits beside.
-    readonly property real visualiserWidth: 20
-    readonly property real barVisualiserHeight: 12
-    readonly property real panelVisualiserHeight: 18
+    // The spectrum around the art, which took the visualiser bars' place:
+    // the art's outline pushed out by every band of what is playing, filled
+    // in the art's colour. `Gap` is how far out it sits at silence, `Reach`
+    // how much further a band at full level pushes it. Both scale with the
+    // art between the bar and the panel: the bar's add up to what fits in the
+    // 8px between a 20px art and the edge of a 36px bar, the panel's to what
+    // fits inside its 20px of padding.
+    readonly property real barSpectrumGap: 1.5
+    readonly property real panelSpectrumGap: 3
+    readonly property real barSpectrumReach: 2
+    readonly property real panelSpectrumReach: 16
 
-    // The bell at the left end of the closed bar, and the gap between it and
-    // the time after it. Hover zones are not configured — they are derived
+    // Soft enough that the art stays the thing you look at. A touch quieter
+    // in the bar, with the shorter reach above: there it sits beside the
+    // clock all day, where in the panel it is what you opened it to see.
+    readonly property real barSpectrumOpacity: 0.5
+    readonly property real panelSpectrumOpacity: 0.6
+
+    // How long the colour takes to move to a new track's.
+    readonly property int spectrumColourDuration: 600
+
+    // Between the art and the track details beside it in the media panel.
+    // Derived from the spectrum, which spreads into this gap: at its fullest
+    // reach it still stops 12px short of the title and the controls. It was
+    // a flat 18, which the spectrum's 19px overran.
+    readonly property real mediaArtGap: panelSpectrumGap + panelSpectrumReach + 12
+
+    // The workspace dots at the very left of the closed bar, before the time.
+    // Each dot sits in a fixed cell so switching never reflows the strip.
+    //
+    // At most five dots wide. Fewer workspaces than that and the strip is
+    // just as wide as they are; more, and it becomes a window the row slides
+    // under to keep the focused dot towards the middle, so past five a
+    // workspace appearing or disappearing no longer changes the bar's width.
+    readonly property real barWorkspaceCell: 13
+    readonly property real barWorkspaceDot: 5
+    readonly property real barWorkspaceDotFocused: 7
+    readonly property real barWorkspaceGap: 16
+    readonly property int barWorkspaceSlots: 5
+
+    // How far the strip dissolves at an end with more dots beyond it: about
+    // a cell and a half, so the outermost dot is mostly gone and the one
+    // inside it barely touched.
+    readonly property real barWorkspaceFade: 20
+
+    // An existing workspace with nothing in it, knocked back from one you
+    // have left windows on.
+    readonly property real barWorkspaceEmpty: 0.4
+
+    // The bell in the closed bar, between the time and now playing, and the
+    // gap between it and the time before it. Hover zones are not configured — they are derived
     // from where these actually end up, in Notch.qml's targetAt.
     readonly property real barBellSize: 15
     readonly property real barBellGap: 18
@@ -109,9 +136,12 @@ Singleton {
     readonly property real mediaPanelWidth: 460
     readonly property real mediaPanelHeight: 184
 
-    // The control centre: a status header over a body of controls.
+    // The control centre: a status header over a body of controls. The
+    // sliders are bottomed and everything else hangs from the top, so a taller
+    // header (calHeight) has to be paid for here or it squeezes the gap above
+    // Brightness.
     readonly property real ccWidth: 480
-    readonly property real ccHeight: 452
+    readonly property real ccHeight: 460
 
     // The window is built once at the size of the largest state and never
     // resized, so it needs to know what that is.
@@ -127,14 +157,15 @@ Singleton {
     readonly property real clockLarge: 40
 
     // ── Calendar ─────────────────────────────────────────────────────────
-    // The day strip under the clock. Just tall enough for the two rows —
-    // the space around it comes from the rail, not from padding in here.
+    // The day strip under the clock. Just tall enough for the two rows and
+    // the weekend band's padding above and below them (calWeekendPadY) —
+    // the rest of the space around it comes from the rail.
     //
     // The month is a label on the row, not a second headline under the
     // clock. At 24 it was competing with the time for the top-left corner
     // and crowding a 10px weekday row from six pixels away; at 17 the
     // hierarchy reads time, then dates, then the month naming them.
-    readonly property real calHeight: 36
+    readonly property real calHeight: 44
     readonly property real calMonthSize: 17
     readonly property real calWeekdaySize: 10
     readonly property real calDateSize: 14
@@ -161,6 +192,21 @@ Singleton {
     // Re-measure this if calMonthSize changes — it was 50 while the month
     // was set at 24.
     readonly property real calMonthWidth: 36
+
+    // The band behind Saturday and Sunday. A wash of the foreground rather
+    // than a colour of its own — the strip has no room for a third hue, and
+    // Config.raise lightens a dark theme and darkens a light one, so the
+    // band is a step off the surface either way. Low enough that you notice
+    // the shape of the week rather than the band itself.
+    readonly property real calWeekendWash: 0.05
+    readonly property real calWeekendRadius: 6
+
+    // Air between the band's top and bottom edges and the rows inside it.
+    // The band is the strip's full height, so this pads the rows down inside
+    // the strip rather than growing the band past it — the strip clips, and
+    // it is also what the vitals bottom on. Without it the weekday letters
+    // and dates ran right up to the band's edges.
+    readonly property real calWeekendPadY: 4
 
     // Applied at both edges. Under one day column, because the viewport is
     // narrow enough now that a wider ramp would eat most of what it shows.
@@ -262,6 +308,27 @@ Singleton {
     // Where a wordy action label gets truncated. Senders write these, and
     // "Mark all as read and archive" is not going to fit beside two others.
     readonly property real notifActionMaxWidth: 150
+
+    // The header a group of notifications from one sender wears: its name, a
+    // count, and the controls for the group as a whole. A sender with one
+    // notification waiting gets no header at all — a group of one is just a
+    // notification, and heading it would be chrome saying nothing.
+    readonly property real notifGroupHeaderHeight: 26
+    readonly property real notifGroupIndent: 8
+
+    // The gap below each group in the centre. The group's own rather than
+    // the list's spacing, so a cleared group folding away takes it too.
+    readonly property real notifGroupSpacing: 6
+
+    // A cleared notification slides out to the right and then folds its
+    // space away, so what is under it closes up rather than jumping. Clear
+    // sends every group out one after another, notifClearStagger apart,
+    // counting no further than notifClearStaggerMax so a long list doesn't
+    // keep you waiting on the bottom of it.
+    readonly property int notifSlideDuration: 220
+    readonly property int notifCollapseDuration: 180
+    readonly property int notifClearStagger: 35
+    readonly property int notifClearStaggerMax: 6
 
     // ── Strip panels ─────────────────────────────────────────────────────
     // The shape the wallpaper picker and the theme picker both take: a
@@ -516,4 +583,15 @@ Singleton {
     }
 
     readonly property string font: "Inter"
+
+    // The icon font: Material Design glyphs from the Nerd Font symbols set.
+    // The symbols-only family rather than a patched text face, so the icons
+    // never depend on which text font happens to be installed — install.sh
+    // ships it as ttf-nerd-fonts-symbols. See TileIcon for the codepoints.
+    readonly property string iconFont: "Symbols Nerd Font"
+
+    // How large a glyph is set relative to the box it sits in. MDI draws
+    // inside a padded 24-unit square, so at 1 the ink comes out a little
+    // under the box — about where the old drawn marks sat.
+    readonly property real iconScale: 1
 }

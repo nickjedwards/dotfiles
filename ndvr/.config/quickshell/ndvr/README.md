@@ -3,8 +3,8 @@
 A NotchNook-style notch for Hyprland, built on Quickshell.
 
 It sits flush against the top edge of every monitor as a small dark bar with
-the time and now playing, joined on the left by a notification bell whenever
-something is waiting. It peeks when a notification arrives, and opens on hover
+the time and now playing, with a notification bell between
+the two — hollow when nothing is waiting, filled when something is. It peeks when a notification arrives, and opens on hover
 into a panel depending on which part you aimed at: the bell opens the
 notification centre, the time opens a control centre, and now playing opens
 transport — the clock growing into place as it does. A keybind opens an
@@ -12,7 +12,7 @@ application launcher in the same notch.
 
 # Todo
 
-- Workspaces
+- [x] Workspaces
 - [x] Application launcher (toggleable by IPC)
 - [ ] Control center (toggleable by IPC)
   - [x] Bluetooth
@@ -49,7 +49,9 @@ exec-once = qs -c ndvr -d -n
 ```
 
 Requirements: Quickshell 0.3+ (the control centre uses `Quickshell.Networking`
-and `Quickshell.Bluetooth`), Qt 6.6+ with QtQuick.Shapes.
+and `Quickshell.Bluetooth`), Qt 6.6+ with QtQuick.Shapes, and the Nerd Font
+symbols font for the icons (`ttf-nerd-fonts-symbols`, which `install.sh`
+installs).
 
 The power menu shells out to `systemctl` (shut down, restart) and `hyprlock`
 (lock), and sends log out down Hyprland's own socket. All four are in
@@ -62,7 +64,9 @@ Optional but used when present: PipeWire (volume, audio devices), UPower
 
 **Fonts**: the design assumes Inter. Change `Config.font` if you don't have
 it — Qt will fall back to a default sans otherwise, which will look fine but
-slightly wider.
+slightly wider. Every icon is a glyph from *Symbols Nerd Font*; without it
+each one renders as a missing-glyph box. Any Nerd Font carries the same
+Material Design glyphs, so `Config.iconFont` can point at another family.
 
 **Wallpaper**: the picker shows what is in `~/.config/ndvr/wallpapers` and
 points `~/.config/wallpaper` at whichever one you choose — the same link
@@ -134,18 +138,21 @@ Right-clicking the notch pins open whichever panel you are pointing at.
 ```
 shell.qml              Entry point. One Variants over screens, plus IPC.
 Notch.qml              The window: state machine, input mask, animation.
+cava.conf              What Cava.qml runs cava with.
 components/
   NotchShape.qml       The silhouette, including the flared top corners.
   NotchClock.qml       The clock, which is always on screen.
+  WorkspaceDots.qml    The workspace strip at the left of the closed bar.
   NotchArt.qml         The album art, bar to media panel.
+  NotchSpectrum.qml    The spectrum around the art, in the art's colour.
   NotchTitle.qml       The track title, bar to media panel.
-  NotchVisualizer.qml  The visualiser, bar to end of the title.
   BellMark.qml         The bell, hollow or filled, at any size.
   NotchBell.qml        That mark, bar to notification heading.
   CalendarStrip.qml    The sliding day strip under the clock.
   CollapsedMedia.qml   Closed-with-media strip.
   NotificationPeek.qml Notification peek.
   NotificationCenter.qml Open panel: notification history.
+  NotificationGroup.qml All one sender has waiting, as one item.
   NotificationRow.qml  One notification in that history.
   ActionChip.qml       One action button on a notification.
   PowerMenu.qml        Open panel: shut down, restart, log out, lock.
@@ -170,13 +177,14 @@ components/
   BtPage.qml           Paired bluetooth devices.
   RowHighlight.qml     The lozenge behind the row under the pointer.
   ToggleSwitch.qml     The on/off switch at the top of a device page.
-  TileIcon.qml         Control-centre marks, drawn as geometry.
-  MediaButton.qml      Transport controls, drawn as geometry not glyphs.
-  Visualizer.qml       Bars that move while audio plays.
+  TileIcon.qml         Every mark in the shell, as a Material Design glyph.
+  MediaButton.qml      Transport controls, as glyphs.
 services/
   Config.qml           Sizes, timings, palette.
   NotchState.qml       Which panel is pinned open, driven by IPC.
   Media.qml            MPRIS player selection.
+  Cava.qml             The spectrum of what is playing, from cava.
+  ArtColour.qml        The album art's most vivid colour.
   Wifi.qml             WiFi state, reduced to what the tile shows.
   Bt.qml               Bluetooth state, ditto.
   Audio.qml            Pipewire devices, volume, and switching between them.
@@ -189,6 +197,7 @@ services/
   Battery.qml          Charge, and one line about what it is doing.
   Notifs.qml           Notification daemon, history buffer and actions.
   Time.qml             One clock for the whole shell.
+  Workspaces.qml       The numbered workspaces, and switching between them.
 ```
 
 ## Why it's built this way
@@ -249,43 +258,87 @@ while every other panel's content started at 20. The art now fills the row —
 which is why `panelArtSize` is what it is, rather than a size picked for its
 own sake.
 
-**Five things morph, and none of them are cross-faded.** The clock travels
-between the bar and the control centre; the album art, the track title and
-the visualiser travel between the bar and the media panel, the visualiser
-ending at the far right of the title; the bell travels from the right of the
-bar to the right of the notification centre's heading. All five work the same
+**Four things morph, and none of them are cross-faded.** The clock travels
+between the bar and the control centre; the album art travels between the
+bar and the media panel with its spectrum riding on it, and the track title
+grows into the panel out of the edge of the art; the bell travels from
+between the time and now playing to the right of the notification centre's
+heading. All four work the same
 way and for the same reason, described below for the clock — the thing you
 aimed at should still be there when you arrive.
 
 The consequence is that neither end owns them. `CollapsedMedia` and
 `MediaPanel` both keep invisible stand-ins — of exactly the right size, in
-exactly the right place — and report where the layout put them. In the panel
-the visualiser's stand-in sits at the end of the title's row, so the title
-elides before it rather than running underneath it. The art requests its
+exactly the right place — and report where the layout put them. The art requests its
 image at the larger of the two sizes, so growing into the panel neither
 re-fetches nor goes soft on the way.
 
-Only one visualiser exists now rather than one per state, so its animations
-run in one place — and they are still bound to `isPlaying`, so a paused
-player costs nothing wherever it happens to be.
+**The spectrum around the art replaced the visualiser bars.** The four bars
+were a fixed loop that looked the same for every song. Now the art's own
+outline is pushed out by the audio all the way round, and filled in the
+art's colour. `Cava` runs cava with `cava.conf` — raw numbers on stdout, 60
+frames a second, 40 bands in stereo — and `NotchSpectrum` draws each frame
+as one smooth closed shape behind the art, through the midpoints between
+bands so a loud band is a swell rather than a corner.
 
-**The bar's title is capped in characters, and applied as a width.**
-`Config.barTitleChars` is ten, and `CollapsedMedia` measures what ten
-characters of *this* title comes to before handing that width to the
-stand-in — ten characters is not a fixed width in a proportional font, so
-the cap is measured per track rather than guessed once. It has to arrive as
-a width because the visible title is a single object that grows into the
-media panel and elides against whatever width it has; truncating the string
-instead would mean swapping the text mid-flight, halfway through the notch
-opening.
+cava's stereo order is the left channel from treble down to bass, then the
+right from bass back up. Laid clockwise from the bottom, the two bass ends
+meet at the top and the two treble ends at the bottom, so the shape closes
+with no seam and its two sides differ as the channels do. Each band's
+distance is measured out from the art's rounded-square edge rather than from
+a circle, so the shape follows the art, and silence leaves a thin even halo
+`*SpectrumGap` out. cava's own smoothing is turned up — `noise_reduction`
+over time, `monstercat` across neighbours — so the outline flows rather
+than bristles.
 
-The measuring `FontMetrics` takes `font: title.font` rather than repeating
-the family, size and weight, and the binding reads `metrics.font` before
-calling `advanceWidth`. That read is the whole trick: `advanceWidth` is a
-call, and a call registers no dependency on the metrics behind it, so the
-cap was measured once in whatever font the metrics had before the real one
-was applied — Noto Sans at 16px, a third wider than the title it was
-supposed to be measuring — and never corrected.
+A first attempt watched only the bass and sent a ripple out on each beat. It
+read as a metronome rather than as the music — a vocal or a pad moved
+nothing — which is what drawing every band fixes.
+
+cava only runs while the spectrum is on screen and a track is playing, so a
+paused player or another panel costs nothing; while it runs it takes about a
+tenth of a core. It hears the whole system output, not one player, which is
+why the spectrum also gates on `Media.isPlaying`. Without cava installed the
+halo just sits at its resting size.
+
+The colour is `ArtColour`'s. It quantises the cover to eight colours and
+takes the most vivid, not the most common: the most common colour of most
+covers is a background. It is pushed light enough to read on the notch, or
+dark enough on a light theme, and a cover with no real colour in it is drawn
+in the text colour. Quickshell's `ColorQuantizer` only reads local files and
+Spotify hands over https art, so a remote cover is fetched with `curl` into
+`$XDG_RUNTIME_DIR/ndvr-art`, one file, replaced per track.
+
+`NotchSpectrum` is a sibling drawn just behind `NotchArt` and bound to its
+geometry, not a child of it: the art is a `ClippingRectangle`, which would
+cut off everything outside its own edge — which is all of the spectrum. Its
+gap and reach scale with the art between `bar*` and `panel*` ends like
+everything else on that journey, and both ends fit in the space already
+there: 8px above and below the art in the bar, 20px of padding in the panel.
+The bar's end is also a little quieter — `barSpectrumOpacity` and a shorter
+reach — because there it sits beside the clock all day, where in the panel
+it is what you opened it to see. That strength is applied in the paint, not
+as the canvas's opacity, which is the fade on play and pause: a `Behavior`
+there would chase the morph every frame and trail behind it.
+On the panel's other side, the gap between the art and the track details is
+`mediaArtGap`, derived from the spectrum's gap and reach plus 12px, so the
+shape at its fullest stops short of the title and controls — the flat 18px
+it replaced let it run into them.
+
+**The closed bar has no track title.** It had one, capped at ten
+characters, and it was the one thing in the bar whose width changed with
+every song — which, because the notch is centred and hugs its contents,
+meant a track change slid the whole bar sideways. The art already says what
+is playing at a glance, so the title went, and the now-playing half is the
+art alone at a constant width, its spectrum drawn in the padding around it.
+`barMediaWidth` is derived from the art rather than written down, since
+there is no longer a worst case to allow for.
+
+The title still exists in the media panel and still arrives there as the
+one object it has always been. `CollapsedMedia` reports a zero-wide origin
+at the art's right edge, and `NotchTitle` starts its flight there, invisible,
+fading in as it grows — so it reads as coming out of the thing it names
+rather than appearing from nowhere once the panel has finished opening.
 
 The bell splits the same way: `BellMark` is the drawing at whatever size it
 is asked for, and `NotchBell` is the one that moves. The notification centre
@@ -375,7 +428,7 @@ label while the label reads the strip back is a binding loop, and a heading
 that resized on "Aug" → "Sep" would shunt the days sideways as you scrolled.
 
 **Which third you aimed at picks the panel.** The closed bar is three things
-side by side — now playing, the time, the bell — and `targetAt()` turns the
+side by side — the time, the bell, now playing — and `targetAt()` turns the
 entry position into `"media"`, `"control"` or `"notifications"`.
 
 The boundaries are taken from where the clock and the bell actually sit,
@@ -404,16 +457,18 @@ exit event on the floor — which reads as the notch closing in your face.
 `showMedia` is `Media.hasPlayer`, not `isPlaying`: the media third has to be
 a stable thing to aim at, and a paused track is exactly when you want the
 transport controls. With no player at all there is no right third, so
-everything past the bell opens the control centre.
+everything past the clock opens the notification centre.
 
-**The closed bar reads bell, time, now playing.** The three sit in that
-order left to right, and `Notch` states each position once — `barBellX`,
-`barClockX`, `barMediaX` — rather than scattering them across the items that
-use them, because the hover zones are read off exactly the same numbers the
-elements are drawn at and the two must not drift.
+**The closed bar reads workspaces, time, bell, now playing.** The four sit in
+that order left to right, and `Notch` states each position once —
+`barWorkspacesX`, `barClockX`, `barBellX`, `barMediaX` — rather than
+scattering them across the items that use them, because the hover zones are
+read off exactly the same numbers the elements are drawn at and the two must
+not drift.
 
-The bell and the clock are measured from the left edge, which is a constant,
-so neither moves while the notch grows underneath them. Now playing is the
+The workspace strip, the clock and the bell are measured from the left edge,
+which is a constant, so none of them moves while the notch grows underneath
+them. Now playing is the
 one measured from the right, and it is expressed against live geometry
 rather than the target width so it stays correctly placed for every frame of
 that growth instead of jumping at the end of it — which is what the clock
@@ -468,32 +523,73 @@ exist, so creating that file externally for the very first time is not seen
 until the next reload. Choosing a theme in the panel writes it through the
 same `FileView`, so that path is never affected.
 
-**The bell is only there when it has something to say.** `Notch.showBell` is
-`Notifs.count > 0`, and nothing waiting is the ordinary state — a mark that
-sits in the bar all day to report it is a mark you stop seeing. So the bar
-closes up and earns the width back, and the bell means something when it
-appears. It costs `barBellGap + barBellSize`, 33px, which the bar animates
-like any other size change.
+**The workspace strip is the one part of the bar that is not a hover
+target.** Every other third opens a panel when the pointer enters it. The
+dots are switched by clicking one, which is a different kind of gesture, so
+`targetAt` returns `""` over them — the value `hoverTarget` already uses for
+closed, so the notch simply stays shut and nothing else needed a special
+case. The right-click-to-pin handler did: `NotchState.resolve` turns an
+unrecognised target into the media panel, so without a guard, right-clicking
+a dot would have opened now playing — the panel you were furthest from
+asking for.
 
-Everything the bell touches is expressed through `bellBlockWidth`, which is
-zero when there is no bell: the bar's width, the clock's position, and the
-hover zones all follow from that one property. The `targetAt` guard is the
-exception that has to be written out — without a bell `barClockX` is just
-the padding, so the leftmost sliver of the bar, hover pad included, would
-still open a notification centre nothing had pointed you at.
+**Past five dots, the row slides under a window, like the pickers.** The
+notch is centred and hugs its contents, so anything that changes width shifts
+everything sideways — it is why the closed bar has no track title. The
+focused dot grows *inside* its cell rather than widening it, so switching
+never changes a width. Up to `barWorkspaceSlots` (five) the strip is exactly
+as wide as its dots; beyond that it stops growing, the focused dot is kept on
+the centre line, and the row slides under it over `stripSlideDuration` — the
+wallpaper and theme strips' shape at dot size. Everything the strip costs is
+`workspaceBlockWidth`, zero when there are no workspaces to show, in the same
+shape as the bell block.
 
-The trade is that **the notification centre has no hover target when the
-list is empty**, which is the point: there is nothing to peek at. It is
-still a keybind away, and that is the only route to the history of what you
-have already dismissed.
+The centring is clamped at the ends, unlike the pickers. Centring exactly
+left an empty stretch beside the focused dot on the first and last
+workspace — three cells of nothing between the dots and the time — which in a
+bar that hugs its contents reads as a layout bug rather than as "you are at
+the start". Clamped, the focused dot sits at the edge there instead.
 
-`BellMark` is always the solid, bright bell now. It used to draw itself
-hollow and dim for an empty list — the whole of what a number beside it had
-been saying — but that state became unreachable the moment the bell stopped
-appearing for an empty one, and it was actively wrong on the way out:
-clearing the panel had the mark change shape and colour as it faded rather
-than simply going. `TileIcon.filled` stays, since the bell's outline is left
-open along its base and closing it is what a hollow mark would need.
+An end fades through `Config.fade` only when there are dots beyond it. With
+every dot in view there is no fade at all: a fade over the last dot would dim
+it, and a dim dot already means an empty workspace. `centreIndex` follows
+`Workspaces.focusedIndex` through a `Binding` that lets go while it is -1, so
+toggling a special workspace over the top leaves the strip where it was
+instead of sliding it off to mean "none".
+
+Dots rather than numbers: the bar is a glance — which of five, not a label to
+read — and numerals at that size would be the smallest text in the shell by
+some way. Urgent outranks focused, because you cannot be urgent at yourself.
+
+Switching goes through `Hyprland.dispatch` with the same two spellings
+logging out needs, picked off `Hyprland.usingLua`: under the Lua config layer
+it is `hl.dsp.focus({ workspace = n })`, which is exactly what
+`hyprland.lua`'s own `SUPER+[0-9]` binds use, so clicking a dot and pressing
+the keybind go the same way.
+
+**The bell is always in the bar, and says by its fill whether anything is
+waiting.** It sits between the time and now playing: MDI's `bell_outline` in
+`textDim` while the list is empty, the solid `bell` in `text` once there is
+something in it. `BellMark.unread` drives both, so the fill and the colour
+can't disagree, and the colour eases over `fadeDuration`.
+
+It used to vanish for an empty list, on the argument that a mark reporting
+nothing all day is a mark you stop seeing. That cost two things. The bar
+jumped 33px whenever the first notification arrived or the last was cleared —
+and because the notch is centred, that jump moved everything else in it too.
+And the notification centre had no hover target while the list was empty,
+which is exactly when you'd go looking for what you already dismissed. A bell
+that is always there removes both: `bellBlockWidth` no longer depends on the
+count, so the bar's width doesn't either.
+
+It sits after the clock, measured from the clock's own width — `barBellX` is
+`barClockX + clock.width + barBellGap`. That is safe because the bell is only
+ever positioned from the bar or on its flight into the notification heading,
+and the clock is at its small size in both; it grows only into the control
+centre, by which point the bell has faded out. The hover zones read the same
+numbers: dead over the workspace dots, the control centre over the time, the
+notification centre over the bell, transport over now playing — and with no
+player, everything past the clock is the bell's.
 
 **Every list highlights a row the same way.** `RowHighlight.qml` is the
 filled lozenge behind whatever the pointer is on — the launcher's rows, the
@@ -532,8 +628,8 @@ Nothing outside `WallpaperPanel` reads any of it, and the panel calls
 that starts either process, and an untouched wallpaper picker costs nothing.
 
 Everything else that could poll, doesn't. `SysMon`'s three timers are bound
-to the control centre being visible, the visualiser's animations to
-`Media.isPlaying && visible`, and `Brightness` never polls at all — it
+to the control centre being visible, cava to the spectrum being on screen
+with something playing, and `Brightness` never polls at all — it
 re-reads when the panel opens, and writes behind a 60ms coalescing timer
 with at most one process in flight, so a slider drag cannot spawn sixty
 processes a second.
@@ -555,6 +651,57 @@ the month naming them. `calMonthWidth` is measured rather than guessed — the
 widest three-letter month, "May", at whatever size the label is set to — so
 it moved from 50 to 36 with the font and has a note to re-measure if that
 changes again.
+
+**Every icon is a glyph.** The marks used to be drawn as geometry — shapes on
+a 24-unit grid — so that no icon font had to be installed. They are Material
+Design glyphs from *Symbols Nerd Font* now: a real, consistent set rather
+than hand-built approximations, and one that recolours through `color` like
+any text, so every theme works for free. The system's symbolic SVG icons
+were the other option and were turned down on two counts: Adwaita has no
+CPU, temperature or memory icon, and an SVG only follows the palette through
+a colorize effect — a GPU layer per icon, the cost the shadow already pays.
+
+The symbols-only family rather than a Nerd-patched text face, so the icons
+don't depend on which text font is installed. `TileIcon` keeps its old API —
+`kind`, `size`, `filled`, `level` — so nothing that uses a mark changed, and
+the codepoints live in one table. Two entries are chosen by look rather than
+name: MDI's `memory` has pins on all four sides, which is what a CPU looks
+like, and its `chip` has pins top and bottom, which is what RAM looks like.
+
+Centring the text box centres the ink — measured, not assumed: MDI glyphs sit
+centred in their own advance and line box, so a centred `Text` lands where
+the drawn marks did, and the notification group's rotated chevron turns
+about the glyph's centre. Transport controls are set larger than their box,
+because MDI pads them inside the 24-unit square where the old marks filled
+theirs edge to edge. Sizes are rounded to whole pixels, so the bell's flight
+into the notification heading asks the glyph cache for a handful of sizes
+rather than a new one every frame.
+
+**The marks that stand for a quantity show it.** `TileIcon.level` picks
+between MDI's glyphs for a few levels of the two marks that stand for a
+quantity. The speaker has four: `volume_off` when muted or wound down to
+zero, then `low`, `medium` and `high` for each third — the same four states
+the drawn speaker counted in waves. The sun has four too, one per quarter of
+the backlight, its centre filling hollow, crescent, half, full. MDI numbers
+them out of that order — the crescent is `brightness_4`, *before* the hollow
+`brightness_5` — so reading the run off by number gives only three, which is
+what it shipped with at first. Not `F00E1`, which sits beside them and looks
+like the top of the sequence but is the *auto* brightness sun, with an A in
+it.
+
+The Wi-Fi tile's badge does the same with the signal: one bar per quarter of
+the connected network's strength, the figure the Wi-Fi page prints as a
+percent, so the mark and the number agree. Equal quarters rather than
+GNOME's perceptual cut-offs, which would put a 79% link at three bars — a
+mismatch sitting right next to the percentage. No network means no bars, the
+empty outline, rather than a full fan on a tile that says "Off". These are
+MDI's fan-shaped strength glyphs, not the arcs of its plain `wifi` mark,
+because only the fans come in steps; `ToggleTile` gained a `level`
+passthrough to carry it, which every other tile leaves at the top.
+
+All three default to the top, so any other use of those marks — the output
+tile's badge, which is about which device is selected rather than how loud
+it is — shows the whole mark without being told anything.
 
 **The radios are bindings, never one-shot reads.** `Wifi.qml` and `Bt.qml`
 wrap `Quickshell.Networking` and `Quickshell.Bluetooth`, which populate a
@@ -595,21 +742,38 @@ is discarded rather than fighting the drag. Nothing polls the backlight —
 `ControlCenter` re-reads it when the panel becomes visible, which covers the
 brightness keys changing it behind the shell's back.
 
-**The keyboard-driven panels ask for the keyboard, and only while they are
-up.** A layer-shell surface has to request keyboard focus explicitly, and
-`WlrLayershell.keyboardFocus` follows `Notch.wantsKeyboard` — the launcher,
-the wallpaper picker and the theme picker, `Exclusive` for those and `None`
-otherwise. Asking for it the rest of the time would pull focus off whatever
-you were typing into every time the notch widened for a track change. None
-of the three can be opened by hovering the bar, so any of them being up is
-already something you asked for.
+**A panel takes the keyboard when it was asked for, never when it was
+hovered into.** A layer-shell surface has to request keyboard focus
+explicitly, and `WlrLayershell.keyboardFocus` follows `Notch.wantsKeyboard`,
+which is simply `NotchState.forced !== ""` — pinned by a keybind or by
+right-clicking the bar. Grabbing focus on hover would pull the keyboard out
+of whatever you were typing into every time the pointer crossed the top of
+the screen, which is why hovering the bar open deliberately gets you no
+`Escape`: you close those by moving away.
 
-That list has to be kept in step with the panels themselves: the theme
-picker grew arrow keys, `Enter` and `Escape` the moment it became a strip,
-and until it was added here those keys went nowhere. It is worth knowing
-that `Exclusive` really is exclusive while they are open: `Escape` is the
-way out, and `ipc call notch close` is the way out if something goes
-wrong.
+That condition used to be a list of modes, and the list was a maintenance
+hazard — the theme picker spent its first minutes unable to see its own
+`Escape` key because it had been added to the panels but not to the list.
+The three keyboard-driven panels are exactly the ones `targetAt` can never
+return, so they are always pinned and the simpler condition still covers
+them.
+
+**`Escape` closes the notch, and that is one handler rather than seven.**
+The launcher and the two strips hold `activeFocus` so they can type and
+arrow around, and each handles its own `Escape`. Everything else — the
+control centre, the notifications, the power menu, now playing — has nothing
+inside it that wants focus, so a bare `Item` in `Notch` holds it and closes
+on `Escape`. Closing the notch is a property of the notch, not of anything
+inside it.
+
+The catch is that an item which goes invisible drops `activeFocus` and
+nothing hands it back, so without re-asserting it on open, the first
+launcher visit would be the last time `Escape` worked anywhere else.
+`onOpenedChanged` takes it back; a panel that wants it grabs it again a
+frame later when it becomes visible, which is why that code doesn't need to
+know which panels those are. It is worth knowing that `Exclusive` really is
+exclusive while a pinned panel is open: `Escape` is the way out, and
+`ipc call notch close` is the way out if something goes wrong.
 
 The search field keeps focus for the whole life of the panel. The arrow keys
 move a selection index in the list rather than moving focus into it, so
@@ -827,6 +991,30 @@ looking at is at full strength and its neighbours are knocked back, while
 the one actually in use wears an accent ring — usually the same tile, and
 the panel is no use on the occasions they aren't.
 
+**Weekends wear a band, not a colour.** The strip has no room for a third
+hue — today's accent is the only one in it — so Saturday and Sunday get
+`Config.raise` at five percent instead: a wash of the foreground over the
+surface, which lightens a dark theme and darkens a light one, so the band is
+a step off the background either way without knowing which kind of theme is
+on.
+
+The two days are adjacent, so a band per column would pinch where two
+rounded corners meet, and overlapping semi-transparent bands would seam
+where they doubled up. Each cell rounds only the ends of the run it is in —
+`opensRun` and `closesRun`, from per-corner radii — which makes a weekend
+one block rather than two marks, and still rounds both ends of a lone
+Saturday or Sunday stranded at the edge of the window. `isWeekend` takes an
+index rather than a date so a cell can ask about its neighbours without
+building three `Date` objects, and so an index off either end answers false
+rather than throwing.
+
+The band fills the strip, and the strip used to be exactly as tall as its two
+rows, so the weekday letters and dates ran right up to the band's edges.
+`calWeekendPadY` pads the rows down inside the strip instead, with `calHeight`
+grown to match. The band can't simply be taller than the strip: the strip
+clips to scroll, and the vitals bottom on the strip, so a band overhanging it
+would end below the meters beside it.
+
 **The wallpaper picker and the theme picker are one shape.** Picking a
 palette and picking a picture are the same job — look at a handful, take
 one — so they are one set of numbers rather than two that drift: the
@@ -858,6 +1046,91 @@ overstatement: a sender that believes the body is markup escapes it before
 sending, so an ampersand in a message arrives as `&amp;` and gets drawn that
 way. Chrome does exactly this. Turning the capability off is what makes a
 Teams message about "R&D" say R&D.
+
+**Notifications are grouped by sender, and a group of one is just a
+notification.** `Notifs.groups` folds `history` by app name — newest group
+first, newest entry first within each — and it is derived rather than kept,
+because `history` is already rebuilt on every push, dismiss and close, and a
+second structure alongside it is a second structure to forget to maintain.
+
+Grouping is by the name rather than the desktop entry because the name is
+what the header puts at the top of the group: grouping by something the
+reader cannot see would look arbitrary the first time two apps shared an id.
+
+A sender with one notification waiting gets no header, no count and nothing
+to expand — it draws exactly as it did before there was any grouping, which
+is what most of them are. A second notification from the same sender turns
+it into a group, and the header appears to carry what applies to the whole
+of it: the name, how many, and clearing the lot. Collapsed shows the newest,
+which is the one you would have seen anyway, so ten notifications from one
+chat cost the panel one row instead of ten.
+
+Three things can be cleared and they are three different verbs: the cross on
+a row clears that notification, `Clear` on a group header clears that
+sender, and `Clear` in the panel heading clears everything.
+`dismissGroup` assigns `history` before releasing anything, for the same
+reason `clear` does — closing a notification lands straight back in
+`deactivate`, looking through the history it is given.
+
+Each of the three slides out to the right before it goes. The list's model
+is a plain array rebuilt on every change, so there is no removal to animate:
+the moment `Notifs` lets go of an entry, every delegate is rebuilt. So
+`NotificationCenter` marks what is leaving — `leavingKeys`, `leavingGroups`
+— the rows slide off that, and only after `notifSlideDuration` does `Notifs`
+hear about it. A single row then folds its height away over
+`notifCollapseDuration` before it is dropped, so what is under it closes up
+instead of jumping; the newest of a collapsed group slides without folding,
+because the next one takes its place. A group cleared down to one loses its
+header and indent while the other is still sliding, rather than snapping at
+the end. Clear sends the groups out `notifClearStagger` apart and drops them
+group by group rather than calling `Notifs.clear()`, so something arriving
+mid-slide isn't swept away unseen with them.
+
+The marks live in the centre, not the rows, because a notification arriving
+mid-slide rebuilds the list: a row rebuilt while still marked starts out gone
+— Behaviors don't run on a property's first value — instead of popping back.
+And the gap between groups is each group's own rather than the list's
+`spacing`, so a group folding away takes its gap with it.
+
+**Which groups are open is the panel's business, not the service's.**
+`expandedGroups` lives in `NotificationCenter`: the service holding view
+state for a view that may not even be built is the wrong shape. It survives
+the panel closing, because the loader keeps it, so a group you opened is
+still open next time you look.
+
+It is a plain object used as a set, and `toggle` copies it rather than
+editing it in place. QML does not watch the inside of a `var`, so mutating
+it would leave every delegate showing the state it had when it was built —
+the bug this comment exists to prevent.
+
+**A `TapHandler` inside a `ListView` must not ask for an exclusive grab.**
+This cost an afternoon, so it is worth writing down. `ReleaseWithinBounds`
+takes an exclusive grab on press, which is the tidy way to stop a parent's
+tap firing as well — and it works everywhere in this shell except inside a
+`Flickable`, where the `ListView` has already taken that grab to see whether
+you are flicking. The handler is refused, and never taps at all.
+
+It fails silently and it fails *selectively*: hover still works, the cursor
+still changes, the control still lights up under the pointer. It just never
+fires. That is why the group's Clear button looked dead while the panel's
+own Clear, which is not in a list, worked fine — and why the wallpaper and
+theme tiles could only ever be driven through IPC.
+
+Everything inside a list is on the default policy now, which takes a passive
+grab that lives alongside the Flickable's. It also gives back something that
+was quietly lost: dragging across a tile flicks the strip again, instead of
+the tile swallowing the drag.
+
+The cost is that a control's tap and its row's tap now both fire on the same
+press, in no guaranteed order. Where that matters — a notification row with
+a default action, whose chips and close cross sit inside it —
+`NotificationRow.overControl` checks where the tap landed and leaves it to
+the control. Where it doesn't, the two targets simply don't overlap: the
+group header is a toggle on the left and a Clear on the right, side by side,
+rather than one strip with a button on top of it.
+
+Outside a `Flickable` the exclusive grab is still the right tool, and the
+workspace dots, the on/off switch and the two `Set` labels keep it.
 
 **The notification centre is a live surface, and that is what makes it
 awkward.** `Notifs` marks every notification `tracked` and keeps the sender's
@@ -1005,10 +1278,6 @@ drawn over 30–95°C rather than from zero, because a CPU never sits near zero
 and a bar from there would barely move; past 80°C it turns red.
 
 ## Extending it
-
-**Real audio bars.** `Visualizer.qml` currently fakes it. Run `cava` with
-raw output through a `Process` + `SplitParser` in a singleton and bind each
-bar's `level` to a real band.
 
 **Inline reply.** The one part of the notification spec the panel still
 doesn't do. `NotificationServer` has an `inlineReplySupported` flag, and a

@@ -200,6 +200,11 @@ Item {
                         kind: "wifi"
                         label: "Wi-Fi"
                         detail: Wifi.detail
+
+                        // The bars follow the connected network's signal —
+                        // the same number the Wi-Fi page shows as a percent,
+                        // and 0 (no bars) when there is no network to measure.
+                        level: Wifi.strength
                         active: Wifi.enabled && !Wifi.blocked
                         available: Wifi.available && !Wifi.blocked
                         onActivated: root.page = "wifi"
@@ -262,6 +267,10 @@ Item {
                     kind: "brightness"
                     label: "Brightness"
                     value: Brightness.value
+
+                    // The sun grows with the backlight, the way the speaker
+                    // below counts its waves off the volume.
+                    level: Brightness.value
                     onMoved: v => Brightness.set(v)
                 }
 

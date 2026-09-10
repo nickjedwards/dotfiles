@@ -94,10 +94,15 @@ Item {
         cursorShape: Qt.PointingHandCursor
     }
 
+    // Default gesture policy, which takes a *passive* grab. Inside a
+    // ListView the Flickable takes the exclusive grab on press to see
+    // whether you are flicking, so a handler asking for an exclusive one is
+    // refused and never taps — which is what made these tiles unclickable.
+    // It also means dragging across a picture flicks the strip, rather than
+    // the tile swallowing the drag.
     TapHandler {
         id: press
 
-        gesturePolicy: TapHandler.ReleaseWithinBounds
         onTapped: root.activated()
     }
 }

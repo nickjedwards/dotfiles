@@ -1,11 +1,10 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
-import QtQuick.Shapes
 import qs.services
 
-// Transport controls drawn as geometry rather than glyphs, so they don't
-// depend on an icon font being installed.
+// Transport controls, as Material Design glyphs from the icon font — the same
+// set every other mark in the shell comes from (see TileIcon).
 Item {
     id: root
 
@@ -47,73 +46,34 @@ Item {
         onTapped: root.activated()
     }
 
-    Item {
+    readonly property int codepoint: {
+        switch (root.kind) {
+        case "pause":
+            return 0xF03E4; // pause
+        case "play":
+            return 0xF040A; // play
+        case "previous":
+            return 0xF04AE; // skip_previous
+        default:
+            return 0xF04AD; // skip_next
+        }
+    }
+
+    Text {
         anchors.centerIn: parent
         width: root.size
         height: root.size
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
 
-        // Pause: two bars.
-        Row {
-            anchors.centerIn: parent
-            visible: root.kind === "pause"
-            spacing: Math.round(root.size * 0.28)
+        text: String.fromCodePoint(root.codepoint)
+        color: Config.text
+        font.family: Config.iconFont
 
-            Repeater {
-                model: 2
-
-                Rectangle {
-                    width: Math.round(root.size * 0.24)
-                    height: root.size
-                    radius: width / 2
-                    color: Config.text
-                }
-            }
-        }
-
-        // Play: single triangle. Previous/next: triangle plus a stop bar,
-        // mirrored by the parent's scale.
-        Item {
-            anchors.fill: parent
-            visible: root.kind !== "pause"
-            transform: Scale {
-                origin.x: root.size / 2
-                origin.y: root.size / 2
-                xScale: root.kind === "previous" ? -1 : 1
-            }
-
-            Shape {
-                anchors.fill: parent
-                preferredRendererType: Shape.CurveRenderer
-
-                ShapePath {
-                    fillColor: Config.text
-                    strokeWidth: -1
-
-                    startX: root.kind === "play" ? 1 : 0
-                    startY: 0
-                    PathLine {
-                        x: root.kind === "play" ? root.size - 1 : root.size * 0.78
-                        y: root.size / 2
-                    }
-                    PathLine {
-                        x: root.kind === "play" ? 1 : 0
-                        y: root.size
-                    }
-                    PathLine {
-                        x: root.kind === "play" ? 1 : 0
-                        y: 0
-                    }
-                }
-            }
-
-            Rectangle {
-                visible: root.kind !== "play"
-                anchors.right: parent.right
-                width: Math.round(root.size * 0.18)
-                height: root.size
-                radius: width / 2
-                color: Config.text
-            }
-        }
+        // Set larger than the box. MDI draws its transport glyphs well inside
+        // the padded 24-unit square — measured, their ink is 0.58–0.63 of the
+        // pixel size — where the old drawn marks filled their box edge to
+        // edge. 1.6 is roughly the reciprocal, so they occupy the same space.
+        font.pixelSize: Math.round(root.size * Config.iconScale * 1.6)
     }
 }

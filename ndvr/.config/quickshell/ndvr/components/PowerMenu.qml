@@ -47,19 +47,17 @@ Item {
         PowerButton {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            kind: "power"
-            label: "Shut down"
-            danger: true
-            onActivated: Power.shutdown()
-        }
+            kind: "lock"
+            label: "Lock"
 
-        PowerButton {
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            kind: "restart"
-            label: "Restart"
-            danger: true
-            onActivated: Power.reboot()
+            // Closes the notch on the way, unlike the three around it: they
+            // end the session, so what the notch does afterwards is nobody's
+            // business, while this one leaves the power menu sitting there
+            // waiting for you when you unlock.
+            onActivated: {
+                Power.lock();
+                NotchState.close();
+            }
         }
 
         PowerButton {
@@ -74,17 +72,19 @@ Item {
         PowerButton {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            kind: "lock"
-            label: "Lock"
+            kind: "restart"
+            label: "Restart"
+            danger: true
+            onActivated: Power.reboot()
+        }
 
-            // Closes the notch on the way, unlike the three around it: they
-            // end the session, so what the notch does afterwards is nobody's
-            // business, while this one leaves the power menu sitting there
-            // waiting for you when you unlock.
-            onActivated: {
-                Power.lock();
-                NotchState.close();
-            }
+        PowerButton {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            kind: "power"
+            label: "Shut down"
+            danger: true
+            onActivated: Power.shutdown()
         }
     }
 }
