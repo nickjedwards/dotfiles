@@ -150,7 +150,7 @@ components/
   NotchBell.qml        That mark, bar to notification heading.
   CalendarStrip.qml    The sliding day strip under the clock.
   CollapsedMedia.qml   Closed-with-media strip.
-  NotificationPeek.qml Notification peek.
+  NotificationPeek.qml The newest arrivals, stacked.
   NotificationCenter.qml Open panel: notification history.
   NotificationGroup.qml All one sender has waiting, as one item.
   NotificationRow.qml  One notification in that history.
@@ -1063,17 +1063,45 @@ Grouping is by the name rather than the desktop entry because the name is
 what the header puts at the top of the group: grouping by something the
 reader cannot see would look arbitrary the first time two apps shared an id.
 
-A sender with one notification waiting gets no header, no count and nothing
-to expand — it draws exactly as it did before there was any grouping, which
-is what most of them are. A second notification from the same sender turns
-it into a group, and the header appears to carry what applies to the whole
-of it: the name, how many, and clearing the lot. Collapsed shows the newest,
-which is the one you would have seen anyway, so ten notifications from one
-chat cost the panel one row instead of ten.
+A sender with one notification waiting gets one card — no header, no
+count, nothing to expand — which is what most of them are. More than one is
+a stack: the newest card in front, and up to two more peeking out beneath
+it, each dropped `notifStackPeek` and inset `notifStackInset` further and a
+little fainter, all drawn at the front card's height so the edges that show
+are even. Each sliver carries a soft shadow along its top, cast by the card
+in front: the card fill is only a step off the panel, so fainter copies of it
+barely register on their own, and it is the shadow that makes the slivers
+read as cards behind a card rather than stripes under one. A stack wears no header — it says "several" by being one — and the
+front card says how many, as a quiet `+N` after the sender's name. So ten
+notifications from one chat cost the panel one card and two slivers rather
+than ten rows.
+
+A click anywhere on a stack, slivers included, fans it out into a list under
+a header carrying what applies to the whole of it: the name, how many, and
+clearing the lot. Until then the stack is one thing, the way macOS treats
+them, so its front card's cross clears the whole stack rather than just the
+newest.
+
+Every notification is a card now, single or stacked, in the control
+centre's tile fill, so the panels read as one set rather than each inventing
+a surface. A card sizes itself to what it says: rows used to be a fixed 66px,
+and a two-line body ran past the bottom of its row, which nobody could see
+until there was an edge for it to cross.
+
+The stack and the list are the same cards laid out by hand from one animated
+number, `fan` — 0 stacked, 1 opened — and each card's own height. Stacked,
+card *n* sits behind the front one at its level's inset and drop; opened, it
+sits under the card above, at that card's list position plus its folding
+height. Nothing carries a Behavior on its position. A Behavior chasing a
+target that is itself moving — a card folding away above it — lands late,
+and the list would jump when the model was finally rebuilt; derived from
+`fan` and the folds, every card is exactly where it should be on every frame,
+and the group's height is just how far down the cards reach.
 
 Three things can be cleared and they are three different verbs: the cross on
-a row clears that notification, `Clear` on a group header clears that
-sender, and `Clear` in the panel heading clears everything.
+a card clears that notification — on the front of a stack, the whole stack —
+`Clear` on an opened group's header clears that sender, and `Clear` in the
+panel heading clears everything.
 `dismissGroup` assigns `history` before releasing anything, for the same
 reason `clear` does — closing a notification lands straight back in
 `deactivate`, looking through the history it is given.
@@ -1085,10 +1113,8 @@ the moment `Notifs` lets go of an entry, every delegate is rebuilt. So
 — the rows slide off that, and only after `notifSlideDuration` does `Notifs`
 hear about it. A single row then folds its height away over
 `notifCollapseDuration` before it is dropped, so what is under it closes up
-instead of jumping; the newest of a collapsed group slides without folding,
-because the next one takes its place. A group cleared down to one loses its
-header and indent while the other is still sliding, rather than snapping at
-the end. Clear sends the groups out `notifClearStagger` apart and drops them
+instead of jumping. A group cleared down to one loses its header while the
+other is still sliding, rather than snapping at the end. Clear sends the groups out `notifClearStagger` apart and drops them
 group by group rather than calling `Notifs.clear()`, so something arriving
 mid-slide isn't swept away unseen with them.
 
@@ -1178,6 +1204,28 @@ a second copy underneath. The peek can't see that on its own, so `Notifs`
 listens for the text changing and asks for another peek, through
 `Qt.callLater` so that one replacement is one peek rather than one per
 property it moved.
+
+**The peek stacks.** It used to show only the newest notification, so three
+arriving together showed one — each replaced the last before it could be
+read, on a single timer the last one restarted. Now the newest `peekMax`
+stack, newest on top, and the notch grows a row for each. Every one peeks for
+`peekDuration` from its own arrival or latest replacement rather than all
+sharing the last one's clock, so a burst drains away oldest first, in the
+order it came.
+
+`Notifs` keeps what is peeking as keys with deadlines, on one timer set for
+whichever runs out first, and `peeking` is derived from `history` — so a
+notification dismissed or closed mid-peek is drawn as it now is, or not at
+all, without the peek having to be told. `latest`, which every kind of
+dismissal used to have to remember to clear, is gone.
+
+`NotificationPeek` diffs that list into a `ListModel` rather than using it as
+the model. The array is rebuilt on every change, and a view over it would
+rebuild every row with it, re-fading the ones already up. As a `ListModel`
+an arrival is an insert, an expiry a remove and a replacement a move, and
+each animates: the new one fades in on top while the others slide down to
+make room. Hovering the notch or opening a panel still ends every peek at
+once, as it always did.
 
 **Action buttons don't hide on hover**, unlike the dismiss cross. They carry
 the sender's own words, so they read as part of the notification rather than

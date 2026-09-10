@@ -82,7 +82,11 @@ PanelWindow {
     // open. "" is closed, otherwise "media" or "control". A forced-open panel
     // from IPC counts the same way.
     property string hoverTarget: ""
-    property bool peeking: false
+    // Something is announcing itself. Notifs keeps what, and for how long.
+    readonly property bool peeking: Notifs.peeking.length > 0
+
+    // The peek is built on the first one and kept afterwards.
+    property bool peekBuilt: false
 
     // A pin beats a hover, not the other way round: pressing the launcher
     // keybind while the pointer happens to rest on the notch should open the
@@ -169,7 +173,8 @@ PanelWindow {
         case "theme":
             return Config.themePanelHeight;
         case "notify":
-            return Config.peekHeight;
+            // A row for each notification peeking.
+            return Config.peekPadY * 2 + Config.peekRowHeight * Math.max(1, Notifs.peeking.length);
         case "bar":
             return Config.barHeight;
         default:
@@ -293,21 +298,18 @@ PanelWindow {
         }
     }
 
-    Timer {
-        id: peekTimer
-        interval: Config.peekDuration
-        onTriggered: root.peeking = false
-    }
-
     Connections {
         target: Notifs
 
         function onPeeked(): void {
-            // Don't interrupt someone who is already using a panel.
-            if (root.opened)
+            // Don't interrupt someone who is already using a panel. Ended
+            // rather than merely hidden, so it doesn't pop up the moment the
+            // panel closes for whatever time it had left.
+            if (root.opened) {
+                Notifs.endPeeks();
                 return;
-            root.peeking = true;
-            peekTimer.restart();
+            }
+            root.peekBuilt = true;
         }
     }
 
@@ -396,7 +398,7 @@ PanelWindow {
             onHoveredChanged: {
                 if (pointer.hovered) {
                     collapseTimer.stop();
-                    root.peeking = false;
+                    Notifs.endPeeks();
                     if (!root.opened)
                         root.hoverTarget = root.targetAt(pointer.point.position.x);
                 } else {
@@ -546,12 +548,15 @@ PanelWindow {
             Loader {
                 id: peek
 
-                anchors.centerIn: parent
+                // From the top rather than centred, so the rows already up
+                // stay where they are while the notch grows for another.
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.top: parent.top
+                anchors.topMargin: Config.peekPadY
                 width: Config.peekWidth - 32
-                height: Config.peekHeight - 20
+                height: Config.peekRowHeight * Config.peekMax
 
-                // Built on the first notification and kept afterwards.
-                active: Notifs.latest !== null
+                active: root.peekBuilt
                 asynchronous: true
 
                 opacity: root.mode === "notify" ? 1 : 0

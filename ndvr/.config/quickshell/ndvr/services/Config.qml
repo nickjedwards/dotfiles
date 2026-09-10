@@ -16,7 +16,8 @@ Singleton {
     // notch flickering when you cross it on the way somewhere else.
     readonly property int collapseDelay: 140
 
-    // How long a notification peek stays up.
+    // How long each notification peeks for, counted from its own arrival (or
+    // its latest replacement), so a burst drains away oldest first.
     readonly property int peekDuration: 4500
 
     // Wait this long after startup before building the expanded panel in the
@@ -129,7 +130,16 @@ Singleton {
     readonly property real idleHeight: 32
 
     readonly property real peekWidth: 400
-    readonly property real peekHeight: 78
+
+    // One notification in the peek, and the air above and below the stack.
+    // Several arriving together stack, newest on top, up to peekMax; the
+    // notch grows by a row for each, and a new one slides the others down
+    // over peekMoveDuration.
+    readonly property real peekRowHeight: 58
+    readonly property real peekPadY: 10
+    readonly property int peekMax: 3
+    readonly property int peekMoveDuration: 220
+    readonly property real peekStackHeight: peekRowHeight * peekMax + peekPadY * 2
 
     // The two open panels. Hovering the left of the bar opens the first,
     // hovering the time opens the second.
@@ -146,7 +156,7 @@ Singleton {
     // The window is built once at the size of the largest state and never
     // resized, so it needs to know what that is.
     readonly property real maxWidth: Math.max(mediaPanelWidth, ccWidth, peekWidth, barWidth, launcherWidth, notifPanelWidth, powerMenuWidth, wallpaperWidth, themePanelWidth)
-    readonly property real maxHeight: Math.max(mediaPanelHeight, ccHeight, peekHeight, barHeight, launcherHeight, notifPanelHeight, powerMenuHeight, wallpaperHeight, themePanelHeight)
+    readonly property real maxHeight: Math.max(mediaPanelHeight, ccHeight, peekStackHeight, barHeight, launcherHeight, notifPanelHeight, powerMenuHeight, wallpaperHeight, themePanelHeight)
 
     readonly property real bottomRadius: 18
     readonly property real cornerRadius: 14
@@ -293,13 +303,19 @@ Singleton {
     // ── Notification centre ──────────────────────────────────────────────
     readonly property real notifPanelWidth: 460
     readonly property real notifPanelHeight: 400
-    readonly property real notifRowHeight: 66
     readonly property real notifIconSize: 34
 
-    // The action buttons under a notification. Only rows whose sender offered
-    // actions have them, so this height is added to notifRowHeight rather
-    // than folded into it — a panel of notifications that can't be acted on
-    // shouldn't be a panel of empty space.
+    // Each notification is a card: the control centre's tile fill at about a
+    // tile's radius, padded, and as tall as what it says rather than a fixed
+    // row. Cards in an opened group sit notifCardGap apart.
+    readonly property real notifCardRadius: 14
+    readonly property real notifCardPad: 12
+    readonly property real notifCardGap: 6
+
+    // The action buttons under a notification. Only cards whose sender
+    // offered actions have them, and the card grows by what they come to —
+    // a panel of notifications that can't be acted on shouldn't be a panel
+    // of empty space.
     readonly property real notifActionHeight: 25
     readonly property real notifActionGap: 8
     readonly property real notifActionSpacing: 6
@@ -309,16 +325,23 @@ Singleton {
     // "Mark all as read and archive" is not going to fit beside two others.
     readonly property real notifActionMaxWidth: 150
 
-    // The header a group of notifications from one sender wears: its name, a
-    // count, and the controls for the group as a whole. A sender with one
-    // notification waiting gets no header at all — a group of one is just a
-    // notification, and heading it would be chrome saying nothing.
+    // The header an opened group wears: its name, a count, and the controls
+    // for the group as a whole. A single card gets none — heading one would
+    // be chrome saying nothing — and nor does a collapsed stack, which says
+    // "several" by being one.
     readonly property real notifGroupHeaderHeight: 26
-    readonly property real notifGroupIndent: 8
+
+    // A collapsed group is a stack: the cards behind the front one drop a
+    // sliver each (notifStackPeek) and draw in a little further at each
+    // level (notifStackInset). Opening or closing it fans them out or back
+    // over notifStackDuration.
+    readonly property real notifStackPeek: 7
+    readonly property real notifStackInset: 8
+    readonly property int notifStackDuration: 280
 
     // The gap below each group in the centre. The group's own rather than
     // the list's spacing, so a cleared group folding away takes it too.
-    readonly property real notifGroupSpacing: 6
+    readonly property real notifGroupSpacing: 8
 
     // A cleared notification slides out to the right and then folds its
     // space away, so what is under it closes up rather than jumping. Clear

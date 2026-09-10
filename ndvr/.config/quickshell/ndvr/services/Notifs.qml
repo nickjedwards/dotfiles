@@ -1,5 +1,6 @@
 pragma Singleton
 
+import QtQuick
 import Quickshell
 import Quickshell.Services.Notifications
 import qs.services
@@ -19,7 +20,16 @@ Singleton {
     readonly property int historyLimit: 20
 
     property var history: []
-    property var latest: null
+
+    // What is peeking right now: the keys of the newest few arrivals, newest
+    // first, each with its own deadline. Keys rather than entries, with
+    // `peeking` derived from history, so a notification dismissed or closed
+    // mid-peek is drawn as it now is — or not at all — without anything
+    // here having to be told.
+    property var peekKeys: []
+    property var peekUntil: ({})
+
+    readonly property var peeking: root.peekKeys.map(k => root.history.find(e => e.key === k)).filter(e => e !== undefined)
 
     readonly property int count: root.history.length
 
@@ -62,8 +72,6 @@ Singleton {
         notification.summaryChanged.connect(updated);
         notification.bodyChanged.connect(updated);
 
-        root.latest = entry;
-
         const all = [entry, ...root.history];
         root.history = all.slice(0, root.historyLimit);
 
@@ -72,7 +80,7 @@ Singleton {
         // in `deactivate` looking through the history it is given.
         all.slice(root.historyLimit).forEach(dropped => root.release(dropped));
 
-        root.peeked();
+        root.peek(entry);
     }
 
     // History folded by sender, newest group first, newest entry first
@@ -118,8 +126,6 @@ Singleton {
 
         root.history = root.history.filter(e => e.appName !== key);
 
-        if (root.latest && root.latest.appName === key)
-            root.latest = null;
 
         dropped.forEach(entry => root.release(entry));
     }
@@ -168,8 +174,6 @@ Singleton {
         const entry = root.history.find(e => e.key === key);
 
         root.history = root.history.filter(e => e.key !== key);
-        if (root.latest && root.latest.key === key)
-            root.latest = null;
 
         if (entry)
             root.release(entry);
@@ -179,7 +183,6 @@ Singleton {
         const dropped = root.history;
 
         root.history = [];
-        root.latest = null;
 
         dropped.forEach(entry => root.release(entry));
     }
@@ -223,8 +226,61 @@ Singleton {
 
         root.history = root.history.map(e => e === entry ? inert : e);
 
-        if (root.latest === entry)
-            root.latest = inert;
+    }
+
+    // ── Peeking ──────────────────────────────────────────────────────────
+    // A notification peeks for peekDuration from when it arrived, or from its
+    // latest replacement. Several arriving together stack rather than each
+    // replacing the last — newest on top, at most peekMax — and each leaves
+    // when its own time is up, so a burst drains away oldest first, in the
+    // order it came, rather than all at once.
+    function peek(entry: var): void {
+        root.peekKeys = [entry.key, ...root.peekKeys.filter(k => k !== entry.key)].slice(0, Config.peekMax);
+
+        const until = {};
+        root.peekKeys.forEach(k => until[k] = root.peekUntil[k]);
+        until[entry.key] = Date.now() + Config.peekDuration;
+        root.peekUntil = until;
+
+        root.schedulePeeks();
+        root.peeked();
+    }
+
+    // Everything stops peeking at once: the pointer has arrived, or a panel
+    // is open, and either way the notifications are about to be in view.
+    function endPeeks(): void {
+        root.peekKeys = [];
+        root.peekUntil = ({});
+        peekTimer.stop();
+    }
+
+    // One timer, set for whichever peek runs out first.
+    function schedulePeeks(): void {
+        if (root.peekKeys.length === 0) {
+            peekTimer.stop();
+            return;
+        }
+
+        const next = Math.min(...root.peekKeys.map(k => root.peekUntil[k]));
+        peekTimer.interval = Math.max(1, next - Date.now());
+        peekTimer.restart();
+    }
+
+    Timer {
+        id: peekTimer
+
+        onTriggered: {
+            // A little slack, so two peeks due within a frame of each other
+            // go together rather than one timer tick apart.
+            const now = Date.now() + 20;
+            const keep = root.peekKeys.filter(k => root.peekUntil[k] > now);
+            const until = {};
+            keep.forEach(k => until[k] = root.peekUntil[k]);
+
+            root.peekKeys = keep;
+            root.peekUntil = until;
+            root.schedulePeeks();
+        }
     }
 
     // Replacements are new information, so they peek like a new arrival —
@@ -234,8 +290,7 @@ Singleton {
         if (root.history.indexOf(entry) === -1)
             return;
 
-        root.latest = entry;
-        root.peeked();
+        root.peek(entry);
     }
 
     // `now` is passed in rather than read here so the caller can bind it to
