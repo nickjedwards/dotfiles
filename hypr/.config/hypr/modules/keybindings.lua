@@ -3,15 +3,15 @@
 ---------------------
 
 -- Set programs that you use
-local terminal    = "ghostty"
-local fileManager = "nautilus"
-local ndvrIpc     = "qs -c ndvr ipc call"
-local editor      = "zeditor"
-local browser     = "zen-browser"
-local datagrip    = "/opt/DataGrip-2024.1.4/bin/datagrip"
-local webapp      = "google-chrome-stable --new-window --force-dark-mode --enable-features=UseOzonePlatform,WaylandWindowDecorations --ozone-platform=wayland --app="
-local clamShell   = "~/.config/hypr/scripts/lid-switch"
-local recorder    = "~/.config/hypr/scripts/record"
+local terminal     = "ghostty"
+local fileManager  = "nautilus"
+local halfshellIpc = "halfshell ipc call"
+local editor       = "zeditor"
+local browser      = "zen-browser"
+local datagrip     = "/opt/DataGrip-2024.1.4/bin/datagrip"
+local webapp       = "google-chrome-stable --new-window --force-dark-mode --enable-features=UseOzonePlatform,WaylandWindowDecorations --ozone-platform=wayland --app="
+local clamShell    = "~/.config/hypr/scripts/lid-switch"
+local recorder     = "~/.config/hypr/scripts/record"
 
 
 ---------------------
@@ -31,15 +31,15 @@ hl.bind(mainMod .. " + F", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 
 -- Endever Shell
-hl.bind(ctrlMod .. " + C", hl.dsp.exec_cmd(ndvrIpc .. " notch control")) -- App launcher
-hl.bind(mainMod .. " + space", hl.dsp.exec_cmd(ndvrIpc .. " notch launcher")) -- App launcher
-hl.bind(ctrlMod .. " + N", hl.dsp.exec_cmd(ndvrIpc .. " notch notifications")) -- Notifications
-hl.bind(ctrlMod .. " + T", hl.dsp.exec_cmd(ndvrIpc .. " notch theme"))     -- Theme
-hl.bind(ctrlMod .. " + W", hl.dsp.exec_cmd(ndvrIpc .. " notch wallpaper"))     -- Wallpapers
+hl.bind(ctrlMod .. " + C", hl.dsp.exec_cmd(halfshellIpc .. " notch control")) -- App launcher
+hl.bind(mainMod .. " + space", hl.dsp.exec_cmd(halfshellIpc .. " notch launcher")) -- App launcher
+hl.bind(ctrlMod .. " + N", hl.dsp.exec_cmd(halfshellIpc .. " notch notifications")) -- Notifications
+hl.bind(ctrlMod .. " + T", hl.dsp.exec_cmd(halfshellIpc .. " notch theme"))     -- Theme
+hl.bind(ctrlMod .. " + W", hl.dsp.exec_cmd(halfshellIpc .. " notch wallpaper"))     -- Wallpapers
 hl.bind(ctrlMod .. " + L", hl.dsp.exec_cmd("pidof hyprlock || hyprlock")) -- Security
 -- Power menu
-hl.bind(mainMod .. " + escape", hl.dsp.exec_cmd(ndvrIpc .. " notch power"))
-hl.bind("XF86PowerOff", hl.dsp.exec_cmd(ndvrIpc .. " notch power"))
+hl.bind(mainMod .. " + escape", hl.dsp.exec_cmd(halfshellIpc .. " notch power"))
+hl.bind("XF86PowerOff", hl.dsp.exec_cmd(halfshellIpc .. " notch power"))
 
 -- Applications
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))

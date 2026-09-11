@@ -29,7 +29,7 @@ require("modules.rules")
 --
 hl.on("hyprland.start", function()
     -- Endever Shell
-    hl.exec_cmd("qs -c ndvr -d -n")
+    hl.exec_cmd("halfshell -d -n")
     hl.exec_cmd("hyprpaper")
 
     -- Cursor theme
