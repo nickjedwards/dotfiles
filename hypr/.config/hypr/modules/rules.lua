@@ -91,9 +91,6 @@ hl.window_rule({
     border_size = 0,
 })
 
--- Open DMS windows as floating by default
-hl.window_rule({ match = { class = "^(com\\.danklinux\\.dms)$" }, float = true })
-
 hl.window_rule({
     match       = { class = "^xdg-desktop-portal-.*" },
     float       = true,

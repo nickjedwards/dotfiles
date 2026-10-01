@@ -28,8 +28,8 @@ require("modules.rules")
 -- Or execute your favorite apps at launch like this:
 --
 hl.on("hyprland.start", function()
-    -- Endever Shell
-    hl.exec_cmd("halfshell -d -n")
+    -- Shell
+    hl.exec_cmd("morphin -d")
     hl.exec_cmd("hyprpaper")
 
     -- Cursor theme

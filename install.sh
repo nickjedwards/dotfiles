@@ -8,7 +8,6 @@ yes '' | paru -S \
     btop \
     cava \
     cliphist \
-    dms-shell \
     eza \
     fastfetch \
     fd \
@@ -22,23 +21,24 @@ yes '' | paru -S \
     hyprlock \
     hyprpaper \
     hyprshot \
+    hyprsunset \
     jq \
     lazydocker-bin \
     lazygit \
     less \
-    matugen \
     neovim \
     numix-circle-icon-theme-git \
     nwg-look \
     pavucontrol \
     pacman-contrib \
     pass \
+    pipewire \
     playerctl \
     power-profiles-daemon \
     qt5-wayland \
     qt6-wayland \
     qt6ct \
-    quickshell-git \
+    quickshell \
     ripgrep \
     satty \
     slurp \
@@ -46,13 +46,13 @@ yes '' | paru -S \
     starship \
     stow \
     tmux \
+    ttf-inter \
     ttf-jetbrains-mono-nerd \
     ttf-nerd-fonts-symbols \
-    ttf-rubik-vf \
-    vscodium-bin \
     wf-recorder \
     wireplumber \
     xdg-desktop-portal-hyprland \
+    zed \
     zen-browser-bin \
     zoxide \
     zsh
@@ -66,15 +66,16 @@ git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-m
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions
 
+# Stow prerequisites
+stow bat paru tmux zsh
+
 # Install shell
-stow ndvr
-ln -sf ${HOME}/.config/ndvr/wallpapers/swirls.jpg ~/.config/wallpaper
+yes '' | paru -Sy morphin
+ln -sf ${HOME}/.dotfiles/wallpapers/swirls.jpg ~/.config/wallpaper
 
 # Install tmux catppuccin theme
-stow tmux
 mkdir -p ${HOME}/.config/tmux/plugins/catppuccin
 git clone -b v2.1.3 https://github.com/catppuccin/tmux.git ${HOME}/.config/tmux/plugins/catppuccin/tmux
 
 # Configure bat theme
-stow bat
 bat cache --build
