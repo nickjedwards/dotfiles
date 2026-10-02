@@ -47,7 +47,7 @@ morph(mainMod .. " + Escape", "power toggle") -- Power menu
 morph("XF86PowerOff",         "power toggle") -- Power menu
 morph(ctrlMod .. " + W",      "wallpaper toggle") -- Wallpaper switcher
 morph(ctrlMod .. " + T",      "theme toggle") -- Theme switcher
-morph(ctrlMod .. " + S",      "settings toggle") -- Settings panel
+morph(mainMod .. " + comma",      "settings toggle") -- Settings panel
 
 -- Applications
 hl.bind(mainMod .. " + E",      hl.dsp.exec_cmd(fileManager))

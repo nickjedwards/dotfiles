@@ -14,7 +14,7 @@ hl.config({
 
         col = {
             active_border   = {
-                colors = { colors.pink, colors.lavender },
+                colors = { colors.yellow, colors.sapphire },
                 angle  = 45,
             },
             inactive_border = colors.surface0,
