@@ -5,7 +5,7 @@
 -- Set programs that you use
 local terminal    = "ghostty"
 local fileManager = "nautilus"
-local morphinTime = "morphin ipc call"
+local morpher     = "morpher dinozord"
 local editor      = "zeditor"
 local browser     = "zen-browser"
 local datagrip    = "/opt/DataGrip-2024.1.4/bin/datagrip"
@@ -35,19 +35,19 @@ hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit")) -- dwindle only
 hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("pidof hyprlock || hyprlock")) -- Lock screen
 
--- Shell
-local morph = function(keys, cmd, opts)
-    hl.bind(keys, hl.dsp.exec_cmd(morphinTime .. " " .. cmd), opts)
+-- Mighty Morphin' Power Shell
+local morphinTime = function(keys, cmd, opts)
+    hl.bind(keys, hl.dsp.exec_cmd(morpher .. " " .. cmd), opts)
 end
 
-morph(ctrlMod .. " + C",      "island toggle controlcenter") -- Control Settings
-morph(ctrlMod .. " + M",      "island toggle media") -- MPRIS player
-morph(mainMod .. " + Space",  "launcher toggle") -- App launcher
-morph(mainMod .. " + Escape", "power toggle") -- Power menu
-morph("XF86PowerOff",         "power toggle") -- Power menu
-morph(ctrlMod .. " + W",      "wallpaper toggle") -- Wallpaper switcher
-morph(ctrlMod .. " + T",      "theme toggle") -- Theme switcher
-morph(mainMod .. " + comma",      "settings toggle") -- Settings panel
+morphinTime(ctrlMod .. " + C",      "island toggle controlcenter") -- Control Settings
+morphinTime(ctrlMod .. " + M",      "island toggle media") -- MPRIS player
+morphinTime(mainMod .. " + Space",  "launcher toggle") -- App launcher
+morphinTime(mainMod .. " + Escape", "power toggle") -- Power menu
+morphinTime("XF86PowerOff",         "power toggle") -- Power menu
+morphinTime(ctrlMod .. " + W",      "wallpaper toggle") -- Wallpaper switcher
+morphinTime(ctrlMod .. " + T",      "theme toggle") -- Theme switcher
+morphinTime(mainMod .. " + comma",  "settings toggle") -- Settings panel
 
 -- Applications
 hl.bind(mainMod .. " + E",      hl.dsp.exec_cmd(fileManager))
@@ -123,12 +123,12 @@ hl.bind(
     hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"),
     held
 )
-hl.bind("XF86AudioNext",       hl.dsp.exec_cmd("playerctl next"),                                 { locked = true })
-hl.bind("XF86AudioPause",      hl.dsp.exec_cmd("playerctl play-pause"),                           { locked = true })
-hl.bind("XF86AudioPlay",       hl.dsp.exec_cmd("playerctl play-pause"),                           { locked = true })
-hl.bind("XF86AudioPrev",       hl.dsp.exec_cmd("playerctl previous"),                             { locked = true })
-morph("XF86MonBrightnessUp",   "brightness up",   held)
-morph("XF86MonBrightnessDown", "brightness down", held)
+hl.bind("XF86AudioNext",             hl.dsp.exec_cmd("playerctl next"),        { locked = true })
+hl.bind("XF86AudioPause",            hl.dsp.exec_cmd("playerctl play-pause"),  { locked = true })
+hl.bind("XF86AudioPlay",             hl.dsp.exec_cmd("playerctl play-pause"),  { locked = true })
+hl.bind("XF86AudioPrev",             hl.dsp.exec_cmd("playerctl previous"),    { locked = true })
+morphinTime("XF86MonBrightnessUp",   "brightness up",   held)
+morphinTime("XF86MonBrightnessDown", "brightness down", held)
 
 -- Toggle animations/blur/etc hotkey
 hl.bind(mainMod .. " + F1", function()

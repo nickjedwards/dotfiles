@@ -29,7 +29,8 @@ require("modules.rules")
 --
 hl.on("hyprland.start", function()
     -- Shell
-    hl.exec_cmd("morphin -d")
+    hl.exec_cmd("morpher its-morphin-time")
+    hl.exec_cmd("hypridle")
     hl.exec_cmd("hyprpaper")
 
     -- Cursor theme

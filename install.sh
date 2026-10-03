@@ -22,6 +22,7 @@ yes '' | paru -S \
     hyprpaper \
     hyprshot \
     hyprsunset \
+    inter-font \
     jq \
     lazydocker-bin \
     lazygit \
@@ -46,9 +47,9 @@ yes '' | paru -S \
     starship \
     stow \
     tmux \
-    ttf-inter \
     ttf-jetbrains-mono-nerd \
     ttf-nerd-fonts-symbols \
+    ttf-rubik-vf \
     wf-recorder \
     wireplumber \
     xdg-desktop-portal-hyprland \
@@ -71,7 +72,7 @@ stow bat paru tmux zsh
 
 # Install shell
 yes '' | paru -Sy morphin
-ln -sf ${HOME}/.dotfiles/wallpapers/swirls.jpg ~/.config/wallpaper
+ln -sf ${HOME}/.dotfiles/wallpapers/power-rangers.jpg ~/.config/wallpaper
 
 # Install tmux catppuccin theme
 mkdir -p ${HOME}/.config/tmux/plugins/catppuccin
